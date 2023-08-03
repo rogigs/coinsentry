@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Card, { TYPES } from "../../components/Card";
+import { Player } from "@lottiefiles/react-lottie-player";
+import { format } from "date-fns";
 import * as S from "./styles";
 import {
   historicFinances,
-  historicFinancesDetails,
   insertItem,
   updateItem,
 } from "../../api/routes/finances";
@@ -17,8 +17,7 @@ import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import EnhancedTable from "../../components/Table";
 import { useItem } from "../../context/useItem";
-import { Player } from "@lottiefiles/react-lottie-player";
-import { format } from "date-fns";
+import ResumeFinances from "./components/ResumeFinances";
 
 function ControllerTextField({ label, name, control, errors, ...props }) {
   return (
@@ -38,9 +37,8 @@ function ControllerTextField({ label, name, control, errors, ...props }) {
   );
 }
 
-const Home = () => {
+function Home() {
   const [historic, setHistoric] = useState([]);
-  const [details, setDetails] = useState({});
   const { item } = useItem();
 
   const {
@@ -59,15 +57,6 @@ const Home = () => {
     },
     // resolver: yupResolver(validationSchema),
   });
-
-  useEffect(() => {
-    const fetchHistoricFinancesDetails = async () => {
-      const response = await historicFinancesDetails();
-      setDetails(response);
-    };
-
-    fetchHistoricFinancesDetails();
-  }, []);
 
   useEffect(() => {
     const fetchHistoricFinances = async () => {
@@ -125,27 +114,25 @@ const Home = () => {
           <Controller
             name="operation"
             control={control}
-            render={({ field }) => {
-              return (
-                <RadioGroup
-                  aria-labelledby="demo-controlled-radio-buttons-group"
-                  name="controlled-radio-buttons-group"
-                  row
-                  {...field}
-                >
-                  <FormControlLabel
-                    value="entrada"
-                    control={<Radio />}
-                    label="Entrada"
-                  />
-                  <FormControlLabel
-                    value="saída"
-                    control={<Radio />}
-                    label="Saída"
-                  />
-                </RadioGroup>
-              );
-            }}
+            render={({ field }) => (
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                row
+                {...field}
+              >
+                <FormControlLabel
+                  value="entrada"
+                  control={<Radio />}
+                  label="Entrada"
+                />
+                <FormControlLabel
+                  value="saída"
+                  control={<Radio />}
+                  label="Saída"
+                />
+              </RadioGroup>
+            )}
           />
           <Controller
             name="category"
@@ -180,11 +167,7 @@ const Home = () => {
         />
       </S.WrapperSectionForm>
 
-      <S.WrapperCard>
-        <Card type={TYPES.ENTRADA} value={details?.total_entrada} />
-        <Card type={TYPES.SAIDA} value={details?.total_saida} />
-        <Card type={TYPES.TOTAL} value={details?.total} />
-      </S.WrapperCard>
+      <ResumeFinances />
 
       {historic.length > 0 ? (
         <EnhancedTable data={historic} />
@@ -193,6 +176,6 @@ const Home = () => {
       )}
     </S.Wrapper>
   );
-};
+}
 
 export default Home;

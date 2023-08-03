@@ -7,8 +7,8 @@ import { TYPES, TYPES_COLORS } from "./utils";
 
 const CardStyled = styled(CardMUI)`
   ${media.lessThan("desktop")`
-    width: 100%
-`}
+    width: 100%;
+  `}
   color: ${({ styledtotal }) => styledtotal.color};
   background-color: ${({ styledtotal }) => styledtotal.backgroundColor};
 

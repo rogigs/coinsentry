@@ -15,6 +15,8 @@ export const WrapperForm = styled.form`
 
   ${media.greaterThan("mobileMax")`
     width: 420px;
+    height: 500px
+
 `}
 `;
 
@@ -33,14 +35,4 @@ export const WrapperSectionForm = styled.div`
    display: none;
   }
 `}
-`;
-
-export const WrapperCard = styled.article`
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  row-gap: 24px;
-  margin-bottom: 24px;
-  margin-bottom: 24px;
 `;
