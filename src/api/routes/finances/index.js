@@ -20,9 +20,29 @@ export const insertItem = async (item) => {
   }
 };
 
-export const deleteItem = async (item) => {
+export const deleteItem = async (idItem) => {
   try {
-    const { data } = await HttpConfig.delete(`historic/${item}`);
+    const { data } = await HttpConfig.delete(`historic/${idItem}`);
+
+    return data;
+  } catch (error) {
+    console.log("🚀 ~ file: index.js:12 ~ authLogin ~ error:", error);
+  }
+};
+
+export const updateItem = async (idItem, objItem) => {
+  try {
+    const { data } = await HttpConfig.patch(`historic/${idItem}`, objItem);
+
+    return data;
+  } catch (error) {
+    console.log("🚀 ~ file: index.js:12 ~ authLogin ~ error:", error);
+  }
+};
+
+export const selectOneItem = async (idItem) => {
+  try {
+    const { data } = await HttpConfig.get(`historic/${idItem}`);
 
     return data;
   } catch (error) {

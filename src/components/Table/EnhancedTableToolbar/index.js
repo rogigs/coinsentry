@@ -12,14 +12,19 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { deleteItem as deleteItemRoute } from "../../../api/routes/finances";
+import { useItem } from "../../../context/useItem";
 
 export function EnhancedTableToolbar(props) {
-  const { selected } = props;
+  const { selected, numSelected } = props;
 
-  const numSelected = selected.length;
+  const { setItem } = useItem();
 
   const deleteItem = async () => {
-    await deleteItemRoute(selected[0]);
+    await deleteItemRoute(selected);
+  };
+
+  const changeItem = () => {
+    setItem(selected);
   };
 
   return (
@@ -61,7 +66,7 @@ export function EnhancedTableToolbar(props) {
           {numSelected === 1 && (
             <Tooltip title="Editar">
               <IconButton>
-                <EditIcon />
+                <EditIcon onClick={changeItem} />
               </IconButton>
             </Tooltip>
           )}

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import media from "./styledMedia";
+import media from "../../styledMedia";
 
 export const Wrappper = styled.section`
   padding: 24px 0;

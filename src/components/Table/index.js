@@ -114,7 +114,10 @@ const EnhancedTable = ({ data }) => {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar selected={selected} />
+        <EnhancedTableToolbar
+          selected={data[selected]}
+          numSelected={selected.length}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
