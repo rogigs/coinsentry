@@ -20,6 +20,10 @@ export function EnhancedTableToolbar(props) {
   const { setItem } = useItem();
 
   const deleteItem = async () => {
+    // TODO: Delete all per page
+    // if (numSelected === totalPerPage) {
+    //   return;
+    // }
     await deleteItemRoute(selected);
   };
 

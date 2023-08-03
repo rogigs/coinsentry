@@ -3,15 +3,14 @@ import CardContent from "@mui/material/CardContent";
 import { CardActionArea } from "@mui/material";
 import styled from "styled-components";
 import media from "../../styledMedia";
-import { TYPES } from "./utils";
+import { TYPES, TYPES_COLORS } from "./utils";
 
 const CardStyled = styled(CardMUI)`
   ${media.lessThan("desktop")`
     width: 100%
 `}
-  color: ${({ total }) => (total === 0 ? "inherit" : "white !important")};
-  background-color: ${({ total }) =>
-    total > 0 ? "green !important" : total < 0 ? "red !important" : "inherit"};
+  color: ${({ styledtotal }) => styledtotal.color};
+  background-color: ${({ styledtotal }) => styledtotal.backgroundColor};
 
   width: 300px;
   text-align: center;
@@ -19,7 +18,10 @@ const CardStyled = styled(CardMUI)`
 
 const Card = ({ type, value = 0 }) => {
   return (
-    <CardStyled total={type === TYPES.TOTAL ? Number(value) : 0}>
+    <CardStyled
+      data-testid="card"
+      styledtotal={type === TYPES.TOTAL ? TYPES_COLORS(Number(value)) : ""}
+    >
       <CardActionArea>
         <CardContent
           sx={{
