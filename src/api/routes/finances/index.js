@@ -10,6 +10,16 @@ export const historicFinances = async () => {
   }
 };
 
+export const historicFinancesDetails = async () => {
+  try {
+    const { data } = await HttpConfig.get("historic/details");
+
+    return data[0];
+  } catch (error) {
+    console.log("🚀 ~ file: index.js:12 ~ authLogin ~ error:", error);
+  }
+};
+
 export const insertItem = async (item) => {
   try {
     const { data } = await HttpConfig.post("historic", item);

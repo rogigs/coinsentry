@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Card from "../../components/Card";
+import Card, { TYPES } from "../../components/Card";
 import * as S from "./styles";
 import {
   historicFinances,
+  historicFinancesDetails,
   insertItem,
   updateItem,
 } from "../../api/routes/finances";
@@ -39,6 +40,7 @@ function ControllerTextField({ label, name, control, errors, ...props }) {
 
 const Home = () => {
   const [historic, setHistoric] = useState([]);
+  const [details, setDetails] = useState({});
   const { item } = useItem();
 
   const {
@@ -59,6 +61,15 @@ const Home = () => {
   });
 
   useEffect(() => {
+    const fetchHistoricFinancesDetails = async () => {
+      const response = await historicFinancesDetails();
+      setDetails(response);
+    };
+
+    fetchHistoricFinancesDetails();
+  }, []);
+
+  useEffect(() => {
     const fetchHistoricFinances = async () => {
       const response = await historicFinances();
       setHistoric(response);
@@ -76,7 +87,6 @@ const Home = () => {
     }
   }, [item, setValue]);
 
-  console.log("Re-rendering...");
   const onSubmit = async (data) => {
     try {
       const dateToday = new Date();
@@ -171,9 +181,9 @@ const Home = () => {
       </S.WrapperSectionForm>
 
       <S.WrapperCard>
-        <Card type="entrada" value="1" />
-        <Card type="saída" value="2" />
-        <Card type="total" value="3" />
+        <Card type={TYPES.ENTRADA} value={details?.total_entrada} />
+        <Card type={TYPES.SAIDA} value={details?.total_saida} />
+        <Card type={TYPES.TOTAL} value={details?.total} />
       </S.WrapperCard>
 
       {historic.length > 0 ? (
