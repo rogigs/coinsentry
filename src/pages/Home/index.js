@@ -18,6 +18,7 @@ import TextField from "../../components/TextField";
 import EnhancedTable from "../../components/Table";
 import { useItem } from "../../context/useItem";
 import ResumeFinances from "./components/ResumeFinances";
+import { Skeleton } from "@mui/material";
 
 function ControllerTextField({ label, name, control, errors, ...props }) {
   return (
@@ -39,6 +40,7 @@ function ControllerTextField({ label, name, control, errors, ...props }) {
 
 function Home() {
   const [historic, setHistoric] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { item } = useItem();
 
   const {
@@ -65,6 +67,8 @@ function Home() {
     };
 
     fetchHistoricFinances();
+
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -168,11 +172,10 @@ function Home() {
       </S.WrapperSectionForm>
 
       <ResumeFinances />
-
-      {historic.length > 0 ? (
-        <EnhancedTable data={historic} />
+      {loading ? (
+        <Skeleton variant="rectangular" width="100%" height="500px" />
       ) : (
-        <p>Loading...</p>
+        <EnhancedTable data={historic} />
       )}
     </S.Wrapper>
   );

@@ -1,7 +1,7 @@
 import TextField from ".";
 import { screen, render } from "@testing-library/react";
 
-describe("<Button />", () => {
+describe("<TextField />", () => {
   it("should render component with props correctly", () => {
     render(<TextField label="name" />);
 
