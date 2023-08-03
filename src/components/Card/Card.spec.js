@@ -1,5 +1,5 @@
 import Card, { TYPES } from ".";
-import { screen, render, cont } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import { TYPES_COLORS } from "./utils";
 
 describe("<Card />", () => {
