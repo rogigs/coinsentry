@@ -34,7 +34,7 @@ const Card = ({ type, value = 0 }) => {
           }}
         >
           <h1 className="title">{type}</h1>
-          <h2>R$ {value}</h2>
+          <h2>R$ {value.toFixed(2)}</h2>
         </CardContent>
       </CardActionArea>
     </CardStyled>
