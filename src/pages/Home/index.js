@@ -16,6 +16,8 @@ import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import EnhancedTable from "../../components/Table";
 import { useItem } from "../../context/useItem";
+import { Player } from "@lottiefiles/react-lottie-player";
+import { format } from "date-fns";
 
 function ControllerTextField({ label, name, control, errors, ...props }) {
   return (
@@ -77,94 +79,109 @@ const Home = () => {
   console.log("Re-rendering...");
   const onSubmit = async (data) => {
     try {
+      const dateToday = new Date();
+      const dateFormatted = format(dateToday, "dd-MM-yyyy");
+
       if (item) {
         await updateItem(item.id, {
           ...data,
 
-          date_input: new Date(),
+          date_input: dateFormatted,
         });
       } else {
         await insertItem({
           ...data,
-          date_input: new Date(),
+          date_input: dateFormatted,
         });
       }
 
-      // reset();
+      reset();
     } catch (error) {
       console.log("🚀 ~ file: App.js:72 ~ onSubmit ~ error:", error);
     }
   };
 
   return (
-    <S.Wrappper>
-      <S.WrappperForm method="post" onSubmit={handleSubmit(onSubmit)}>
-        <ControllerTextField
-          name="title"
-          label="Título"
-          control={control}
-          errors={errors?.title}
-        />
+    <S.Wrapper>
+      <S.WrapperSectionForm>
+        <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
+          <ControllerTextField
+            name="title"
+            label="Título"
+            control={control}
+            errors={errors?.title}
+          />
 
-        <Controller
-          name="operation"
-          control={control}
-          render={({ field }) => {
-            return (
-              <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                row
-                {...field}
-              >
-                <FormControlLabel
-                  value="entrada"
-                  control={<Radio />}
-                  label="Entrada"
-                />
-                <FormControlLabel
-                  value="saída"
-                  control={<Radio />}
-                  label="Saída"
-                />
-              </RadioGroup>
-            );
-          }}
-        />
-        <Controller
-          name="category"
-          control={control}
-          render={({ field }) => (
-            <Select title="category" label="Categoria" {...field}>
-              <MenuItem value="educacao">Educação</MenuItem>
-              <MenuItem value="lazer">Lazer</MenuItem>
-              <MenuItem value="saude">Saúde</MenuItem>
-            </Select>
-          )}
-        />
+          <Controller
+            name="operation"
+            control={control}
+            render={({ field }) => {
+              return (
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="controlled-radio-buttons-group"
+                  row
+                  {...field}
+                >
+                  <FormControlLabel
+                    value="entrada"
+                    control={<Radio />}
+                    label="Entrada"
+                  />
+                  <FormControlLabel
+                    value="saída"
+                    control={<Radio />}
+                    label="Saída"
+                  />
+                </RadioGroup>
+              );
+            }}
+          />
+          <Controller
+            name="category"
+            control={control}
+            render={({ field }) => (
+              <Select title="category" label="Categoria" {...field}>
+                <MenuItem value="educacao">Educação</MenuItem>
+                <MenuItem value="lazer">Lazer</MenuItem>
+                <MenuItem value="saude">Saúde</MenuItem>
+              </Select>
+            )}
+          />
 
-        <ControllerTextField
-          label="Valor(R$)"
-          name="value_item"
-          control={control}
-          errors={errors?.title}
+          <ControllerTextField
+            label="Valor(R$)"
+            name="value_item"
+            control={control}
+            errors={errors?.title}
+          />
+          <Button variant="outlined" onClick={() => reset()}>
+            Limpar
+          </Button>
+          <Button type="submit" loading={isSubmitting}>
+            Cadastrar
+          </Button>
+        </S.WrapperForm>
+        <Player
+          src="https://lottie.host/9e26f999-7f63-4871-b6b8-91bb63f502e7/KdKBd17XAo.json"
+          className="player"
+          loop
+          autoplay
         />
-        <Button type="submit" loading={isSubmitting}>
-          Cadastrar
-        </Button>
-      </S.WrappperForm>
-      <S.WrappperCard>
+      </S.WrapperSectionForm>
+
+      <S.WrapperCard>
         <Card type="entrada" value="1" />
         <Card type="saída" value="2" />
         <Card type="total" value="3" />
-      </S.WrappperCard>
+      </S.WrapperCard>
 
       {historic.length > 0 ? (
         <EnhancedTable data={historic} />
       ) : (
         <p>Loading...</p>
       )}
-    </S.Wrappper>
+    </S.Wrapper>
   );
 };
 
