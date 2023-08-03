@@ -20,7 +20,7 @@ const ResumeFinances = () => {
 
   if (loading) {
     return (
-      <S.WrapperCard>
+      <S.WrapperCard data-testid="loading-skeleton">
         <S.Skeleton variant="rectangular" />
         <S.Skeleton variant="rectangular" />
         <S.Skeleton variant="rectangular" />
