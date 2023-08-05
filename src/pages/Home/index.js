@@ -40,6 +40,8 @@ function ControllerTextField({ label, name, control, errors, ...props }) {
 
 function Home() {
   const [historic, setHistoric] = useState([]);
+  const [wasDeleteItem, setWasDeleteItem] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const { item } = useItem();
 
@@ -60,23 +62,25 @@ function Home() {
     // resolver: yupResolver(validationSchema),
   });
 
+  const fetchHistoricFinances = async () => {
+    const response = await historicFinances();
+    setHistoric(response);
+  };
+
   useEffect(() => {
-    const fetchHistoricFinances = async () => {
-      const response = await historicFinances();
-      setHistoric(response);
-    };
+    if (isSubmitting || wasDeleteItem) {
+      fetchHistoricFinances();
+    }
+  }, [isSubmitting, wasDeleteItem]);
 
+  useEffect(() => {
     fetchHistoricFinances();
-
     setLoading(false);
   }, []);
 
   useEffect(() => {
     if (item) {
-      setValue("title", item.title);
-      setValue("operation", item.operation);
-      setValue("category", item.category);
-      setValue("value_item", item.value_item);
+      Object.keys(item).forEach((key) => setValue(key, item[key]));
     }
   }, [item, setValue]);
 
@@ -84,23 +88,20 @@ function Home() {
     try {
       const dateToday = new Date();
       const dateFormatted = format(dateToday, "dd-MM-yyyy");
+      const objItem = {
+        ...data,
+        date_input: dateFormatted,
+      };
 
       if (item) {
-        await updateItem(item.id, {
-          ...data,
-
-          date_input: dateFormatted,
-        });
+        await updateItem(item.id, objItem);
       } else {
-        await insertItem({
-          ...data,
-          date_input: dateFormatted,
-        });
+        await insertItem(objItem);
       }
 
       reset();
     } catch (error) {
-      console.log("🚀 ~ file: App.js:72 ~ onSubmit ~ error:", error);
+      console.error(error);
     }
   };
 
@@ -175,7 +176,11 @@ function Home() {
       {loading ? (
         <Skeleton variant="rectangular" width="100%" height="500px" />
       ) : (
-        <EnhancedTable data={historic} />
+        <EnhancedTable
+          data={historic}
+          loadingRow={isSubmitting}
+          setWasDeleteItem={setWasDeleteItem}
+        />
       )}
     </S.Wrapper>
   );

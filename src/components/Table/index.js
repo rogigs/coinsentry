@@ -1,16 +1,14 @@
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
 
 import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
 import { EnhancedTableHead } from "./EnhancedTableHead";
 import { EnhancedTableToolbar } from "./EnhancedTableToolbar";
 import { useState, useMemo } from "react";
+import TableContent from "./TableContent";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -44,7 +42,7 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const EnhancedTable = ({ data }) => {
+const EnhancedTable = ({ data, loadingRow, setWasDeleteItem }) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
   const [selected, setSelected] = useState([]);
@@ -98,7 +96,6 @@ const EnhancedTable = ({ data }) => {
   };
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -118,6 +115,7 @@ const EnhancedTable = ({ data }) => {
         <EnhancedTableToolbar
           selected={data[positionInArraySelected]}
           numSelected={selected.length}
+          setWasDeleteItem={setWasDeleteItem}
         />
         <TableContainer>
           <Table
@@ -134,54 +132,13 @@ const EnhancedTable = ({ data }) => {
               rowCount={data.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
-
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id, index)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          "aria-labelledby": labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
-                      {row.title}
-                    </TableCell>
-                    <TableCell align="right">{row.operation}</TableCell>
-                    <TableCell align="right">{row.category}</TableCell>
-                    <TableCell align="right">R${row.value_item}</TableCell>
-                    <TableCell align="right">{row.date_input}</TableCell>
-                  </TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 33 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
+              <TableContent
+                loadingRow={loadingRow}
+                visibleRows={visibleRows}
+                emptyRows={emptyRows}
+                isSelected={isSelected}
+                handleClick={handleClick}
+              />
             </TableBody>
           </Table>
         </TableContainer>
