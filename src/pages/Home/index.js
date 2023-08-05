@@ -18,7 +18,9 @@ import TextField from "../../components/TextField";
 import EnhancedTable from "../../components/Table";
 import { useItem } from "../../context/useItem";
 import ResumeFinances from "./components/ResumeFinances";
-import { Skeleton } from "@mui/material";
+import { FormLabel, InputLabel, Skeleton } from "@mui/material";
+import TextFieldNumberFormat from "../../components/TextFieldNumberFormat";
+import FormControl from "@mui/material/FormControl";
 
 function ControllerTextField({ label, name, control, errors, ...props }) {
   return (
@@ -40,8 +42,7 @@ function ControllerTextField({ label, name, control, errors, ...props }) {
 
 function Home() {
   const [historic, setHistoric] = useState([]);
-  const [wasDeleteItem, setWasDeleteItem] = useState(false);
-
+  const [updateLine, setUpdateLine] = useState(false);
   const [loading, setLoading] = useState(true);
   const { item } = useItem();
 
@@ -68,10 +69,10 @@ function Home() {
   };
 
   useEffect(() => {
-    if (isSubmitting || wasDeleteItem) {
+    if (updateLine) {
       fetchHistoricFinances();
     }
-  }, [isSubmitting, wasDeleteItem]);
+  }, [updateLine]);
 
   useEffect(() => {
     fetchHistoricFinances();
@@ -86,10 +87,13 @@ function Home() {
 
   const onSubmit = async (data) => {
     try {
+      setUpdateLine(false);
+
       const dateToday = new Date();
       const dateFormatted = format(dateToday, "dd-MM-yyyy");
       const objItem = {
         ...data,
+        value_item: data.value_item.replace(/\D/g, ""),
         date_input: dateFormatted,
       };
 
@@ -99,7 +103,7 @@ function Home() {
         await insertItem(objItem);
       }
 
-      reset();
+      setUpdateLine(true);
     } catch (error) {
       console.error(error);
     }
@@ -117,45 +121,62 @@ function Home() {
           />
 
           <Controller
-            name="operation"
-            control={control}
-            render={({ field }) => (
-              <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                row
-                {...field}
-              >
-                <FormControlLabel
-                  value="entrada"
-                  control={<Radio />}
-                  label="Entrada"
-                />
-                <FormControlLabel
-                  value="saída"
-                  control={<Radio />}
-                  label="Saída"
-                />
-              </RadioGroup>
-            )}
-          />
-          <Controller
             name="category"
             control={control}
             render={({ field }) => (
-              <Select title="category" label="Categoria" {...field}>
-                <MenuItem value="educacao">Educação</MenuItem>
-                <MenuItem value="lazer">Lazer</MenuItem>
-                <MenuItem value="saude">Saúde</MenuItem>
-              </Select>
+              <FormControl>
+                <InputLabel>Categoria</InputLabel>
+                <Select label="Categoria" title="category" {...field}>
+                  <MenuItem value="None">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value="educacao">Educação</MenuItem>
+                  <MenuItem value="lazer">Lazer</MenuItem>
+                  <MenuItem value="saude">Saúde</MenuItem>
+                </Select>
+              </FormControl>
+            )}
+          />
+          <Controller
+            name="value_item"
+            control={control}
+            render={({ field }) => (
+              <TextFieldNumberFormat
+                label="Valor(R$)"
+                error={errors?.value_item}
+                helperText={errors?.value_item?.message}
+                {...field}
+              />
             )}
           />
 
-          <ControllerTextField
-            label="Valor(R$)"
-            name="value_item"
+          <Controller
+            name="operation"
             control={control}
-            errors={errors?.title}
+            render={({ field }) => (
+              <S.FormControlRadio>
+                <FormLabel id="demo-radio-buttons-group-label">
+                  Operação:
+                </FormLabel>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="controlled-radio-buttons-group"
+                  row
+                  {...field}
+                >
+                  <FormControlLabel
+                    value="entrada"
+                    control={<Radio />}
+                    label="Entrada"
+                  />
+                  <FormControlLabel
+                    value="saída"
+                    control={<Radio />}
+                    label="Saída"
+                  />
+                </RadioGroup>
+              </S.FormControlRadio>
+            )}
           />
           <Button variant="outlined" onClick={() => reset()}>
             Limpar
@@ -179,7 +200,7 @@ function Home() {
         <EnhancedTable
           data={historic}
           loadingRow={isSubmitting}
-          setWasDeleteItem={setWasDeleteItem}
+          setUpdateLine={setUpdateLine}
         />
       )}
     </S.Wrapper>

@@ -15,7 +15,7 @@ import { deleteItem as deleteItemRoute } from "../../../api/routes/finances";
 import { useItem } from "../../../context/useItem";
 
 export function EnhancedTableToolbar(props) {
-  const { selected, numSelected, setWasDeleteItem } = props;
+  const { selected, numSelected, setUpdateLine } = props;
 
   const { setItem } = useItem();
 
@@ -24,11 +24,11 @@ export function EnhancedTableToolbar(props) {
     // if (numSelected === totalPerPage) {
     //   return;
     // }
-    setWasDeleteItem(true);
+    setUpdateLine(true);
 
     await deleteItemRoute(selected.id);
 
-    setWasDeleteItem(false);
+    setUpdateLine(false);
   };
 
   const changeItem = () => {

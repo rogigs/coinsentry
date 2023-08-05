@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import media from "../../styledMedia";
+import FormControl from "@mui/material/FormControl";
 
 export const Wrapper = styled.section`
   padding: 24px;
@@ -35,4 +36,11 @@ export const WrapperSectionForm = styled.div`
    display: none;
   }
 `}
+`;
+
+export const FormControlRadio = styled(FormControl)`
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 12px;
 `;
