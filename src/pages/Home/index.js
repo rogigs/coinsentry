@@ -4,7 +4,6 @@ import Select from "@mui/material/Select";
 import { useEffect, useState } from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { format } from "date-fns";
 import * as S from "./styles";
@@ -164,12 +163,12 @@ function Home() {
                   row
                   {...field}
                 >
-                  <FormControlLabel
+                  <S.FormControlLabel
                     value="entrada"
                     control={<Radio />}
                     label="Entrada"
                   />
-                  <FormControlLabel
+                  <S.FormControlLabel
                     value="saída"
                     control={<Radio />}
                     label="Saída"

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import media from "../../styledMedia";
 import FormControl from "@mui/material/FormControl";
+import FormControlLabelMUI from "@mui/material/FormControlLabel";
 
 export const Wrapper = styled.section`
   padding: 24px;
@@ -43,4 +44,8 @@ export const FormControlRadio = styled(FormControl)`
   flex-direction: row !important;
   align-items: center;
   gap: 12px;
+`;
+
+export const FormControlLabel = styled(FormControlLabelMUI)`
+  color: rgba(0, 0, 0, 0.6);
 `;
