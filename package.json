@@ -1,6 +1,7 @@
 {
-  "name": "test-sensedata",
+  "name": "CoinSentry",
   "version": "0.1.0",
+  "author": "Igor Soares",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
