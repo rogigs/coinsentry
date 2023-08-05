@@ -34,4 +34,4 @@ Start project
 
 ## Demo
 
-![Preview](./images/preview_coinSentry.png)
+![Preview](./preview_coinSentry.gif)
