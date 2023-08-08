@@ -56,7 +56,7 @@ const Home = () => {
 
   const [loading, setLoading] = useState(true);
   const [loadingLine, setLoadingLine] = useState(false);
-  const { item } = useItem();
+  const { item, setItem } = useItem();
 
   const {
     handleSubmit,
@@ -116,6 +116,8 @@ const Home = () => {
 
       if (item) {
         await updateItem(item.id, objItem);
+
+        setItem(undefined);
       } else {
         setLoadingLine(true);
         await insertItem(objItem);
