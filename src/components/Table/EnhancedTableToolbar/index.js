@@ -18,7 +18,7 @@ import {
 import { useItem } from "../../../context/useItem";
 
 export function EnhancedTableToolbar(props) {
-  const { selected, numSelected, setUpdateLine } = props;
+  const { selected, numSelected, fetchHistoric } = props;
 
   const { setItem } = useItem();
 
@@ -27,13 +27,10 @@ export function EnhancedTableToolbar(props) {
     // if (numSelected === totalPerPage) {
     //   return;
     // }
-    setUpdateLine(true);
 
     await deleteItemRoute(selected.id);
 
-    await historicFinancesDetails();
-
-    setUpdateLine(false);
+    await fetchHistoric();
   };
 
   const changeItem = () => {

@@ -44,8 +44,8 @@ function Home() {
   const [historic, setHistoric] = useState([]);
   const [historicDetails, setHistoricDetails] = useState([]);
 
-  const [updateLine, setUpdateLine] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loadingLine, setLoadingLine] = useState(false);
   const { item } = useItem();
 
   const {
@@ -83,15 +83,8 @@ function Home() {
   };
 
   useEffect(() => {
-    if (updateLine) {
-      setLoading(true);
-      fetchHistoric();
-      setLoading(false);
-    }
-  }, [updateLine]);
-
-  useEffect(() => {
     fetchHistoric();
+
     setLoading(false);
   }, []);
 
@@ -103,8 +96,6 @@ function Home() {
 
   const onSubmit = async (data) => {
     try {
-      setUpdateLine(false);
-
       const dateToday = new Date();
       const dateFormatted = format(dateToday, "dd-MM-yyyy");
       const objItem = {
@@ -116,11 +107,14 @@ function Home() {
       if (item) {
         await updateItem(item.id, objItem);
       } else {
+        setLoadingLine(true);
         await insertItem(objItem);
+        setLoadingLine(false);
       }
 
+      fetchHistoric();
+
       reset();
-      setUpdateLine(true);
     } catch (error) {
       console.error(error);
     }
@@ -217,8 +211,9 @@ function Home() {
       ) : (
         <EnhancedTable
           data={historic}
-          loadingRow={isSubmitting}
-          setUpdateLine={setUpdateLine}
+          loadingRow={loadingLine}
+          setLoadingLine={setLoadingLine}
+          fetchHistoric={fetchHistoric}
         />
       )}
     </S.Wrapper>
