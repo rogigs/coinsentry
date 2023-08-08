@@ -10,3 +10,8 @@
   max-width: 1024px;
   margin: auto;
 }
+
+.container {
+  text-align: center;
+  padding: 20px;
+}
