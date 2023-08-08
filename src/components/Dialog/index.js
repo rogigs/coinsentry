@@ -9,21 +9,25 @@ import { ICONS } from "./utils";
 
 const BootstrapDialog = styled(DialogMUI)(() => ({
   "& .MuiDialogContent-root": {
-    padding: "24px",
+    textAlign: "center",
   },
   "& .MuiDialogActions-root": {
-    padding: "24px",
+    display: "flex",
+    justifyContent: "center",
   },
   "& .center": {
     display: "flex",
     justifyContent: "center",
   },
-  "& .icon": {
-    paddingTop: "24px",
+  "& .MuiDialogTitle-root": {
+    gap: "4px",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    fontWeight: "600",
   },
 }));
 
-const Dialog = ({ open, handleClose, children, icon, title }) => {
+const Dialog = ({ open, handleClose, children, icon = "error", title }) => {
   return (
     <BootstrapDialog
       open={open}
@@ -31,8 +35,10 @@ const Dialog = ({ open, handleClose, children, icon, title }) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      {icon && <div className="center icon">{ICONS[icon]}</div>}
-      <DialogTitle className="center">{title}</DialogTitle>
+      <DialogTitle className="center">
+        <div className="center icon">{ICONS[icon]}</div>
+        {title}
+      </DialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions>
         <Button onClick={handleClose} autoFocus>
