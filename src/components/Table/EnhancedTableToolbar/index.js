@@ -18,19 +18,33 @@ import {
 import { useItem } from "../../../context/useItem";
 
 export function EnhancedTableToolbar(props) {
-  const { selected, numSelected, fetchHistoric } = props;
+  const { selected, numSelected, fetchHistoric, handleModal } = props;
 
   const { setItem } = useItem();
 
   const deleteItem = async () => {
-    // TODO: Delete all per page
-    // if (numSelected === totalPerPage) {
-    //   return;
-    // }
+    try {
+      // TODO: Delete all per page
+      // if (numSelected === totalPerPage) {
+      //   return;
+      // }
+      await deleteItemRoute(selected.id);
+      handleModal({
+        content: "Sucesso ao deleter item.",
+        icon: "success",
+        title: "Sucesso",
+      });
 
-    await deleteItemRoute(selected.id);
+      await fetchHistoric();
+    } catch (error) {
+      handleModal({
+        content: "Erro ao deletar item.",
+        icon: "error",
+        title: "Erro",
+      });
 
-    await fetchHistoric();
+      console.error(error);
+    }
   };
 
   const changeItem = () => {

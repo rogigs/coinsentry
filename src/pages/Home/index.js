@@ -21,6 +21,7 @@ import ResumeFinances from "./components/ResumeFinances";
 import { FormLabel, InputLabel, Skeleton } from "@mui/material";
 import TextFieldNumberFormat from "../../components/TextFieldNumberFormat";
 import FormControl from "@mui/material/FormControl";
+import Dialog from "../../components/Dialog";
 
 function ControllerTextField({ label, name, control, errors, ...props }) {
   return (
@@ -43,6 +44,12 @@ function ControllerTextField({ label, name, control, errors, ...props }) {
 function Home() {
   const [historic, setHistoric] = useState([]);
   const [historicDetails, setHistoricDetails] = useState([]);
+  const [modal, setModal] = useState({
+    open: false,
+    content: "",
+    icon: "",
+    title: "",
+  });
 
   const [loading, setLoading] = useState(true);
   const [loadingLine, setLoadingLine] = useState(false);
@@ -112,16 +119,32 @@ function Home() {
         setLoadingLine(false);
       }
 
-      fetchHistoric();
-
+      handleModal({
+        content: "Sucesso ao cadastrar cliente.",
+        icon: "success",
+        title: "Sucesso",
+      });
       reset();
+      fetchHistoric();
     } catch (error) {
+      handleModal({
+        content: "Erro ao cadastrar cliente.",
+        icon: "error",
+        title: "Erro",
+      });
+
       console.error(error);
     }
   };
 
+  const handleModal = (newState) =>
+    setModal((prev) => ({ ...prev, open: !prev.open, ...newState }));
+
   return (
     <S.Wrapper>
+      <Dialog open={modal.open} handleClose={handleModal} icon={modal.icon}>
+        <p>{modal?.content}</p>
+      </Dialog>
       <S.WrapperSectionForm>
         <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
           <ControllerTextField
@@ -214,6 +237,7 @@ function Home() {
           loadingRow={loadingLine}
           setLoadingLine={setLoadingLine}
           fetchHistoric={fetchHistoric}
+          handleModal={handleModal}
         />
       )}
     </S.Wrapper>

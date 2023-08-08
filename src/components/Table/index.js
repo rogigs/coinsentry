@@ -42,7 +42,13 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const EnhancedTable = ({ data, loadingRow, setLoadingLine, fetchHistoric }) => {
+const EnhancedTable = ({
+  data,
+  loadingRow,
+  setLoadingLine,
+  fetchHistoric,
+  handleModal,
+}) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
   const [selected, setSelected] = useState([]);
@@ -117,6 +123,7 @@ const EnhancedTable = ({ data, loadingRow, setLoadingLine, fetchHistoric }) => {
           numSelected={selected.length}
           setLoadingLine={setLoadingLine}
           fetchHistoric={fetchHistoric}
+          handleModal={handleModal}
         />
         <TableContainer>
           <Table
