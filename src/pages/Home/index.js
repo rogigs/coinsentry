@@ -23,8 +23,10 @@ import TextFieldNumberFormat from "../../components/TextFieldNumberFormat";
 import FormControl from "@mui/material/FormControl";
 import Dialog from "../../components/Dialog";
 import ErrorBoundary from "../../components/ErrorBoundary";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { validationSchema } from "./utils";
 
-function ControllerTextField({ label, name, control, errors, ...props }) {
+const ControllerTextField = ({ label, name, control, errors, ...props }) => {
   return (
     <Controller
       name={name}
@@ -40,9 +42,9 @@ function ControllerTextField({ label, name, control, errors, ...props }) {
       )}
     />
   );
-}
+};
 
-function Home() {
+const Home = () => {
   const [historic, setHistoric] = useState([]);
   const [historicDetails, setHistoricDetails] = useState([]);
   const [modal, setModal] = useState({
@@ -66,11 +68,11 @@ function Home() {
     mode: "onSubmit",
     defaultValues: {
       title: "",
-      operation: "",
-      category: "",
+      operation: "entrada",
+      category: "None",
       value_item: "",
     },
-    // resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema),
   });
 
   const fetchHistoric = async () => {
@@ -245,6 +247,6 @@ function Home() {
       </S.Wrapper>
     </ErrorBoundary>
   );
-}
+};
 
 export default Home;
