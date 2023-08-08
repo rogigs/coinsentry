@@ -22,6 +22,7 @@ import { FormLabel, InputLabel, Skeleton } from "@mui/material";
 import TextFieldNumberFormat from "../../components/TextFieldNumberFormat";
 import FormControl from "@mui/material/FormControl";
 import Dialog from "../../components/Dialog";
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 function ControllerTextField({ label, name, control, errors, ...props }) {
   return (
@@ -141,106 +142,108 @@ function Home() {
     setModal((prev) => ({ ...prev, open: !prev.open, ...newState }));
 
   return (
-    <S.Wrapper>
-      <Dialog open={modal.open} handleClose={handleModal} icon={modal.icon}>
-        <p>{modal?.content}</p>
-      </Dialog>
-      <S.WrapperSectionForm>
-        <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
-          <ControllerTextField
-            name="title"
-            label="Título"
-            control={control}
-            errors={errors?.title}
-          />
+    <ErrorBoundary fallback={<p>Something went wrong</p>}>
+      <S.Wrapper>
+        <Dialog open={modal.open} handleClose={handleModal} icon={modal.icon}>
+          <p>{modal?.content}</p>
+        </Dialog>
+        <S.WrapperSectionForm>
+          <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
+            <ControllerTextField
+              name="title"
+              label="Título"
+              control={control}
+              errors={errors?.title}
+            />
 
-          <Controller
-            name="category"
-            control={control}
-            render={({ field }) => (
-              <FormControl>
-                <InputLabel>Categoria</InputLabel>
-                <Select label="Categoria" title="category" {...field}>
-                  <MenuItem value="None">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value="educacao">Educação</MenuItem>
-                  <MenuItem value="lazer">Lazer</MenuItem>
-                  <MenuItem value="saude">Saúde</MenuItem>
-                  <MenuItem value="saude">Trabalho</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-          />
-          <Controller
-            name="value_item"
-            control={control}
-            render={({ field }) => (
-              <TextFieldNumberFormat
-                label="Valor(R$)"
-                error={errors?.value_item}
-                helperText={errors?.value_item?.message}
-                {...field}
-              />
-            )}
-          />
-
-          <Controller
-            name="operation"
-            control={control}
-            render={({ field }) => (
-              <S.FormControlRadio>
-                <FormLabel id="demo-radio-buttons-group-label">
-                  Operação:
-                </FormLabel>
-                <RadioGroup
-                  aria-labelledby="demo-controlled-radio-buttons-group"
-                  name="controlled-radio-buttons-group"
-                  row
+            <Controller
+              name="category"
+              control={control}
+              render={({ field }) => (
+                <FormControl>
+                  <InputLabel>Categoria</InputLabel>
+                  <Select label="Categoria" title="category" {...field}>
+                    <MenuItem value="None">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="educacao">Educação</MenuItem>
+                    <MenuItem value="lazer">Lazer</MenuItem>
+                    <MenuItem value="saude">Saúde</MenuItem>
+                    <MenuItem value="saude">Trabalho</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+            />
+            <Controller
+              name="value_item"
+              control={control}
+              render={({ field }) => (
+                <TextFieldNumberFormat
+                  label="Valor(R$)"
+                  error={errors?.value_item}
+                  helperText={errors?.value_item?.message}
                   {...field}
-                >
-                  <S.FormControlLabel
-                    value="entrada"
-                    control={<Radio />}
-                    label="Entrada"
-                  />
-                  <S.FormControlLabel
-                    value="saída"
-                    control={<Radio />}
-                    label="Saída"
-                  />
-                </RadioGroup>
-              </S.FormControlRadio>
-            )}
-          />
-          <Button variant="outlined" onClick={() => reset()}>
-            Limpar
-          </Button>
-          <Button type="submit" loading={isSubmitting}>
-            Cadastrar
-          </Button>
-        </S.WrapperForm>
-        <Player
-          src="https://lottie.host/9e26f999-7f63-4871-b6b8-91bb63f502e7/KdKBd17XAo.json"
-          className="player"
-          loop
-          autoplay
-        />
-      </S.WrapperSectionForm>
+                />
+              )}
+            />
 
-      <ResumeFinances details={historicDetails} loading={loading} />
-      {loading ? (
-        <Skeleton variant="rectangular" width="100%" height="500px" />
-      ) : (
-        <EnhancedTable
-          data={historic}
-          loadingRow={loadingLine}
-          setLoadingLine={setLoadingLine}
-          fetchHistoric={fetchHistoric}
-          handleModal={handleModal}
-        />
-      )}
-    </S.Wrapper>
+            <Controller
+              name="operation"
+              control={control}
+              render={({ field }) => (
+                <S.FormControlRadio>
+                  <FormLabel id="demo-radio-buttons-group-label">
+                    Operação:
+                  </FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    row
+                    {...field}
+                  >
+                    <S.FormControlLabel
+                      value="entrada"
+                      control={<Radio />}
+                      label="Entrada"
+                    />
+                    <S.FormControlLabel
+                      value="saída"
+                      control={<Radio />}
+                      label="Saída"
+                    />
+                  </RadioGroup>
+                </S.FormControlRadio>
+              )}
+            />
+            <Button variant="outlined" onClick={() => reset()}>
+              Limpar
+            </Button>
+            <Button type="submit" loading={isSubmitting}>
+              Cadastrar
+            </Button>
+          </S.WrapperForm>
+          <Player
+            src="https://lottie.host/9e26f999-7f63-4871-b6b8-91bb63f502e7/KdKBd17XAo.json"
+            className="player"
+            loop
+            autoplay
+          />
+        </S.WrapperSectionForm>
+
+        <ResumeFinances details={historicDetails} loading={loading} />
+        {loading ? (
+          <Skeleton variant="rectangular" width="100%" height="500px" />
+        ) : (
+          <EnhancedTable
+            data={historic}
+            loadingRow={loadingLine}
+            setLoadingLine={setLoadingLine}
+            fetchHistoric={fetchHistoric}
+            handleModal={handleModal}
+          />
+        )}
+      </S.Wrapper>
+    </ErrorBoundary>
   );
 }
 
