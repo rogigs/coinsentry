@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import * as S from "./styles";
 import {
   historicFinances,
+  historicFinancesDetails,
   insertItem,
   updateItem,
 } from "../../api/routes/finances";
@@ -41,6 +42,8 @@ function ControllerTextField({ label, name, control, errors, ...props }) {
 
 function Home() {
   const [historic, setHistoric] = useState([]);
+  const [historicDetails, setHistoricDetails] = useState([]);
+
   const [updateLine, setUpdateLine] = useState(false);
   const [loading, setLoading] = useState(true);
   const { item } = useItem();
@@ -62,19 +65,33 @@ function Home() {
     // resolver: yupResolver(validationSchema),
   });
 
-  const fetchHistoricFinances = async () => {
-    const response = await historicFinances();
-    setHistoric(response);
+  const fetchHistoric = async () => {
+    try {
+      const [historicResponse, historicDetailsResponse] = await Promise.all([
+        historicFinances,
+        historicFinancesDetails,
+      ]);
+
+      const historicData = await historicResponse();
+      const historicDetailsData = await historicDetailsResponse();
+
+      setHistoric(historicData);
+      setHistoricDetails(historicDetailsData);
+    } catch (error) {
+      console.error("Erro ao buscar dados históricos:", error);
+    }
   };
 
   useEffect(() => {
     if (updateLine) {
-      fetchHistoricFinances();
+      setLoading(true);
+      fetchHistoric();
+      setLoading(false);
     }
   }, [updateLine]);
 
   useEffect(() => {
-    fetchHistoricFinances();
+    fetchHistoric();
     setLoading(false);
   }, []);
 
@@ -102,6 +119,7 @@ function Home() {
         await insertItem(objItem);
       }
 
+      reset();
       setUpdateLine(true);
     } catch (error) {
       console.error(error);
@@ -132,6 +150,7 @@ function Home() {
                   <MenuItem value="educacao">Educação</MenuItem>
                   <MenuItem value="lazer">Lazer</MenuItem>
                   <MenuItem value="saude">Saúde</MenuItem>
+                  <MenuItem value="saude">Trabalho</MenuItem>
                 </Select>
               </FormControl>
             )}
@@ -192,7 +211,7 @@ function Home() {
         />
       </S.WrapperSectionForm>
 
-      <ResumeFinances />
+      <ResumeFinances details={historicDetails} loading={loading} />
       {loading ? (
         <Skeleton variant="rectangular" width="100%" height="500px" />
       ) : (

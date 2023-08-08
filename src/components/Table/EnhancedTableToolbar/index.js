@@ -11,7 +11,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { deleteItem as deleteItemRoute } from "../../../api/routes/finances";
+import {
+  deleteItem as deleteItemRoute,
+  historicFinancesDetails,
+} from "../../../api/routes/finances";
 import { useItem } from "../../../context/useItem";
 
 export function EnhancedTableToolbar(props) {
@@ -27,6 +30,8 @@ export function EnhancedTableToolbar(props) {
     setUpdateLine(true);
 
     await deleteItemRoute(selected.id);
+
+    await historicFinancesDetails();
 
     setUpdateLine(false);
   };

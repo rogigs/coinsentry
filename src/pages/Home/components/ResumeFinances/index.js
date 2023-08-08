@@ -1,23 +1,7 @@
-import { useEffect, useState } from "react";
 import Card, { TYPES } from "../../../../components/Card";
-import { historicFinancesDetails } from "../../../../api/routes/finances";
 import * as S from "./styles";
 
-const ResumeFinances = () => {
-  const [details, setDetails] = useState({});
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchHistoricFinancesDetails = async () => {
-      const response = await historicFinancesDetails();
-      setDetails(response);
-    };
-
-    fetchHistoricFinancesDetails();
-
-    setLoading(false);
-  }, []);
-
+const ResumeFinances = ({ details, loading }) => {
   if (loading) {
     return (
       <S.WrapperCard data-testid="loading-skeleton">
