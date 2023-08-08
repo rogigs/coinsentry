@@ -123,15 +123,15 @@ const Home = () => {
       }
 
       handleModal({
-        content: "Sucesso ao cadastrar cliente.",
+        content: `Sucesso ao ${item ? "atualizar" : "cadastrar"} item.`,
         icon: "success",
-        title: "Sucesso",
+        title: `Item ${item ? "atualizado" : "cadastrado"}`,
       });
       reset();
       fetchHistoric();
     } catch (error) {
       handleModal({
-        content: "Erro ao cadastrar cliente.",
+        content: "Erro ao cadastrar item.",
         icon: "error",
         title: "Erro",
       });
@@ -146,7 +146,12 @@ const Home = () => {
   return (
     <ErrorBoundary fallback={<p>Something went wrong</p>}>
       <S.Wrapper>
-        <Dialog open={modal.open} handleClose={handleModal} icon={modal.icon}>
+        <Dialog
+          open={modal.open}
+          handleClose={handleModal}
+          icon={modal.icon}
+          title={modal.title}
+        >
           <p>{modal?.content}</p>
         </Dialog>
         <S.WrapperSectionForm>

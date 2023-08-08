@@ -29,7 +29,7 @@ export function EnhancedTableToolbar(props) {
       handleModal({
         content: "Sucesso ao deleter item.",
         icon: "success",
-        title: "Sucesso",
+        title: "Item deletado",
       });
 
       await fetchHistoric();
