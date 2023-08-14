@@ -55,6 +55,7 @@ const Home = () => {
   });
 
   const [loading, setLoading] = useState(true);
+
   const [loadingLine, setLoadingLine] = useState(false);
   const { item, setItem } = useItem();
 
@@ -76,20 +77,16 @@ const Home = () => {
   });
 
   const fetchHistoric = async () => {
-    try {
-      const [historicResponse, historicDetailsResponse] = await Promise.all([
-        historicFinances,
-        historicFinancesDetails,
-      ]);
+    const [historicResponse, historicDetailsResponse] = await Promise.all([
+      historicFinances,
+      historicFinancesDetails,
+    ]);
 
-      const historicData = await historicResponse();
-      const historicDetailsData = await historicDetailsResponse();
+    const historicData = await historicResponse();
+    const historicDetailsData = await historicDetailsResponse();
 
-      setHistoric(historicData);
-      setHistoricDetails(historicDetailsData);
-    } catch (error) {
-      console.error("Erro ao buscar dados históricos:", error);
-    }
+    setHistoric(historicData);
+    setHistoricDetails(historicDetailsData);
   };
 
   useEffect(() => {
@@ -239,7 +236,11 @@ const Home = () => {
           />
         </S.WrapperSectionForm>
 
-        <ResumeFinances details={historicDetails} loading={loading} />
+        <ResumeFinances
+          details={historicDetails}
+          loading={loading}
+          setHistoricDetails={setHistoricDetails}
+        />
         {loading ? (
           <Skeleton variant="rectangular" width="100%" height="500px" />
         ) : (

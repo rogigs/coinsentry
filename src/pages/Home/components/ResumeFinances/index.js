@@ -1,7 +1,22 @@
+import { isAxiosError } from "axios";
 import Card, { TYPES } from "../../../../components/Card";
 import * as S from "./styles";
 
-const ResumeFinances = ({ details, loading }) => {
+import ErrorComponent from "../../../../components/Error";
+import { historicFinancesDetails } from "../../../../api/routes/finances";
+
+const ResumeFinances = ({ details, loading, setHistoricDetails }) => {
+  if (isAxiosError(details) && details?.config?.url === "historic/details") {
+    return (
+      <S.WrapperError>
+        <ErrorComponent
+          onClick={historicFinancesDetails}
+          setState={setHistoricDetails}
+        />
+      </S.WrapperError>
+    );
+  }
+
   if (loading) {
     return (
       <S.WrapperCard data-testid="loading-skeleton">

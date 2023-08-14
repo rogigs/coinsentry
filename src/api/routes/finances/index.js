@@ -16,7 +16,7 @@ export const historicFinancesDetails = async () => {
 
     return data[0];
   } catch (error) {
-    console.log("🚀 ~ file: index.js:12 ~ authLogin ~ error:", error);
+    return error;
   }
 };
 
