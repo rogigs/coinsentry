@@ -21,11 +21,10 @@ export function EnhancedTableToolbar(props) {
 
   const deleteItem = async () => {
     try {
-      // TODO: Delete all per page
-      // if (numSelected === totalPerPage) {
-      //   return;
-      // }
-      await deleteItemRoute(selected.id);
+      const deletePromises = selected.map((item) => deleteItemRoute(item));
+
+      await Promise.all(deletePromises);
+
       handleModal({
         content: "Sucesso ao deleter item.",
         icon: "success",

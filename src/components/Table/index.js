@@ -54,7 +54,6 @@ const EnhancedTable = ({
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [positionInArraySelected, setPositionInArraySelected] = useState(0);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -89,7 +88,6 @@ const EnhancedTable = ({
     }
 
     setSelected(newSelected);
-    setPositionInArraySelected(position);
   };
 
   const handleChangePage = (_, newPage) => {
@@ -119,7 +117,7 @@ const EnhancedTable = ({
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
-          selected={data[positionInArraySelected]}
+          selected={selected}
           numSelected={selected.length}
           setLoadingLine={setLoadingLine}
           fetchHistoric={fetchHistoric}
