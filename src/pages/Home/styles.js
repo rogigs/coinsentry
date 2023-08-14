@@ -12,7 +12,6 @@ export const WrapperForm = styled.form`
   flex-direction: column;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 24px;
   width: 100%;
 
   ${media.greaterThan("mobileMax")`
@@ -25,7 +24,6 @@ export const WrapperForm = styled.form`
 export const WrapperSectionForm = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 24px;
 
   .player {
     max-height: 500px;
