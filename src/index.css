@@ -6,12 +6,16 @@
   border: 0;
 }
 
+:root {
+  --white-color: #fff;
+}
+
 #root {
   max-width: 1024px;
   margin: auto;
 }
 
-.container {
+.container-error {
   text-align: center;
   padding: 20px;
 }

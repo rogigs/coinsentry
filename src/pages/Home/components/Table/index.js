@@ -1,16 +1,20 @@
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TablePagination from "@mui/material/TablePagination";
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
+import TablePagination from '@mui/material/TablePagination';
 
-import Paper from "@mui/material/Paper";
-import { EnhancedTableHead } from "./EnhancedTableHead";
-import { EnhancedTableToolbar } from "./EnhancedTableToolbar";
-import { useState, useMemo } from "react";
-import TableContent from "./TableContent";
+import Paper from '@mui/material/Paper';
+import { useState, useMemo } from 'react';
+import { Skeleton } from '@mui/material';
+import { isAxiosError } from 'axios';
+import { EnhancedTableHead } from './EnhancedTableHead';
+import { EnhancedTableToolbar } from './EnhancedTableToolbar';
+import TableContent from './TableContent';
+import ErrorComponent from '../../../../components/Error';
+import { historicFinances } from '../../../../api/routes/finances';
 
-function descendingComparator(a, b, orderBy) {
+const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -18,20 +22,19 @@ function descendingComparator(a, b, orderBy) {
     return 1;
   }
   return 0;
-}
+};
 
-function getComparator(order, orderBy) {
-  return order === "desc"
+const getComparator = (order, orderBy) =>
+  order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
-}
 
 // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
 // stableSort() brings sort stability to non-modern browsers (notably IE11). If you
 // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
 // with exampleArray.slice().sort(exampleComparator)
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+const stableSort = (array, comparator) => {
+  const stabilizedThis = array.length && array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) {
@@ -40,7 +43,7 @@ function stableSort(array, comparator) {
     return a[1] - b[1];
   });
   return stabilizedThis.map((el) => el[0]);
-}
+};
 
 const EnhancedTable = ({
   data,
@@ -48,17 +51,18 @@ const EnhancedTable = ({
   setLoadingLine,
   fetchHistoric,
   handleModal,
+  loading,
+  setHistoric,
 }) => {
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("calories");
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [positionInArraySelected, setPositionInArraySelected] = useState(0);
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+  const handleRequestSort = (_, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
@@ -71,7 +75,7 @@ const EnhancedTable = ({
     setSelected([]);
   };
 
-  const handleClick = (_, id, position) => {
+  const handleClick = (_, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
@@ -84,12 +88,11 @@ const EnhancedTable = ({
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
+        selected.slice(selectedIndex + 1),
       );
     }
 
     setSelected(newSelected);
-    setPositionInArraySelected(position);
   };
 
   const handleChangePage = (_, newPage) => {
@@ -106,20 +109,35 @@ const EnhancedTable = ({
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-  const visibleRows = useMemo(
-    () =>
-      stableSort(data, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [order, orderBy, page, rowsPerPage, data]
-  );
+  const visibleRows = useMemo(() => {
+    if (!data.length) {
+      return [];
+    }
+
+    return stableSort(data, getComparator(order, orderBy)).slice(
+      page * rowsPerPage,
+      page * rowsPerPage + rowsPerPage,
+    );
+  }, [order, orderBy, page, rowsPerPage, data]);
+
+  if (isAxiosError(data)) {
+    return (
+      <ErrorComponent
+        onClick={() => historicFinances()}
+        setState={setHistoric}
+      />
+    );
+  }
+
+  if (loading) {
+    return <Skeleton variant="rectangular" width="100%" height="500px" />;
+  }
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
+    <Box sx={{ width: '100%' }}>
+      <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar
-          selected={data[positionInArraySelected]}
+          selected={selected}
           numSelected={selected.length}
           setLoadingLine={setLoadingLine}
           fetchHistoric={fetchHistoric}

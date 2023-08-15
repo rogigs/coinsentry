@@ -1,46 +1,42 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import { alpha } from '@mui/material/styles';
 
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
-import FilterListIcon from "@mui/icons-material/FilterList";
-import {
-  deleteItem as deleteItemRoute,
-  historicFinancesDetails,
-} from "../../../api/routes/finances";
-import { useItem } from "../../../context/useItem";
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { useItem } from '../../../../../context/useItem';
+import { deleteItem as deleteItemRoute } from '../../../../../api/routes/finances';
 
-export function EnhancedTableToolbar(props) {
+export const EnhancedTableToolbar = (props) => {
   const { selected, numSelected, fetchHistoric, handleModal } = props;
 
   const { setItem } = useItem();
 
   const deleteItem = async () => {
     try {
-      // TODO: Delete all per page
-      // if (numSelected === totalPerPage) {
-      //   return;
-      // }
-      await deleteItemRoute(selected.id);
+      const deletePromises = selected.map((item) => deleteItemRoute(item));
+
+      await Promise.all(deletePromises);
+
       handleModal({
-        content: "Sucesso ao deleter item.",
-        icon: "success",
-        title: "Sucesso",
+        content: 'Sucesso ao deleter item.',
+        icon: 'success',
+        title: 'Item deletado',
       });
 
       await fetchHistoric();
     } catch (error) {
       handleModal({
-        content: "Erro ao deletar item.",
-        icon: "error",
-        title: "Erro",
+        content: 'Erro ao deletar item.',
+        icon: 'error',
+        title: 'Erro',
       });
 
       console.error(error);
@@ -60,14 +56,14 @@ export function EnhancedTableToolbar(props) {
           bgcolor: (theme) =>
             alpha(
               theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
+              theme.palette.action.activatedOpacity,
             ),
         }),
       }}
     >
       {numSelected > 0 ? (
         <Typography
-          sx={{ flex: "1 1 100%" }}
+          sx={{ flex: '1 1 100%' }}
           color="inherit"
           variant="subtitle1"
           component="div"
@@ -76,7 +72,7 @@ export function EnhancedTableToolbar(props) {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: "1 1 100%" }}
+          sx={{ flex: '1 1 100%' }}
           variant="h6"
           id="tableTitle"
           component="div"
@@ -110,7 +106,7 @@ export function EnhancedTableToolbar(props) {
       )}
     </Toolbar>
   );
-}
+};
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,

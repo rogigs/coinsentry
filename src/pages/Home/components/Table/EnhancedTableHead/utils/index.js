@@ -1,32 +1,32 @@
 export const headCells = [
   {
-    id: "title",
+    id: 'title',
     numeric: false,
     disablePadding: true,
-    label: "Título",
+    label: 'Título',
   },
   {
-    id: "operation",
+    id: 'operation',
     numeric: true,
     disablePadding: false,
-    label: "Operação",
+    label: 'Operação',
   },
   {
-    id: "category",
+    id: 'category',
     numeric: true,
     disablePadding: false,
-    label: "Categoria",
+    label: 'Categoria',
   },
   {
-    id: "value",
+    id: 'value',
     numeric: true,
     disablePadding: false,
-    label: "Valor",
+    label: 'Valor',
   },
   {
-    id: "date",
+    id: 'date',
     numeric: true,
     disablePadding: false,
-    label: "Data",
+    label: 'Data',
   },
 ];
