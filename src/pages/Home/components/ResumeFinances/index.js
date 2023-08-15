@@ -6,7 +6,7 @@ import ErrorComponent from "../../../../components/Error";
 import { historicFinancesDetails } from "../../../../api/routes/finances";
 
 const ResumeFinances = ({ details, loading, setHistoricDetails }) => {
-  if (isAxiosError(details) && details?.config?.url === "historic/details") {
+  if (isAxiosError(details)) {
     return (
       <S.WrapperError>
         <ErrorComponent
