@@ -2,7 +2,7 @@ import { Alert, AlertTitle } from '@mui/material';
 import { useState } from 'react';
 import Button from '../Button';
 
-function ErrorComponent({ onClick, setState }) {
+const ErrorComponent = ({ onClick, setState }) => {
   const [loading, setLoading] = useState(false);
 
   const tryAgain = async () => {
@@ -30,6 +30,6 @@ function ErrorComponent({ onClick, setState }) {
       </Button>
     </Alert>
   );
-}
+};
 
 export default ErrorComponent;

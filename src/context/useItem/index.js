@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react';
 
 const ItemContext = createContext();
 
-export function ItemProvider({ children }) {
+export const ItemProvider = ({ children }) => {
   const [item, setItem] = useState();
 
   return (
@@ -10,7 +10,7 @@ export function ItemProvider({ children }) {
       {children}
     </ItemContext.Provider>
   );
-}
+};
 
 export const useItem = () => {
   const context = useContext(ItemContext);

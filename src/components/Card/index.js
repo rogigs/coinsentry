@@ -16,30 +16,28 @@ const CardStyled = styled(CardMUI)`
   text-align: center;
 `;
 
-function Card({ type, value = 0 }) {
-  return (
-    <CardStyled
-      data-testid="card"
-      styledtotal={type === TYPES.TOTAL ? TYPES_COLORS(Number(value)) : ''}
-    >
-      <CardActionArea>
-        <CardContent
-          sx={{
-            '.title': {
-              marginBottom: '4px',
-            },
-            '&::first-letter': {
-              textTransform: 'uppercase',
-            },
-          }}
-        >
-          <h1 className="title">{type}</h1>
-          <h2>R$ {value.toFixed(2)}</h2>
-        </CardContent>
-      </CardActionArea>
-    </CardStyled>
-  );
-}
+const Card = ({ type, value = 0 }) => (
+  <CardStyled
+    data-testid="card"
+    styledtotal={type === TYPES.TOTAL ? TYPES_COLORS(Number(value)) : ''}
+  >
+    <CardActionArea>
+      <CardContent
+        sx={{
+          '.title': {
+            marginBottom: '4px',
+          },
+          '&::first-letter': {
+            textTransform: 'uppercase',
+          },
+        }}
+      >
+        <h1 className="title">{type}</h1>
+        <h2>R$ {value.toFixed(2)}</h2>
+      </CardContent>
+    </CardActionArea>
+  </CardStyled>
+);
 
 export { TYPES };
 

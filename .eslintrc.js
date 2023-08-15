@@ -26,6 +26,13 @@ module.exports = {
     'react/prop-types': 'off',
     'import/prefer-default-export': 'off',
     'react/react-in-jsx-scope': 'off',
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
   },
   env: {
     browser: true,

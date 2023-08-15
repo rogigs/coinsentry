@@ -27,26 +27,24 @@ const BootstrapDialog = styled(DialogMUI)(() => ({
   },
 }));
 
-function Dialog({ open, handleClose, children, icon = 'error', title }) {
-  return (
-    <BootstrapDialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle className="center">
-        <div className="center icon">{ICONS[icon]}</div>
-        {title}
-      </DialogTitle>
-      <DialogContent>{children}</DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} autoFocus>
-          Fechar
-        </Button>
-      </DialogActions>
-    </BootstrapDialog>
-  );
-}
+const Dialog = ({ open, handleClose, children, icon = 'error', title }) => (
+  <BootstrapDialog
+    open={open}
+    onClose={handleClose}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+  >
+    <DialogTitle className="center">
+      <div className="center icon">{ICONS[icon]}</div>
+      {title}
+    </DialogTitle>
+    <DialogContent>{children}</DialogContent>
+    <DialogActions>
+      <Button onClick={handleClose} autoFocus>
+        Fechar
+      </Button>
+    </DialogActions>
+  </BootstrapDialog>
+);
 
 export default Dialog;

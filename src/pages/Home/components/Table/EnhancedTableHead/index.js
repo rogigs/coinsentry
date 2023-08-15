@@ -11,7 +11,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
 import { headCells } from './utils';
 
-export function EnhancedTableHead(props) {
+export const EnhancedTableHead = (props) => {
   const {
     onSelectAllClick,
     order,
@@ -62,7 +62,7 @@ export function EnhancedTableHead(props) {
       </TableRow>
     </TableHead>
   );
-}
+};
 
 EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,

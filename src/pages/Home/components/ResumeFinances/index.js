@@ -5,7 +5,7 @@ import * as S from './styles';
 import ErrorComponent from '../../../../components/Error';
 import { historicFinancesDetails } from '../../../../api/routes/finances';
 
-function ResumeFinances({ details, loading, setHistoricDetails }) {
+const ResumeFinances = ({ details, loading, setHistoricDetails }) => {
   if (isAxiosError(details)) {
     return (
       <S.WrapperError>
@@ -34,6 +34,6 @@ function ResumeFinances({ details, loading, setHistoricDetails }) {
       <Card type={TYPES.TOTAL} value={details?.total} />
     </S.WrapperCard>
   );
-}
+};
 
 export default ResumeFinances;

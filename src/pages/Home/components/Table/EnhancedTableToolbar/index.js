@@ -14,7 +14,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { useItem } from '../../../../../context/useItem';
 import { deleteItem as deleteItemRoute } from '../../../../../api/routes/finances';
 
-export function EnhancedTableToolbar(props) {
+export const EnhancedTableToolbar = (props) => {
   const { selected, numSelected, fetchHistoric, handleModal } = props;
 
   const { setItem } = useItem();
@@ -106,7 +106,7 @@ export function EnhancedTableToolbar(props) {
       )}
     </Toolbar>
   );
-}
+};
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,

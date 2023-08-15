@@ -26,25 +26,23 @@ import Dialog from '../../components/Dialog';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { validationSchema } from './utils';
 
-function ControllerTextField({ label, name, control, errors, ...props }) {
-  return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field }) => (
-        <TextField
-          label={label}
-          error={errors}
-          helperText={errors?.message}
-          {...props}
-          {...field}
-        />
-      )}
-    />
-  );
-}
+const ControllerTextField = ({ label, name, control, errors, ...props }) => (
+  <Controller
+    name={name}
+    control={control}
+    render={({ field }) => (
+      <TextField
+        label={label}
+        error={errors}
+        helperText={errors?.message}
+        {...props}
+        {...field}
+      />
+    )}
+  />
+);
 
-function Home() {
+const Home = () => {
   const [historic, setHistoric] = useState([]);
   const [historicDetails, setHistoricDetails] = useState([]);
   const [modal, setModal] = useState({
@@ -254,6 +252,6 @@ function Home() {
       </S.Wrapper>
     </ErrorBoundary>
   );
-}
+};
 
 export default Home;
