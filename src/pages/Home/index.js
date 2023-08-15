@@ -15,10 +15,10 @@ import {
 } from "../../api/routes/finances";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
-import EnhancedTable from "../../components/Table";
+import EnhancedTable from "./components/Table";
 import { useItem } from "../../context/useItem";
 import ResumeFinances from "./components/ResumeFinances";
-import { FormLabel, InputLabel, Skeleton } from "@mui/material";
+import { FormLabel, InputLabel } from "@mui/material";
 import TextFieldNumberFormat from "../../components/TextFieldNumberFormat";
 import FormControl from "@mui/material/FormControl";
 import Dialog from "../../components/Dialog";
@@ -241,17 +241,16 @@ const Home = () => {
           loading={loading}
           setHistoricDetails={setHistoricDetails}
         />
-        {loading ? (
-          <Skeleton variant="rectangular" width="100%" height="500px" />
-        ) : (
-          <EnhancedTable
-            data={historic}
-            loadingRow={loadingLine}
-            setLoadingLine={setLoadingLine}
-            fetchHistoric={fetchHistoric}
-            handleModal={handleModal}
-          />
-        )}
+
+        <EnhancedTable
+          loading={loading}
+          data={historic}
+          loadingRow={loadingLine}
+          setLoadingLine={setLoadingLine}
+          fetchHistoric={fetchHistoric}
+          handleModal={handleModal}
+          setHistoric={setHistoric}
+        />
       </S.Wrapper>
     </ErrorBoundary>
   );
