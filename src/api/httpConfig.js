@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiUrl = 'https://test-sense-data-0aca56247e9f.herokuapp.com/';
+const apiUrl = 'https://api-coin-sentry-git-main-rogigs.vercel.app/';
 
 const Api = axios.create({
   baseURL: `${apiUrl}`,
