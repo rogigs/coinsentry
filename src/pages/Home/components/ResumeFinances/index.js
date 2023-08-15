@@ -1,11 +1,11 @@
-import { isAxiosError } from "axios";
-import Card, { TYPES } from "../../../../components/Card";
-import * as S from "./styles";
+import { isAxiosError } from 'axios';
+import Card, { TYPES } from '../../../../components/Card';
+import * as S from './styles';
 
-import ErrorComponent from "../../../../components/Error";
-import { historicFinancesDetails } from "../../../../api/routes/finances";
+import ErrorComponent from '../../../../components/Error';
+import { historicFinancesDetails } from '../../../../api/routes/finances';
 
-const ResumeFinances = ({ details, loading, setHistoricDetails }) => {
+function ResumeFinances({ details, loading, setHistoricDetails }) {
   if (isAxiosError(details)) {
     return (
       <S.WrapperError>
@@ -34,6 +34,6 @@ const ResumeFinances = ({ details, loading, setHistoricDetails }) => {
       <Card type={TYPES.TOTAL} value={details?.total} />
     </S.WrapperCard>
   );
-};
+}
 
 export default ResumeFinances;

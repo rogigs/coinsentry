@@ -1,32 +1,32 @@
-import { useForm, Controller } from "react-hook-form";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { useEffect, useState } from "react";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import { Player } from "@lottiefiles/react-lottie-player";
-import { format } from "date-fns";
-import * as S from "./styles";
+import { useForm, Controller } from 'react-hook-form';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import { useEffect, useState } from 'react';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import { Player } from '@lottiefiles/react-lottie-player';
+import { format } from 'date-fns';
+import { FormLabel, InputLabel } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as S from './styles';
 import {
   historicFinances,
   historicFinancesDetails,
   insertItem,
   updateItem,
-} from "../../api/routes/finances";
-import Button from "../../components/Button";
-import TextField from "../../components/TextField";
-import EnhancedTable from "./components/Table";
-import { useItem } from "../../context/useItem";
-import ResumeFinances from "./components/ResumeFinances";
-import { FormLabel, InputLabel } from "@mui/material";
-import TextFieldNumberFormat from "../../components/TextFieldNumberFormat";
-import FormControl from "@mui/material/FormControl";
-import Dialog from "../../components/Dialog";
-import ErrorBoundary from "../../components/ErrorBoundary";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { validationSchema } from "./utils";
+} from '../../api/routes/finances';
+import Button from '../../components/Button';
+import TextField from '../../components/TextField';
+import EnhancedTable from './components/Table';
+import { useItem } from '../../context/useItem';
+import ResumeFinances from './components/ResumeFinances';
+import TextFieldNumberFormat from '../../components/TextFieldNumberFormat';
+import Dialog from '../../components/Dialog';
+import ErrorBoundary from '../../components/ErrorBoundary';
+import { validationSchema } from './utils';
 
-const ControllerTextField = ({ label, name, control, errors, ...props }) => {
+function ControllerTextField({ label, name, control, errors, ...props }) {
   return (
     <Controller
       name={name}
@@ -42,16 +42,16 @@ const ControllerTextField = ({ label, name, control, errors, ...props }) => {
       )}
     />
   );
-};
+}
 
-const Home = () => {
+function Home() {
   const [historic, setHistoric] = useState([]);
   const [historicDetails, setHistoricDetails] = useState([]);
   const [modal, setModal] = useState({
     open: false,
-    content: "",
-    icon: "",
-    title: "",
+    content: '',
+    icon: '',
+    title: '',
   });
 
   const [loading, setLoading] = useState(true);
@@ -66,12 +66,12 @@ const Home = () => {
     setValue,
     formState: { errors, isSubmitting },
   } = useForm({
-    mode: "onSubmit",
+    mode: 'onSubmit',
     defaultValues: {
-      title: "",
-      operation: "entrada",
-      category: "None",
-      value_item: "",
+      title: '',
+      operation: 'entrada',
+      category: 'None',
+      value_item: '',
     },
     resolver: yupResolver(validationSchema),
   });
@@ -104,10 +104,10 @@ const Home = () => {
   const onSubmit = async (data) => {
     try {
       const dateToday = new Date();
-      const dateFormatted = format(dateToday, "dd-MM-yyyy");
+      const dateFormatted = format(dateToday, 'dd-MM-yyyy');
       const objItem = {
         ...data,
-        value_item: data.value_item.replace(/\D/g, ""),
+        value_item: data.value_item.replace(/\D/g, ''),
         date_input: dateFormatted,
       };
 
@@ -122,17 +122,17 @@ const Home = () => {
       }
 
       handleModal({
-        content: `Sucesso ao ${item ? "atualizar" : "cadastrar"} item.`,
-        icon: "success",
-        title: `Item ${item ? "atualizado" : "cadastrado"}`,
+        content: `Sucesso ao ${item ? 'atualizar' : 'cadastrar'} item.`,
+        icon: 'success',
+        title: `Item ${item ? 'atualizado' : 'cadastrado'}`,
       });
       reset();
       fetchHistoric();
     } catch (error) {
       handleModal({
-        content: "Erro ao cadastrar item.",
-        icon: "error",
-        title: "Erro",
+        content: 'Erro ao cadastrar item.',
+        icon: 'error',
+        title: 'Erro',
       });
 
       console.error(error);
@@ -254,6 +254,6 @@ const Home = () => {
       </S.Wrapper>
     </ErrorBoundary>
   );
-};
+}
 
 export default Home;

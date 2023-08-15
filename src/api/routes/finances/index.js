@@ -1,8 +1,8 @@
-import HttpConfig from "../../httpConfig";
+import HttpConfig from '../../httpConfig';
 
 export const historicFinances = async () => {
   try {
-    const { data } = await HttpConfig.get("historic");
+    const { data } = await HttpConfig.get('historic');
 
     return data;
   } catch (error) {
@@ -12,7 +12,7 @@ export const historicFinances = async () => {
 
 export const historicFinancesDetails = async () => {
   try {
-    const { data } = await HttpConfig.get("historic/details");
+    const { data } = await HttpConfig.get('historic/details');
 
     return data[0];
   } catch (error) {
@@ -22,11 +22,11 @@ export const historicFinancesDetails = async () => {
 
 export const insertItem = async (item) => {
   try {
-    const { data } = await HttpConfig.post("historic", item);
+    const { data } = await HttpConfig.post('historic', item);
 
     return data;
   } catch (error) {
-    console.log("🚀 ~ file: index.js:12 ~ authLogin ~ error:", error);
+    console.log('🚀 ~ file: index.js:12 ~ authLogin ~ error:', error);
   }
 };
 
@@ -36,7 +36,7 @@ export const deleteItem = async (idItem) => {
 
     return data;
   } catch (error) {
-    console.log("🚀 ~ file: index.js:12 ~ authLogin ~ error:", error);
+    console.log('🚀 ~ file: index.js:12 ~ authLogin ~ error:', error);
   }
 };
 
@@ -46,7 +46,7 @@ export const updateItem = async (idItem, objItem) => {
 
     return data;
   } catch (error) {
-    console.log("🚀 ~ file: index.js:12 ~ authLogin ~ error:", error);
+    console.log('🚀 ~ file: index.js:12 ~ authLogin ~ error:', error);
   }
 };
 
@@ -56,6 +56,6 @@ export const selectOneItem = async (idItem) => {
 
     return data;
   } catch (error) {
-    console.log("🚀 ~ file: index.js:12 ~ authLogin ~ error:", error);
+    console.log('🚀 ~ file: index.js:12 ~ authLogin ~ error:', error);
   }
 };

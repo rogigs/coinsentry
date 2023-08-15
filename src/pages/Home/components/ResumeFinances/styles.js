@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import SkeletonMUI from "@mui/material/Skeleton";
-import media from "../../../../styledMedia";
+import styled from 'styled-components';
+import SkeletonMUI from '@mui/material/Skeleton';
+import media from '../../../../styledMedia';
 
 export const WrapperCard = styled.section`
   display: flex;
@@ -16,7 +16,7 @@ export const WrapperError = styled.section`
 `;
 
 export const Skeleton = styled(SkeletonMUI)`
-  ${media.lessThan("desktop")`
+  ${media.lessThan('desktop')`
     width: 100% !important;
   `}
 

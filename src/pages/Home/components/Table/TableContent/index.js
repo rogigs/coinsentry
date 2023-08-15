@@ -1,20 +1,20 @@
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
 
-import Checkbox from "@mui/material/Checkbox";
-import { Skeleton, styled } from "@mui/material";
+import Checkbox from '@mui/material/Checkbox';
+import { Skeleton, styled } from '@mui/material';
 
 const StyledTableCell = styled(TableCell)({
-  padding: "0 16px",
+  padding: '0 16px',
 });
 
-const TableContent = ({
+function TableContent({
   visibleRows,
   emptyRows,
   isSelected,
   handleClick,
   loadingRow,
-}) => {
+}) {
   return (
     <>
       {visibleRows.map((row, index) => {
@@ -30,14 +30,14 @@ const TableContent = ({
             tabIndex={-1}
             key={row.id}
             selected={isItemSelected}
-            sx={{ cursor: "pointer" }}
+            sx={{ cursor: 'pointer' }}
           >
             <TableCell padding="checkbox">
               <Checkbox
                 color="primary"
                 checked={isItemSelected}
                 inputProps={{
-                  "aria-labelledby": labelId,
+                  'aria-labelledby': labelId,
                 }}
               />
             </TableCell>
@@ -73,6 +73,6 @@ const TableContent = ({
       )}
     </>
   );
-};
+}
 
 export default TableContent;

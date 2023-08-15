@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import media from "../../styledMedia";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabelMUI from "@mui/material/FormControlLabel";
+import styled from 'styled-components';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabelMUI from '@mui/material/FormControlLabel';
+import media from '../../styledMedia';
 
 export const Wrapper = styled.section`
   padding: 24px;
@@ -14,7 +14,7 @@ export const WrapperForm = styled.form`
   gap: 12px;
   width: 100%;
 
-  ${media.greaterThan("mobileMax")`
+  ${media.greaterThan('mobileMax')`
     width: 420px;
     height: 500px
 
@@ -30,7 +30,7 @@ export const WrapperSectionForm = styled.div`
     max-width: 500px;
   }
 
-  ${media.lessThan("mobileMax")`
+  ${media.lessThan('mobileMax')`
   .player {
    display: none;
   }

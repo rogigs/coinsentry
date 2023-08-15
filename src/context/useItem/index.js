@@ -1,8 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from 'react';
 
 const ItemContext = createContext();
 
-export const ItemProvider = ({ children }) => {
+export function ItemProvider({ children }) {
   const [item, setItem] = useState();
 
   return (
@@ -10,13 +10,13 @@ export const ItemProvider = ({ children }) => {
       {children}
     </ItemContext.Provider>
   );
-};
+}
 
 export const useItem = () => {
   const context = useContext(ItemContext);
 
   if (!context) {
-    throw new Error("useItem must be used within a ItemProvider");
+    throw new Error('useItem must be used within a ItemProvider');
   }
 
   return context;

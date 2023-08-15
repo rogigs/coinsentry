@@ -1,12 +1,12 @@
-import { ItemProvider } from "./context/useItem";
-import Home from "./pages/Home";
+import { ItemProvider } from './context/useItem';
+import Home from './pages/Home';
 
-const App = () => {
+function App() {
   return (
     <ItemProvider>
       <Home />
     </ItemProvider>
   );
-};
+}
 
 export default App;

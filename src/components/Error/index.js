@@ -1,8 +1,8 @@
-import { Alert, AlertTitle } from "@mui/material";
-import Button from "../Button";
-import { useState } from "react";
+import { Alert, AlertTitle } from '@mui/material';
+import { useState } from 'react';
+import Button from '../Button';
 
-const ErrorComponent = ({ onClick, setState }) => {
+function ErrorComponent({ onClick, setState }) {
   const [loading, setLoading] = useState(false);
 
   const tryAgain = async () => {
@@ -17,11 +17,11 @@ const ErrorComponent = ({ onClick, setState }) => {
   return (
     <Alert severity="error">
       <AlertTitle>Erro ao buscar informações</AlertTitle>
-      <p style={{ marginBottom: "12px" }}>
+      <p style={{ marginBottom: '12px' }}>
         Houve um erro ao buscar as informações. Por favor, tente novamente!
       </p>
       <Button
-        sx={{ width: "185px" }}
+        sx={{ width: '185px' }}
         color="error"
         onClick={tryAgain}
         loading={loading}
@@ -30,6 +30,6 @@ const ErrorComponent = ({ onClick, setState }) => {
       </Button>
     </Alert>
   );
-};
+}
 
 export default ErrorComponent;

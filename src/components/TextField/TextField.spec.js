@@ -1,10 +1,10 @@
-import TextField from ".";
-import { screen, render } from "@testing-library/react";
+import { screen, render } from '@testing-library/react';
+import TextField from '.';
 
-describe("<TextField />", () => {
-  it("should render component with props correctly", () => {
+describe('<TextField />', () => {
+  it('should render component with props correctly', () => {
     render(<TextField label="name" />);
 
-    expect(screen.getByLabelText("name")).toBeInTheDocument();
+    expect(screen.getByLabelText('name')).toBeInTheDocument();
   });
 });

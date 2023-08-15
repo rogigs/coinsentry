@@ -1,9 +1,9 @@
-import Card, { TYPES } from ".";
-import { screen, render } from "@testing-library/react";
-import { TYPES_COLORS } from "./utils";
+import { screen, render } from '@testing-library/react';
+import Card, { TYPES } from '.';
+import { TYPES_COLORS } from './utils';
 
-describe("<Card />", () => {
-  it("should render props texts correctly", () => {
+describe('<Card />', () => {
+  it('should render props texts correctly', () => {
     const props = { type: TYPES.ENTRADA, value: 20 };
     render(<Card {...props} />);
 
@@ -12,14 +12,14 @@ describe("<Card />", () => {
   });
 
   it.todo(
-    "should render card of type TOTAL bigger than 0 with the correct colors"
+    'should render card of type TOTAL bigger than 0 with the correct colors',
   );
 
   it.todo(
-    "should render card of type TOTAL less than 0 with the correct colors"
+    'should render card of type TOTAL less than 0 with the correct colors',
   );
 
   it.todo(
-    "should render card of type TOTAL is equal 0 with the correct colors"
+    'should render card of type TOTAL is equal 0 with the correct colors',
   );
 });

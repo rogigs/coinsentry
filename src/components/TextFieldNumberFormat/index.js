@@ -1,7 +1,7 @@
-import { NumericFormat } from "react-number-format";
-import TextField from "../TextField";
+import { NumericFormat } from 'react-number-format';
+import TextField from '../TextField';
 
-const TextFieldNumberFormat = ({ label, variant, ...props }) => {
+function TextFieldNumberFormat({ label, variant, ...props }) {
   return (
     <NumericFormat
       {...props}
@@ -16,6 +16,6 @@ const TextFieldNumberFormat = ({ label, variant, ...props }) => {
       allowNegative={false}
     />
   );
-};
+}
 
 export default TextFieldNumberFormat;

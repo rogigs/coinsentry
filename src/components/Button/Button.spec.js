@@ -1,14 +1,14 @@
-import Button from ".";
-import { screen, render } from "@testing-library/react";
+import { screen, render } from '@testing-library/react';
+import Button from '.';
 
-describe("<Button />", () => {
-  it("should render component with props correctly", () => {
+describe('<Button />', () => {
+  it('should render component with props correctly', () => {
     render(
       <Button variant="text" label="teste">
         <div data-testid="test" />
-      </Button>
+      </Button>,
     );
 
-    expect(screen.getByTestId("test")).toBeInTheDocument();
+    expect(screen.getByTestId('test')).toBeInTheDocument();
   });
 });

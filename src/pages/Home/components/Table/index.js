@@ -1,18 +1,18 @@
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TablePagination from "@mui/material/TablePagination";
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
+import TablePagination from '@mui/material/TablePagination';
 
-import Paper from "@mui/material/Paper";
-import { EnhancedTableHead } from "./EnhancedTableHead";
-import { EnhancedTableToolbar } from "./EnhancedTableToolbar";
-import { useState, useMemo } from "react";
-import TableContent from "./TableContent";
-import { Skeleton } from "@mui/material";
-import ErrorComponent from "../../../../components/Error";
-import { historicFinances } from "../../../../api/routes/finances";
-import { isAxiosError } from "axios";
+import Paper from '@mui/material/Paper';
+import { useState, useMemo } from 'react';
+import { Skeleton } from '@mui/material';
+import { isAxiosError } from 'axios';
+import { EnhancedTableHead } from './EnhancedTableHead';
+import { EnhancedTableToolbar } from './EnhancedTableToolbar';
+import TableContent from './TableContent';
+import ErrorComponent from '../../../../components/Error';
+import { historicFinances } from '../../../../api/routes/finances';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -25,7 +25,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === "desc"
+  return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -46,7 +46,7 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const EnhancedTable = ({
+function EnhancedTable({
   data,
   loadingRow,
   setLoadingLine,
@@ -54,17 +54,16 @@ const EnhancedTable = ({
   handleModal,
   loading,
   setHistoric,
-}) => {
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("calories");
+}) {
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const hasError = isAxiosError(data);
   const handleRequestSort = (_, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
@@ -90,7 +89,7 @@ const EnhancedTable = ({
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
+        selected.slice(selectedIndex + 1),
       );
     }
 
@@ -118,7 +117,7 @@ const EnhancedTable = ({
 
     return stableSort(data, getComparator(order, orderBy)).slice(
       page * rowsPerPage,
-      page * rowsPerPage + rowsPerPage
+      page * rowsPerPage + rowsPerPage,
     );
   }, [order, orderBy, page, rowsPerPage, data]);
 
@@ -136,8 +135,8 @@ const EnhancedTable = ({
   }
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
+    <Box sx={{ width: '100%' }}>
+      <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar
           selected={selected}
           numSelected={selected.length}
@@ -182,6 +181,6 @@ const EnhancedTable = ({
       </Paper>
     </Box>
   );
-};
+}
 
 export default EnhancedTable;
