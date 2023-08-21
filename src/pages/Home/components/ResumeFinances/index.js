@@ -29,8 +29,8 @@ const ResumeFinances = ({ details, loading, setHistoricDetails }) => {
 
   return (
     <S.WrapperCard>
-      <Card type={TYPES.ENTRADA} value={details?.total_entrada} />
-      <Card type={TYPES.SAIDA} value={details?.total_saida} />
+      <Card type={TYPES.ENTRADA} value={details?.entrada_total} />
+      <Card type={TYPES.SAIDA} value={details?.saida_total} />
       <Card type={TYPES.TOTAL} value={details?.total} />
     </S.WrapperCard>
   );

@@ -95,7 +95,12 @@ const Home = () => {
 
   useEffect(() => {
     if (item) {
-      Object.keys(item).forEach((key) => setValue(key, item[key]));
+      const objItem = historic.find(({ id }) => id === item);
+      Object.keys(objItem).forEach((key) => {
+        if (key !== 'id') {
+          setValue(key, objItem[key]);
+        }
+      });
     }
   }, [item, setValue]);
 
@@ -103,6 +108,7 @@ const Home = () => {
     try {
       const dateToday = new Date();
       const dateFormatted = format(dateToday, 'dd-MM-yyyy');
+
       const objItem = {
         ...data,
         value_item: data.value_item.replace(/\D/g, ''),
@@ -110,7 +116,7 @@ const Home = () => {
       };
 
       if (item) {
-        await updateItem(item.id, objItem);
+        await updateItem(item, objItem);
 
         setItem(undefined);
       } else {

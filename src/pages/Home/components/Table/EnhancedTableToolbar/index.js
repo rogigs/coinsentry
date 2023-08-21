@@ -44,7 +44,7 @@ export const EnhancedTableToolbar = (props) => {
   };
 
   const changeItem = () => {
-    setItem(selected);
+    setItem(selected[0]);
   };
 
   return (
