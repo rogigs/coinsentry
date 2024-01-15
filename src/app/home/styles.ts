@@ -21,7 +21,7 @@ export const WrapperForm = styled.form`
 `}
 `;
 
-export const WrapperSectionForm = styled.div`
+export const WrapperSectionForm = styled.section`
   display: flex;
   justify-content: space-between;
 

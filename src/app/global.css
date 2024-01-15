@@ -18,4 +18,12 @@
   padding: 0;
   margin: 0;
   text-decoration: none;
+  vertical-align: baseline;
+  list-style: none;
+  border: 0;
+}
+
+#root {
+  max-width: 1024px;
+  margin: auto;
 }
