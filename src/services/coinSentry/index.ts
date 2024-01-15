@@ -1,4 +1,4 @@
-import HttpConfig from '../../httpConfig';
+import HttpConfig from '../httpConfig';
 
 export const historicFinances = async () => {
   try {
