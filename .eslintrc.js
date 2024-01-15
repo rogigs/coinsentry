@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ['airbnb', 'prettier'],
+  extends: ['airbnb', 'prettier', 'next/core-web-vitals'],
   parser: '@babel/eslint-parser',
   plugins: ['react', 'prettier', 'eslint-plugin-only-warn'],
   parserOptions: {
