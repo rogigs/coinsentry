@@ -1,38 +1,32 @@
 import { isAxiosError } from 'axios';
-import Card, { TYPES } from '../../../../components/Card';
+import Card, { CardTypes } from '../../../../components/Card';
 import * as S from './styles';
 
 import ErrorComponent from '../../../../components/Error';
 import { historicFinancesDetails } from '@/services/coinSentry';
 
-// TODO: type component
-const ResumeFinances = ({ details, loading, setHistoricDetails }) => {
+type ResumeFinances = {
+  details: any; // TODO: type component
+  fetchDetails: () => Promise<void>;
+};
+
+const ResumeFinances = ({ details, fetchDetails }: ResumeFinances) => {
   if (isAxiosError(details)) {
     return (
       <S.WrapperError>
         <ErrorComponent
           onClick={historicFinancesDetails}
-          setState={setHistoricDetails}
+          setState={fetchDetails}
         />
       </S.WrapperError>
     );
   }
 
-  if (loading) {
-    return (
-      <S.WrapperCard data-testid="loading-skeleton">
-        <S.Skeleton variant="rectangular" />
-        <S.Skeleton variant="rectangular" />
-        <S.Skeleton variant="rectangular" />
-      </S.WrapperCard>
-    );
-  }
-
   return (
     <S.WrapperCard>
-      <Card type={TYPES.ENTRADA} value={details?.entrada_total} />
-      <Card type={TYPES.SAIDA} value={details?.saida_total} />
-      <Card type={TYPES.TOTAL} value={details?.total} />
+      <Card type={CardTypes.entrada} value={details?.entrada_total} />
+      <Card type={CardTypes.saida} value={details?.saida_total} />
+      <Card type={CardTypes.total} value={details?.total} />
     </S.WrapperCard>
   );
 };

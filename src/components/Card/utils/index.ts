@@ -1,12 +1,12 @@
 import { red, green } from '@mui/material/colors';
 
-export const TYPES = {
-  TOTAL: 'total',
-  SAIDA: 'saída',
-  ENTRADA: 'entrada',
-};
+export enum CardTypes {
+  total = 'total',
+  saida = 'saída',
+  entrada = 'entrada',
+}
 
-export const TYPES_COLORS = (value) => {
+export const typeColors = (value: number) => {
   if (value > 0) {
     return {
       backgroundColor: `${green[700]}  !important`,

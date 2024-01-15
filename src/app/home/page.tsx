@@ -123,7 +123,7 @@ export default function Home() {
         />
       </S.WrapperSectionForm>
 
-      <ResumeFinances details={historicDetails} />
+      <ResumeFinances details={historicDetails} fetchDetails={fetchHistoric} />
     </S.Wrapper>
   );
 }
