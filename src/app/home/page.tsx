@@ -24,9 +24,11 @@ import ResumeFinances from './components/ResumeFinances';
 import { useFinances } from './hooks/useFinances';
 import { useEffect } from 'react';
 
+import { DialogProvider } from '@/context/dialogContext';
+import { DialogHome } from './DialogHome';
+
 export default function Home() {
   const { historic, historicDetails, fetchHistoric } = useFinances();
-
   const {
     register,
     handleSubmit,
@@ -55,75 +57,85 @@ export default function Home() {
   };
 
   return (
-    <S.Wrapper>
-      <S.WrapperSectionForm>
-        <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            label="Título"
-            error={!!errors.title}
-            helperText={errors.title?.message ?? ''}
-            {...register(DefaultValues.title)}
-          />
+    <>
+      <DialogProvider>
+        <DialogHome />
+      </DialogProvider>
+      <S.Wrapper>
+        <S.WrapperSectionForm>
+          <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              label="Título"
+              error={!!errors.title}
+              helperText={errors.title?.message ?? ''}
+              {...register(DefaultValues.title)}
+            />
 
-          <InputLabel>Categoria</InputLabel>
-          <Select
-            label="Categoria"
-            title="category"
-            defaultValue={defaultValues.category}
-            {...register(DefaultValues.category)}
-          >
-            <MenuItem value="None">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value="educacao">Educação</MenuItem>
-            <MenuItem value="lazer">Lazer</MenuItem>
-            <MenuItem value="saude">Saúde</MenuItem>
-            <MenuItem value="saude">Trabalho</MenuItem>
-          </Select>
-          {/* TODO: Have problems */}
-          <S.FormControlRadio>
-            <FormLabel id="demo-radio-buttons-group-label">Operação:</FormLabel>
-            <RadioGroup
-              aria-labelledby="demo-controlled-radio-buttons-group"
-              row
-              defaultValue={defaultValues.operation}
-              {...register(DefaultValues.operation)}
+            <InputLabel>Categoria</InputLabel>
+            <Select
+              label="Categoria"
+              title="category"
+              defaultValue={defaultValues.category}
+              {...register(DefaultValues.category)}
             >
-              <S.FormControlLabel
-                value="entrada"
-                control={<Radio />}
-                label="Entrada"
-              />
-              <S.FormControlLabel
-                value="saída"
-                control={<Radio />}
-                label="Saída"
-              />
-            </RadioGroup>
-          </S.FormControlRadio>
-          <TextField
-            label="Valor"
-            error={!!errors.value_item}
-            helperText={errors.value_item?.message ?? ''}
-            {...register(DefaultValues.valueItem)}
+              <MenuItem value="None">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value="educacao">Educação</MenuItem>
+              <MenuItem value="lazer">Lazer</MenuItem>
+              <MenuItem value="saude">Saúde</MenuItem>
+              <MenuItem value="saude">Trabalho</MenuItem>
+            </Select>
+            {/* TODO: Have problems */}
+            <S.FormControlRadio>
+              <FormLabel id="demo-radio-buttons-group-label">
+                Operação:
+              </FormLabel>
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                row
+                defaultValue={defaultValues.operation}
+                {...register(DefaultValues.operation)}
+              >
+                <S.FormControlLabel
+                  value="entrada"
+                  control={<Radio />}
+                  label="Entrada"
+                />
+                <S.FormControlLabel
+                  value="saída"
+                  control={<Radio />}
+                  label="Saída"
+                />
+              </RadioGroup>
+            </S.FormControlRadio>
+            <TextField
+              label="Valor"
+              error={!!errors.value_item}
+              helperText={errors.value_item?.message ?? ''}
+              {...register(DefaultValues.valueItem)}
+            />
+
+            <Button variant="outlined" onClick={() => reset()}>
+              Limpar
+            </Button>
+            <Button variant="contained" type="submit">
+              Cadastrar
+            </Button>
+          </S.WrapperForm>
+          <Player
+            src="https://lottie.host/9e26f999-7f63-4871-b6b8-91bb63f502e7/KdKBd17XAo.json"
+            className="player"
+            loop
+            autoplay
           />
+        </S.WrapperSectionForm>
 
-          <Button variant="outlined" onClick={() => reset()}>
-            Limpar
-          </Button>
-          <Button variant="contained" type="submit">
-            Cadastrar
-          </Button>
-        </S.WrapperForm>
-        <Player
-          src="https://lottie.host/9e26f999-7f63-4871-b6b8-91bb63f502e7/KdKBd17XAo.json"
-          className="player"
-          loop
-          autoplay
+        <ResumeFinances
+          details={historicDetails}
+          fetchDetails={fetchHistoric}
         />
-      </S.WrapperSectionForm>
-
-      <ResumeFinances details={historicDetails} fetchDetails={fetchHistoric} />
-    </S.Wrapper>
+      </S.Wrapper>
+    </>
   );
 }
