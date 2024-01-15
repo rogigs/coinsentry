@@ -1,0 +1,21 @@
+:root {
+  /* Colors */
+  --primary-color: #ffb612 --secondary-color: #333333 --light-grey: #808080
+    --light-text: #e5e5e5 --light-text-transparent: rgba(229, 229, 229, 0.5)
+    --medium-text: #939393 --error-color: #dc0a17 --sucess-color: #2fc022
+    --light-color: #fff --dark-color: #000 /* Spaces */ --spacing-4: 4px
+    --spacing-8: 8px --spacing-12: 12px --spacing-16: 16px --spacing-20: 20px
+    --spacing-24: 24px --spacing-28: 28px --spacing-32: 32px --spacing-36: 36px
+    --spacing-40: 40px --spacing-44: 44px --spacing-48: 48px --spacing-52: 52px
+    --spacing-56: 56px --spacing-60: 60px --spacing-64: 64px /* Fontes */
+    --font-size-small: 0.875em /* 14px */ --font-size-normal: 1em /* 16px */
+    --font-size-medium: 1.25em /* 20px */ --font-size-large: 1.5em /* 24px */
+    --font-size-extra-large: 2em /* 32px */;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+}
