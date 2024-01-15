@@ -17,7 +17,6 @@ export const WrapperForm = styled.form`
   ${media.greaterThan('mobileMax')`
     width: 420px;
     height: 500px
-
 `};
 `;
 
