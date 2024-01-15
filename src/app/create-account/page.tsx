@@ -5,17 +5,15 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import * as S from './styles';
 
-export default function Home() {
+export default function CreateAccount() {
   const router = useRouter();
   useEffect(() => {
     // push('/home');
   }, []);
 
   return (
-    <main>
-      <S.WrapperSectionForm>
-        <FormUser createAccount push={router.push} />
-      </S.WrapperSectionForm>
-    </main>
+    <S.WrapperSectionForm>
+      <FormUser push={router.push} />
+    </S.WrapperSectionForm>
   );
 }

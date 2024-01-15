@@ -14,6 +14,13 @@ export const defaultValues = {
   [DefaultValues.valueItem]: '',
 };
 
+export type FormInputs = {
+  title: string;
+  operation?: string;
+  category?: string;
+  value_item: string;
+};
+
 export const validationSchema = yup
   .object({
     [DefaultValues.title]: yup.string().required('Preencha o campo Título'),
