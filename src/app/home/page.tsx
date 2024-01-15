@@ -5,7 +5,11 @@ import { useForm } from 'react-hook-form';
 import { Player } from '@lottiefiles/react-lottie-player';
 import * as S from './styles';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { validationSchema, defaultValues } from './validationSchema';
+import {
+  validationSchema,
+  defaultValues,
+  DefaultValues,
+} from './validationSchema';
 import {
   FormLabel,
   InputLabel,
@@ -18,12 +22,7 @@ import {
 } from '@mui/material';
 
 export default function Home() {
-  const {
-    handleSubmit,
-    reset,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm({
+  const { handleSubmit, reset, register, formState } = useForm({
     mode: 'onSubmit',
     defaultValues,
     resolver: yupResolver(validationSchema),
@@ -31,20 +30,26 @@ export default function Home() {
 
   const onSubmit = async (data) => {
     try {
+      console.log('🚀 ~ onSubmit ~ data:', data);
       reset();
     } catch (error) {
       console.log('🚀 ~ onSubmit ~ error:', error);
     }
   };
 
+  console.log('🚀 ~ Home ~ DefaultValues.title:', DefaultValues.title);
   return (
     <S.Wrapper>
       <S.WrapperSectionForm>
         <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
-          <TextField label="Título" />
+          <TextField label="Título" {...register(DefaultValues.title)} />
 
           <InputLabel>Categoria</InputLabel>
-          <Select label="Categoria" title="category">
+          <Select
+            label="Categoria"
+            title="category"
+            {...register(DefaultValues.category)}
+          >
             <MenuItem value="None">
               <em>None</em>
             </MenuItem>
@@ -58,8 +63,8 @@ export default function Home() {
             <FormLabel id="demo-radio-buttons-group-label">Operação:</FormLabel>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
-              name="controlled-radio-buttons-group"
               row
+              {...register(DefaultValues.operation)}
             >
               <S.FormControlLabel
                 value="entrada"
@@ -73,7 +78,7 @@ export default function Home() {
               />
             </RadioGroup>
           </S.FormControlRadio>
-          <TextField label="Valor" />
+          <TextField label="Valor" {...register(DefaultValues.valueItem)} />
 
           <Button variant="outlined" onClick={() => reset()}>
             Limpar

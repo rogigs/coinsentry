@@ -1,15 +1,22 @@
 import * as yup from 'yup';
 
+export enum DefaultValues {
+  title = 'title',
+  operation = 'operation',
+  category = 'category',
+  valueItem = 'value_item',
+}
+
 export const defaultValues = {
-  title: '',
-  operation: 'entrada',
-  category: 'None',
-  value_item: '',
+  [DefaultValues.title]: '',
+  [DefaultValues.operation]: 'entrada',
+  [DefaultValues.category]: 'None',
+  [DefaultValues.valueItem]: '',
 };
 
 export const validationSchema = yup
   .object({
-    title: yup.string().required('Preencha o campo Título'),
-    value_item: yup.string().required('Preencha o campo Valor'),
+    [DefaultValues.title]: yup.string().required('Preencha o campo Título'),
+    [DefaultValues.valueItem]: yup.string().required('Preencha o campo Valor'),
   })
   .required();
