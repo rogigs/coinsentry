@@ -5,6 +5,7 @@ import * as S from './styles';
 import ErrorComponent from '../../../../components/Error';
 import { historicFinancesDetails } from '@/services/coinSentry';
 
+// TODO: type component
 const ResumeFinances = ({ details, loading, setHistoricDetails }) => {
   if (isAxiosError(details)) {
     return (

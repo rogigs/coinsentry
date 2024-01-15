@@ -94,7 +94,9 @@ export default function Home() {
           <Button variant="outlined" onClick={() => reset()}>
             Limpar
           </Button>
-          <Button type="submit">Cadastrar</Button>
+          <Button variant="contained" type="submit">
+            Cadastrar
+          </Button>
         </S.WrapperForm>
         <Player
           src="https://lottie.host/9e26f999-7f63-4871-b6b8-91bb63f502e7/KdKBd17XAo.json"

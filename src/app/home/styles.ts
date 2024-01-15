@@ -18,7 +18,7 @@ export const WrapperForm = styled.form`
     width: 420px;
     height: 500px
 
-`}
+`};
 `;
 
 export const WrapperSectionForm = styled.section`
