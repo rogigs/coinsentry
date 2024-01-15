@@ -1,7 +1,6 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-
 import { Player } from '@lottiefiles/react-lottie-player';
 import * as S from './styles';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -21,17 +20,28 @@ import {
   TextField,
 } from '@mui/material';
 import ResumeFinances from './components/ResumeFinances';
+import { useFinances } from './hooks/useFinances';
+import { useEffect } from 'react';
 
 export default function Home() {
+  const { historic, historicDetails, fetchHistoric } = useFinances();
+
   const { handleSubmit, reset, register, formState } = useForm({
     mode: 'onSubmit',
     defaultValues,
     resolver: yupResolver(validationSchema),
   });
 
+  useEffect(() => {
+    fetchHistoric();
+  }, []);
+
   const onSubmit = async (data) => {
     try {
       console.log('🚀 ~ onSubmit ~ data:', data);
+
+      fetchHistoric();
+
       reset();
     } catch (error) {
       console.log('🚀 ~ onSubmit ~ error:', error);
@@ -94,7 +104,7 @@ export default function Home() {
         />
       </S.WrapperSectionForm>
 
-      <ResumeFinances />
+      <ResumeFinances details={historicDetails} />
     </S.Wrapper>
   );
 }

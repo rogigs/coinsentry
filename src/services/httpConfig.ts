@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiUrl = 'https://api-coin-sentry-git-main-rogigs.vercel.app/api';
+const apiUrl = 'http://localhost:4000/api';
 
 const Api = axios.create({
   baseURL: `${apiUrl}`,
