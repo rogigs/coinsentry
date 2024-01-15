@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { Player } from '@lottiefiles/react-lottie-player';
 import * as S from './styles';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,6 +8,7 @@ import {
   validationSchema,
   defaultValues,
   DefaultValues,
+  FormInputs,
 } from './validationSchema';
 import {
   FormLabel,
@@ -26,17 +27,22 @@ import { useEffect } from 'react';
 export default function Home() {
   const { historic, historicDetails, fetchHistoric } = useFinances();
 
-  const { handleSubmit, reset, register, formState } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FormInputs>({
     mode: 'onSubmit',
-    defaultValues,
     resolver: yupResolver(validationSchema),
+    defaultValues,
   });
 
   useEffect(() => {
     fetchHistoric();
   }, []);
 
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
       console.log('🚀 ~ onSubmit ~ data:', data);
 
@@ -48,17 +54,22 @@ export default function Home() {
     }
   };
 
-  console.log('🚀 ~ Home ~ DefaultValues.title:', DefaultValues.title);
   return (
     <S.Wrapper>
       <S.WrapperSectionForm>
         <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
-          <TextField label="Título" {...register(DefaultValues.title)} />
+          <TextField
+            label="Título"
+            error={!!errors.title}
+            helperText={errors.title?.message ?? ''}
+            {...register(DefaultValues.title)}
+          />
 
           <InputLabel>Categoria</InputLabel>
           <Select
             label="Categoria"
             title="category"
+            defaultValue={defaultValues.category}
             {...register(DefaultValues.category)}
           >
             <MenuItem value="None">
@@ -75,6 +86,7 @@ export default function Home() {
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               row
+              defaultValue={defaultValues.operation}
               {...register(DefaultValues.operation)}
             >
               <S.FormControlLabel
@@ -89,7 +101,12 @@ export default function Home() {
               />
             </RadioGroup>
           </S.FormControlRadio>
-          <TextField label="Valor" {...register(DefaultValues.valueItem)} />
+          <TextField
+            label="Valor"
+            error={!!errors.value_item}
+            helperText={errors.value_item?.message ?? ''}
+            {...register(DefaultValues.valueItem)}
+          />
 
           <Button variant="outlined" onClick={() => reset()}>
             Limpar
