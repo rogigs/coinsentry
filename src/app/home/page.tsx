@@ -20,6 +20,7 @@ import {
   Button,
   TextField,
 } from '@mui/material';
+import ResumeFinances from './components/ResumeFinances';
 
 export default function Home() {
   const { handleSubmit, reset, register, formState } = useForm({
@@ -92,6 +93,8 @@ export default function Home() {
           autoplay
         />
       </S.WrapperSectionForm>
+
+      <ResumeFinances />
     </S.Wrapper>
   );
 }
