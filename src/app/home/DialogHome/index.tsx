@@ -1,8 +1,9 @@
 import { useDialog } from '@/hooks/useDialog';
 import Dialog, { Icons } from '@/components/Dialog';
 
-export const DialogHome = () => {
+const DialogHome = () => {
   const { setShowDialog } = useDialog();
+
   return (
     <Dialog.Dialog>
       <Dialog.DialogTitle icon={Icons.success} title="Sucessso" />
@@ -16,3 +17,5 @@ export const DialogHome = () => {
     </Dialog.Dialog>
   );
 };
+
+export default DialogHome;

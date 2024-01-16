@@ -25,7 +25,9 @@ import { useFinances } from './hooks/useFinances';
 import { useEffect } from 'react';
 
 import { DialogProvider } from '@/context/dialogContext';
-import { DialogHome } from './DialogHome';
+import dynamic from 'next/dynamic';
+
+const DialogHome = dynamic(() => import('./DialogHome'));
 
 export default function Home() {
   const { historic, historicDetails, fetchHistoric } = useFinances();
