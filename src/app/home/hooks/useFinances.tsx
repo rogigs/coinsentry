@@ -1,7 +1,7 @@
 import {
   historicFinancesDetails,
   historicFinances,
-} from '@/services/coinSentry';
+} from '@/services/coinSentry/finances';
 import { useState } from 'react';
 
 export const useFinances = () => {

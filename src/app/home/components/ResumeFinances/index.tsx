@@ -3,7 +3,7 @@ import Card, { CardTypes } from '../../../../components/Card';
 import * as S from './styles';
 
 import ErrorComponent from '../../../../components/Error';
-import { historicFinancesDetails } from '@/services/coinSentry';
+import { historicFinancesDetails } from '@/services/coinSentry/finances';
 
 type ResumeFinances = {
   details: any; // TODO: type component

@@ -12,7 +12,7 @@ type DialogType = {
 export const DialogContext = createContext<DialogType | null>(null);
 
 export const DialogProvider = ({ children }: DialogProvider) => {
-  const [showDialog, setShowDialog] = useState(true);
+  const [showDialog, setShowDialog] = useState(false);
 
   return (
     <DialogContext.Provider value={{ showDialog, setShowDialog }}>
