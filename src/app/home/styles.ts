@@ -3,10 +3,6 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabelMUI from '@mui/material/FormControlLabel';
 import media from '../../styledMedia';
 
-export const Wrapper = styled.section`
-  padding: var(--spacing-24);
-`;
-
 export const WrapperForm = styled.form`
   display: flex;
   flex-direction: column;
