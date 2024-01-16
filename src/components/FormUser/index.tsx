@@ -12,13 +12,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 type FormUser = {
   createAccount?: boolean;
   push: (pathName: string) => void;
+  send: (user: FormInputs) => Promise<any>;
 };
 
-export const FormUser = ({ createAccount, push }: FormUser) => {
+export const FormUser = ({ createAccount, push, send }: FormUser) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<FormInputs>({
     mode: 'onSubmit',
@@ -28,8 +29,9 @@ export const FormUser = ({ createAccount, push }: FormUser) => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
-      reset();
+      await send(data);
 
+      reset();
       push('/home');
     } catch (error) {
       console.log('🚀 ~ onSubmit ~ error:', error);
@@ -59,8 +61,9 @@ export const FormUser = ({ createAccount, push }: FormUser) => {
         </Button>
       )}
 
-      <Button variant="contained" type="submit">
-        Cadastrar
+      {/* TODO: fix type loading */}
+      <Button variant="contained" type="submit" loading={isSubmitting}>
+        {createAccount ? 'Logar' : 'Cadastrar'}
       </Button>
     </S.WrapperForm>
   );
