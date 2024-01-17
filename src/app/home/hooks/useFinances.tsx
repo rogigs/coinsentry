@@ -1,30 +1,12 @@
-import {
-  historicFinancesDetails,
-  historicFinances,
-} from '@/services/coinSentry/finances';
-import { useState } from 'react';
+import { useContext } from 'react';
+import { FinancesContext } from '../context/financesContext';
 
 export const useFinances = () => {
-  // TODO: add useReducer
-  const [historic, setHistoric] = useState([]);
-  const [historicDetails, setHistoricDetails] = useState([]);
+  const context = useContext(FinancesContext);
 
-  const fetchHistoric = async () => {
-    const [historicResponse, historicDetailsResponse] = await Promise.all([
-      historicFinances,
-      historicFinancesDetails,
-    ]);
+  if (!context) {
+    throw new Error('useFinances must be used within an FinancesProvider');
+  }
 
-    const historicData = await historicResponse();
-    const historicDetailsData = await historicDetailsResponse();
-
-    setHistoric(historicData);
-    setHistoricDetails(historicDetailsData);
-  };
-
-  return {
-    historic,
-    historicDetails,
-    fetchHistoric,
-  };
+  return context;
 };

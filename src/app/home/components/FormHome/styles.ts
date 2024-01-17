@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabelMUI from '@mui/material/FormControlLabel';
-import media from '../../styledMedia';
+import media from '../../../../styledMedia';
 
 export const WrapperForm = styled.form`
   display: flex;
@@ -13,7 +13,7 @@ export const WrapperForm = styled.form`
   ${media.greaterThan('mobileMax')`
     width: 420px;
     height: 500px
-`};
+  `};
 `;
 
 export const WrapperSectionForm = styled.section`
@@ -26,10 +26,10 @@ export const WrapperSectionForm = styled.section`
   }
 
   ${media.lessThan('mobileMax')`
-  .player {
-   display: none;
-  }
-`}
+      .player {
+      display: none;
+      }
+  `}
 `;
 
 export const FormControlRadio = styled(FormControl)`
