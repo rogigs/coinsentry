@@ -1,5 +1,6 @@
 import HttpConfig from '../../httpConfig';
 import { mockGetFinances, mockGetFinancesDetails } from './mocks';
+import { Pagination } from '@/types';
 
 export type FinanceDetails = typeof mockGetFinancesDetails.data;
 export type Finance = Omit<(typeof mockGetFinances.data)[0], 'id'>;
@@ -12,11 +13,13 @@ type FinanceObj = {
   finance: Finance;
 };
 
-export const getFinances = async () => {
+export const getFinances = async ({ page, pageSize }: Pagination) => {
   try {
-    const { data } = await HttpConfig.withToken.get('finances');
+    const { data } = await HttpConfig.withToken.get(
+      `finances?page=${page}&pageSize=${pageSize}`,
+    );
 
-    return data.data;
+    return { data: data.data, dataLenghtInDatabase: data.length };
   } catch (error) {
     return error;
   }

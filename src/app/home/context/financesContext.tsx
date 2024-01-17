@@ -1,4 +1,5 @@
 import {
+  Pagination,
   getFinances,
   getFinancesDetails,
 } from '@/services/coinSentry/finances';
@@ -17,7 +18,7 @@ type FinancesProvider = {
 type FinancesContext = {
   state: INITIAL_STATE_TYPE;
   dispatch: React.Dispatch<React.SetStateAction<any>>;
-  fetchFinances: () => Promise<void>; // TODO: review this type
+  fetchFinances: (pagination: Pagination) => () => Promise<void>; // TODO: review this type
   fetchFinancesDetails: () => Promise<void>; // TODO: review this type
 };
 
@@ -26,18 +27,21 @@ export const FinancesContext = createContext<FinancesContext | null>(null);
 export const FinancesProvider = ({ children }: FinancesProvider) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
-  const fetchFinances = useCallback(async () => {
-    try {
-      const financeData = await getFinances();
+  const fetchFinances = useCallback(
+    (pagination: Pagination) => async () => {
+      try {
+        const financeData = await getFinances(pagination);
 
-      dispatch({
-        type: ACTIONS_TYPE.ADD_DATA,
-        payload: financeData,
-      });
-    } catch (error) {
-      console.error('Erro ao buscar finanças:', error);
-    }
-  }, []);
+        dispatch({
+          type: ACTIONS_TYPE.ADD_DATA,
+          payload: financeData,
+        });
+      } catch (error) {
+        console.error('Erro ao buscar finanças:', error);
+      }
+    },
+    [],
+  );
 
   const fetchFinancesDetails = useCallback(async () => {
     try {

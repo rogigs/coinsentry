@@ -1,27 +1,27 @@
 export const columnsPagination = [
   {
-    field: 'title',
-    headerName: 'Título',
-    flex: 1,
+    id: 'title',
+    numeric: false,
+    label: 'Título',
   },
   {
-    field: 'operation',
-    headerName: 'Operação',
-    flex: 1,
+    id: 'operation',
+    numeric: false,
+    label: 'Operação',
   },
   {
-    field: 'category',
-    headerName: 'Categoria',
-    flex: 1,
+    id: 'category',
+    numeric: false,
+    label: 'Categoria',
   },
   {
-    field: 'value_item',
-    headerName: 'Valor',
-    flex: 1,
+    id: 'value_item',
+    numeric: false,
+    label: 'Valor',
   },
   {
-    field: 'date_input',
-    headerName: 'Data',
-    flex: 1,
+    id: 'date_input',
+    numeric: false,
+    label: 'Data',
   },
 ];

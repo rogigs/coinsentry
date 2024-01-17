@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFinances } from '../../hooks/useFinances';
 import { columnsPagination } from '../../utils';
-import { Pagination } from '@/components/Table';
+import TablePagination from '@/components/Table/TablePagination';
 
 const TableHome = () => {
   const { state, fetchFinances } = useFinances();
 
   useEffect(() => {
-    fetchFinances();
+    fetchFinances({ page: 0, pageSize: 10 })();
   }, []);
 
   return (
@@ -16,7 +16,13 @@ const TableHome = () => {
         marginBottom: 'var(--spacing-24)',
       }}
     >
-      <Pagination rows={state.data} columns={columnsPagination} />;
+      <TablePagination
+        rows={state.data}
+        columns={columnsPagination}
+        dense="medium"
+        fetchNewPage={fetchFinances}
+        count={state.dataLenghtInDatabase}
+      />
     </div>
   );
 };
