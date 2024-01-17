@@ -1,14 +1,15 @@
+import { Finance, FinanceDetails } from '@/services/coinSentry/finances';
+
 import { ACTIONS_TYPE, Action } from './actions';
 
 export type INITIAL_STATE_TYPE = {
-  data: any[];
-  details: any[];
+  data: Finance | [];
+  details: FinanceDetails | undefined;
 };
 
-// TODO: add typeof of mock da request
 export const INITIAL_STATE: INITIAL_STATE_TYPE = {
   data: [],
-  details: [],
+  details: undefined,
 };
 
 export const reducer = (state: INITIAL_STATE_TYPE, action: Action) => {

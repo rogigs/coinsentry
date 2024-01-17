@@ -1,6 +1,6 @@
 import {
-  historicFinancesDetails,
-  historicFinances,
+  getFinances,
+  getFinancesDetails,
 } from '@/services/coinSentry/finances';
 import React, { createContext, useReducer, useCallback } from 'react';
 import { ACTIONS_TYPE } from './reducerFinances/actions';
@@ -28,7 +28,7 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
 
   const fetchFinances = useCallback(async () => {
     try {
-      const financeData = await historicFinances();
+      const financeData = await getFinances();
 
       dispatch({
         type: ACTIONS_TYPE.ADD_DATA,
@@ -41,7 +41,7 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
 
   const fetchFinancesDetails = useCallback(async () => {
     try {
-      const financeDetailsData = await historicFinancesDetails();
+      const financeDetailsData = await getFinancesDetails();
 
       dispatch({
         type: ACTIONS_TYPE.ADD_DETAILS,

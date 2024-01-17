@@ -8,6 +8,7 @@ import {
   Radio,
   Button,
   TextField,
+  FormControl,
 } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -21,7 +22,7 @@ import { useFinances } from '../../hooks/useFinances';
 import * as S from './styles';
 import { format } from 'date-fns';
 import { useDialog } from '@/hooks/useDialog';
-import { insertItem } from '@/services/coinSentry/finances';
+import { Finance, insertFinance } from '@/services/coinSentry/finances';
 import Image from 'next/image';
 import Logo from '../../../../assets/images/logo.png';
 
@@ -46,13 +47,14 @@ const FormHome = () => {
       const dateToday = new Date();
       const dateFormatted = format(dateToday, 'dd-MM-yyyy');
 
-      const objItem = {
+      const finance = {
         ...data,
-        value_item: data.value_item.replace(/\D/g, ''),
-        date_input: dateFormatted,
-      };
+        value_item: Number(data.value_item.replace(/\D/g, '')),
+        date_input: dateFormatted, // TODO: remove this when implemented in backend
+      } as Finance;
 
-      await insertItem(objItem);
+      // TODO: put this in the context
+      await insertFinance({ finance });
 
       setShowDialog(true);
 
@@ -74,24 +76,33 @@ const FormHome = () => {
           {...register(DefaultValues.title)}
         />
 
-        <InputLabel>Categoria</InputLabel>
-        <Select
-          label="Categoria"
-          title="category"
-          defaultValue={defaultValues.category}
-          {...register(DefaultValues.category)}
-          sx={{
-            width: '100%',
-          }}
-        >
-          <MenuItem value="None">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value="educacao">Educação</MenuItem>
-          <MenuItem value="lazer">Lazer</MenuItem>
-          <MenuItem value="saude">Saúde</MenuItem>
-          <MenuItem value="saude">Trabalho</MenuItem>
-        </Select>
+        <FormControl fullWidth>
+          <InputLabel id="teste">Categoria</InputLabel>
+          <Select
+            labelId="teste"
+            label="Categoria"
+            title="category"
+            {...register(DefaultValues.category)}
+            sx={{
+              maxWidth: '100x',
+            }}
+          >
+            <MenuItem value="None">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="educacao">Educação</MenuItem>
+            <MenuItem value="lazer">Lazer</MenuItem>
+            <MenuItem value="saude">Saúde</MenuItem>
+            <MenuItem value="saude">Trabalho</MenuItem>
+          </Select>
+        </FormControl>
+
+        <TextField
+          label="Valor"
+          error={!!errors.value_item}
+          helperText={errors.value_item?.message ?? ''}
+          {...register(DefaultValues.valueItem)}
+        />
         <S.FormControlRadio>
           <FormLabel id="demo-radio-buttons-group-label">Operação:</FormLabel>
           <RadioGroup
@@ -112,13 +123,6 @@ const FormHome = () => {
             />
           </RadioGroup>
         </S.FormControlRadio>
-        <TextField
-          label="Valor"
-          error={!!errors.value_item}
-          helperText={errors.value_item?.message ?? ''}
-          {...register(DefaultValues.valueItem)}
-        />
-
         <Button variant="outlined" onClick={() => reset()}>
           Limpar
         </Button>

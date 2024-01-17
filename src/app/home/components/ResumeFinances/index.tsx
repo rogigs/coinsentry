@@ -3,7 +3,6 @@ import Card, { CardTypes } from '../../../../components/Card';
 import * as S from './styles';
 
 import ErrorComponent from '../../../../components/Error';
-import { historicFinancesDetails } from '@/services/coinSentry/finances';
 import { useFinances } from '../../hooks/useFinances';
 import { useEffect } from 'react';
 
@@ -22,8 +21,9 @@ const ResumeFinances = () => {
   if (isAxiosError(state.details)) {
     return (
       <S.WrapperError>
+        {/* TODO: review this component */}
         <ErrorComponent
-          onClick={historicFinancesDetails}
+          onClick={fetchFinancesDetails}
           setState={fetchFinancesDetails}
         />
       </S.WrapperError>

@@ -1,34 +1,40 @@
-// TODO: refactor this names
-
 import HttpConfig from '../../httpConfig';
+import { mockGetFinances, mockGetFinancesDetails } from './mocks';
 
-export const historicFinances = async () => {
+export type FinanceDetails = typeof mockGetFinancesDetails.data;
+export type Finance = Omit<(typeof mockGetFinances.data)[0], 'id'>;
+
+type Model = {
+  id: string;
+};
+
+type FinanceObj = {
+  finance: Finance;
+};
+
+export const getFinances = async () => {
   try {
-    const {
-      data: { historic },
-    } = await HttpConfig.withToken.get('historic');
+    const { data } = await HttpConfig.withToken.get('finances');
 
-    return historic;
+    return data.data;
   } catch (error) {
     return error;
   }
 };
 
-export const historicFinancesDetails = async () => {
+export const getFinancesDetails = async () => {
   try {
-    const {
-      data: { details },
-    } = await HttpConfig.withToken.get('historic/details');
+    const { data } = await HttpConfig.withToken.get('finances/details');
 
-    return details;
+    return data.data;
   } catch (error) {
     return error;
   }
 };
 
-export const insertItem = async (item) => {
+export const insertFinance = async ({ finance }: FinanceObj) => {
   try {
-    const { data } = await HttpConfig.withToken.post('historic', item);
+    const { data } = await HttpConfig.withToken.post('finances', finance);
 
     return data;
   } catch (error) {
@@ -36,9 +42,9 @@ export const insertItem = async (item) => {
   }
 };
 
-export const deleteItem = async (idItem) => {
+export const deleteFinance = async ({ id }: Model) => {
   try {
-    const { data } = await HttpConfig.withToken.delete(`historic/${idItem}`);
+    const { data } = await HttpConfig.withToken.delete(`finances/${id}`);
 
     return data;
   } catch (error) {
@@ -46,12 +52,9 @@ export const deleteItem = async (idItem) => {
   }
 };
 
-export const updateItem = async (idItem, objItem) => {
+export const updateFinance = async ({ id, finance }: Model & FinanceObj) => {
   try {
-    const { data } = await HttpConfig.withToken.put(
-      `historic/${idItem}`,
-      objItem,
-    );
+    const { data } = await HttpConfig.withToken.put(`finances/${id}`, finance);
 
     return data;
   } catch (error) {
@@ -59,9 +62,9 @@ export const updateItem = async (idItem, objItem) => {
   }
 };
 
-export const selectOneItem = async (idItem) => {
+export const getFinanceById = async ({ id }: Model) => {
   try {
-    const { data } = await HttpConfig.withToken.get(`historic/${idItem}`);
+    const { data } = await HttpConfig.withToken.get(`finances/${id}`);
 
     console.log('🚀 ~ file: index.js:61 ~ selectOneItem ~ data:', data);
     return data;
