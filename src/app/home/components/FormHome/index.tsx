@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Player } from '@lottiefiles/react-lottie-player';
 import {
   validationSchema,
   defaultValues,
@@ -23,6 +22,8 @@ import * as S from './styles';
 import { format } from 'date-fns';
 import { useDialog } from '@/hooks/useDialog';
 import { insertItem } from '@/services/coinSentry/finances';
+import Image from 'next/image';
+import Logo from '../../../../assets/images/logo.png';
 
 const FormHome = () => {
   const { fetchFinances, fetchFinancesDetails } = useFinances();
@@ -39,8 +40,6 @@ const FormHome = () => {
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
-
-  console.log('Re-render hire');
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
@@ -81,6 +80,9 @@ const FormHome = () => {
           title="category"
           defaultValue={defaultValues.category}
           {...register(DefaultValues.category)}
+          sx={{
+            width: '100%',
+          }}
         >
           <MenuItem value="None">
             <em>None</em>
@@ -90,7 +92,6 @@ const FormHome = () => {
           <MenuItem value="saude">Saúde</MenuItem>
           <MenuItem value="saude">Trabalho</MenuItem>
         </Select>
-        {/* TODO: Have problems */}
         <S.FormControlRadio>
           <FormLabel id="demo-radio-buttons-group-label">Operação:</FormLabel>
           <RadioGroup
@@ -125,12 +126,9 @@ const FormHome = () => {
           Cadastrar
         </Button>
       </S.WrapperForm>
-      <Player
-        src="https://lottie.host/9e26f999-7f63-4871-b6b8-91bb63f502e7/KdKBd17XAo.json"
-        className="player"
-        loop
-        autoplay
-      />
+      <S.WrapperLogo>
+        <Image src={Logo} alt="logo" className="logo" />
+      </S.WrapperLogo>
     </S.WrapperSectionForm>
   );
 };

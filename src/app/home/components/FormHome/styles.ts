@@ -16,20 +16,26 @@ export const WrapperForm = styled.form`
   `};
 `;
 
+export const WrapperLogo = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .logo {
+    width: 100%;
+    height: 200px;
+  }
+`;
+
 export const WrapperSectionForm = styled.section`
   display: flex;
   justify-content: space-between;
-
-  .player {
-    max-height: 500px;
-    max-width: 500px;
-  }
+  flex-wrap: wrap;
 
   ${media.lessThan('mobileMax')`
-      .player {
-      display: none;
-      }
-  `}
+    flex-direction: column-reverse;
+    align-items: center;
+  `};
 `;
 
 export const FormControlRadio = styled(FormControl)`

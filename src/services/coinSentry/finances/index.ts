@@ -1,3 +1,5 @@
+// TODO: refactor this names
+
 import HttpConfig from '../../httpConfig';
 
 export const historicFinances = async () => {

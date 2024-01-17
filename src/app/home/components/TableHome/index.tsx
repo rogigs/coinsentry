@@ -7,12 +7,18 @@ const TableHome = () => {
   const { state, fetchFinances } = useFinances();
 
   useEffect(() => {
-    console.log('CALL');
-
     fetchFinances();
   }, []);
 
-  return <Pagination rows={state.data} columns={columnsPagination} />;
+  return (
+    <div
+      style={{
+        marginBottom: 'var(--spacing-24)',
+      }}
+    >
+      <Pagination rows={state.data} columns={columnsPagination} />;
+    </div>
+  );
 };
 
 export default TableHome;

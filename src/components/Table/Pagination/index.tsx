@@ -14,6 +14,10 @@ const Pagination = ({
 }: Pagination) => {
   return (
     <DataGrid
+      sx={{
+        textTransform: 'capitalize',
+        borderRadius: '1em',
+      }}
       rows={rows}
       columns={columns}
       initialState={{
