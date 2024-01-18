@@ -5,16 +5,6 @@ import { Pagination } from '@/types';
 export type FinanceDetails = typeof mockGetFinancesDetails.data;
 export type Finance = (typeof mockGetFinances.data)[0];
 
-// Omit<(typeof mockGetFinances.data)[0], 'id'>;
-
-type Model = {
-  id: string;
-};
-
-type FinanceObj = {
-  finance: Finance;
-};
-
 export const getFinances = async ({ page, pageSize }: Pagination) => {
   try {
     const { data } = await HttpConfig.withToken.get(
@@ -37,7 +27,7 @@ export const getFinancesDetails = async () => {
   }
 };
 
-export const insertFinance = async ({ finance }: FinanceObj) => {
+export const insertFinance = async (finance: Omit<Finance, 'id'>) => {
   try {
     const { data } = await HttpConfig.withToken.post('finances', finance);
 
@@ -47,7 +37,7 @@ export const insertFinance = async ({ finance }: FinanceObj) => {
   }
 };
 
-export const deleteFinance = async ({ id }: Model) => {
+export const deleteFinance = async (id: Pick<Finance, 'id'>) => {
   try {
     const { data } = await HttpConfig.withToken.delete(`finances/${id}`);
 
@@ -57,7 +47,10 @@ export const deleteFinance = async ({ id }: Model) => {
   }
 };
 
-export const updateFinance = async ({ id, finance }: Model & FinanceObj) => {
+export const updateFinance = async (
+  id: Pick<Finance, 'id'>,
+  finance: Omit<Finance, 'id'>,
+) => {
   try {
     const { data } = await HttpConfig.withToken.put(`finances/${id}`, finance);
 
@@ -67,7 +60,7 @@ export const updateFinance = async ({ id, finance }: Model & FinanceObj) => {
   }
 };
 
-export const getFinanceById = async ({ id }: Model) => {
+export const getFinanceById = async (id: Pick<Finance, 'id'>) => {
   try {
     const { data } = await HttpConfig.withToken.get(`finances/${id}`);
 

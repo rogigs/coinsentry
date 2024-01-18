@@ -1,15 +1,18 @@
 import {
+  Finance,
   getFinances,
   getFinancesDetails,
   updateFinance as putFinance,
+  insertFinance as postFinance,
 } from '@/services/coinSentry/finances';
 import React, { createContext, useReducer, useCallback } from 'react';
-import { ACTIONS_TYPE } from './reducerFinances/actions';
+import { ACTIONS_TYPE, Action } from './reducerFinances/actions';
 import {
   INITIAL_STATE,
   INITIAL_STATE_TYPE,
   reducer,
 } from './reducerFinances/reducer';
+import { Pagination } from '@/types';
 
 type FinancesProvider = {
   children?: React.ReactNode;
@@ -17,16 +20,22 @@ type FinancesProvider = {
 
 type FinancesContext = {
   state: INITIAL_STATE_TYPE;
-  dispatch: React.Dispatch<React.SetStateAction<any>>;
-  fetchFinances: (pagination: Pagination) => () => Promise<void>; // TODO: review this type
-  fetchFinancesDetails: () => Promise<void>; // TODO: review this type
+  dispatch: React.Dispatch<React.SetStateAction<Action>>;
+  fetchFinances: (pagination: Pagination) => () => Promise<void>;
+  fetchFinancesDetails: () => Promise<void>;
+  updateFinance: (
+    id: Pick<Finance, 'id'>,
+    finance: Omit<Finance, 'id'>,
+  ) => Promise<void>;
+  insertFinance: (finance: Omit<Finance, 'id'>) => Promise<void>;
 };
 
-// TODO: resolve problems of types
 export const FinancesContext = createContext<FinancesContext | null>(null);
 
 export const FinancesProvider = ({ children }: FinancesProvider) => {
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  // TODO: resolve problems of types
+  const [state, dispatch]: [INITIAL_STATE_TYPE, React.Dispatch<Action>] =
+    useReducer(reducer, INITIAL_STATE);
 
   const fetchFinances = useCallback(
     (pagination: Pagination) => async () => {
@@ -57,14 +66,32 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
     }
   }, []);
 
-  const updateFinance = useCallback(async ({ id, finance }) => {
-    try {
-      await putFinance({ id, finance });
+  const updateFinance = useCallback(
+    async (id: Pick<Finance, 'id'>, finance: Omit<Finance, 'id'>) => {
+      try {
+        await putFinance(id, finance);
 
-      dispatch({
-        type: ACTIONS_TYPE.ADD_FINANCE_TO_UPDATE,
-        payload: undefined,
-      });
+        dispatch({
+          type: ACTIONS_TYPE.ADD_FINANCE_TO_UPDATE,
+          payload: undefined,
+        });
+      } catch (error) {
+        console.error('Erro ao atualizar finances:', error);
+      }
+    },
+    [],
+  );
+
+  const insertFinance = useCallback(async (finance: Omit<Finance, 'id'>) => {
+    try {
+      await postFinance(finance);
+
+      if (state.data.length < 10) {
+        await Promise.all([
+          fetchFinances({ page: 0, pageSize: 10 }),
+          fetchFinancesDetails(),
+        ]);
+      }
     } catch (error) {
       console.error('Erro ao atualizar finances:', error);
     }
@@ -78,6 +105,7 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
         fetchFinances,
         fetchFinancesDetails,
         updateFinance,
+        insertFinance,
       }}
     >
       {children}

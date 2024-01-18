@@ -2,6 +2,9 @@ import { styled } from '@mui/material/styles';
 import DialogMUI from '@mui/material/Dialog';
 
 export const BootstrapDialog = styled(DialogMUI)(() => ({
+  '& .MuiDialog-paper': {
+    backgroundColor: 'var(--gray-color)',
+  },
   '& .MuiDialogContent-root': {
     textAlign: 'center',
   },

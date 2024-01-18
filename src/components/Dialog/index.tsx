@@ -22,11 +22,9 @@ type IconType = {
 };
 
 const icons: IconType = {
-  error: <ErrorOutlineOutlined sx={{ color: 'red' }} fontSize="large" />,
-  success: (
-    <CheckCircleOutlineOutlined sx={{ color: 'green' }} fontSize="large" />
-  ),
-  warning: <WarningAmberOutlined sx={{ color: 'yellow' }} fontSize="large" />,
+  error: <ErrorOutlineOutlined color="error" fontSize="large" />,
+  success: <CheckCircleOutlineOutlined color="success" fontSize="large" />,
+  warning: <WarningAmberOutlined color="warning" fontSize="large" />,
 };
 
 type Children = {

@@ -22,7 +22,7 @@ import { useFinances } from '../../hooks/useFinances';
 import * as S from './styles';
 import { format } from 'date-fns';
 import { useDialog } from '@/hooks/useDialog';
-import { Finance, insertFinance } from '@/services/coinSentry/finances';
+import { Finance } from '@/services/coinSentry/finances';
 import Image from 'next/image';
 import Logo from '../../../../assets/images/logo.png';
 import dynamic from 'next/dynamic';
@@ -41,8 +41,7 @@ const FormHome = () => {
     message: '',
   });
 
-  const { fetchFinances, fetchFinancesDetails, state, updateFinance } =
-    useFinances();
+  const { state, updateFinance, insertFinance } = useFinances();
   const { setShowDialog } = useDialog();
 
   const {
@@ -76,52 +75,35 @@ const FormHome = () => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
-      console.log(
-        '🚀 ~ constonSubmit:SubmitHandler<FormInputs>= ~ data:',
-        data,
-      );
-      console.log(
-        '🚀 ~ constonSubmit:SubmitHandler<FormInputs>= ~ state.financeToUpdate:',
-        state.financeToUpdate,
-      );
-
       if (state.financeToUpdate) {
-        await updateFinance({
-          id: state.financeToUpdate,
-          finance: {
+        await updateFinance(
+          state.financeToUpdate as unknown as Pick<Finance, 'id'>,
+          {
             ...data,
             value_item: Number(data.value_item.replace(/\D/g, '')),
-          },
-        });
+          } as unknown as Omit<Finance, 'id'>,
+        );
 
         setDialog({
           title: 'Sucesso',
           icon: Icons.success,
-          message: 'Um item das suas finanças foi atualizado com sucesso!.',
+          message: 'Um item das suas finanças foi atualizado com sucesso!',
         });
       } else {
         const dateToday = new Date();
         const dateFormatted = format(dateToday, 'dd-MM-yyyy');
 
-        const finance = {
+        await insertFinance({
           ...data,
           value_item: Number(data.value_item.replace(/\D/g, '')),
-          date_input: dateFormatted, // TODO: remove this when implemented in backend
-        } as Finance;
-
-        // TODO: put this in the context
-        await insertFinance({ finance });
+          date_input: dateFormatted,
+        } as unknown as Omit<Finance, 'id'>);
 
         setDialog({
           title: 'Sucesso',
           icon: Icons.success,
-          message: 'Um item das suas finanças foi cadastrado com sucesso!.',
+          message: 'Um item das suas finanças foi cadastrado com sucesso!',
         });
-
-        await Promise.all([
-          fetchFinances({ page: 0, pageSize: 10 }),
-          fetchFinancesDetails(),
-        ]);
       }
 
       setShowDialog(true);
@@ -131,7 +113,7 @@ const FormHome = () => {
       setDialog({
         title: 'Erro',
         icon: Icons.error,
-        message: 'Um item das suas finanças teve problema ao ser cadastrado!.',
+        message: 'Um item das suas finanças teve problema ao ser cadastrado!',
       });
       console.log('🚀 ~ onSubmit ~ error:', error);
     }
