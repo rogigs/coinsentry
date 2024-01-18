@@ -16,16 +16,20 @@ const ErrorComponent = ({ onClick, setState }) => {
   };
 
   return (
-    <Alert severity="error">
+    <Alert
+      severity="error"
+      color="error"
+      sx={{ bgcolor: 'rgba(232, 86, 71, 0.1)' }} // TODO: add light color
+    >
       <AlertTitle>Erro ao buscar informações</AlertTitle>
-      <p style={{ marginBottom: '12px' }}>
+      <p style={{ marginBottom: 'var(--spacing-12)' }}>
         Houve um erro ao buscar as informações. Por favor, tente novamente!
       </p>
       <Button
-        sx={{ width: '185px' }}
         color="error"
         onClick={tryAgain}
         loading={loading}
+        sx={{ width: '185px' }}
       >
         Tentar novamente
       </Button>
