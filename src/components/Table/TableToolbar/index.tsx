@@ -1,21 +1,29 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
-import { alpha } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import { alpha } from '@mui/material/styles';
+import { ActionsTablePagination } from '../TablePagination';
 
-export const TableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, onClickEdit, selected, onClickDelete } = props;
-  console.log('🚀 ~ TableToolbar ~ selected:', selected);
+type TableToolbar = Omit<ActionsTablePagination, 'fetchNewPage'> & {
+  selected: any; // TODO: review this type
+  qntSelected: number;
+};
 
+export const TableToolbar = ({
+  selected,
+  qntSelected,
+  onClickEdit,
+  onClickDelete,
+}: TableToolbar) => {
   return (
     <Toolbar
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
+        ...(qntSelected > 0 && {
           bgcolor: (theme) =>
             alpha(
               theme.palette.primary.main,
@@ -24,14 +32,14 @@ export const TableToolbar = (props: EnhancedTableToolbarProps) => {
         }),
       }}
     >
-      {numSelected > 0 ? (
+      {qntSelected > 0 ? (
         <Typography
           sx={{ flex: '1 1 100%' }}
           color="inherit"
           variant="subtitle1"
           component="div"
         >
-          {numSelected} selected
+          {qntSelected} selected
         </Typography>
       ) : (
         <Typography
@@ -43,12 +51,13 @@ export const TableToolbar = (props: EnhancedTableToolbarProps) => {
           Suas finanças
         </Typography>
       )}
-      {numSelected > 0 && (
+
+      {qntSelected > 0 && (
         <>
           <Tooltip
             title="Editar"
             onClick={
-              numSelected > 1
+              qntSelected > 1
                 ? () => alert('Colocar modal')
                 : onClickEdit(selected[0])
             }

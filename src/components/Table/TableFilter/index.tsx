@@ -6,19 +6,35 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
 import * as React from 'react';
+import { Order } from '../helpers';
 
-const TableFilter = (props) => {
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-    headCells,
-    rows,
-  } = props;
+type TableFilter = {
+  rows: any[];
+  numSelected: number;
+  onSelectAllClick: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    rows: Object[],
+  ) => void;
+  order: Order;
+  orderBy: any;
+  onRequestSort: (
+    event: React.MouseEvent<unknown, MouseEvent>,
+    property: any,
+  ) => void;
+  rowCount: number;
+  headCells: any[];
+};
 
+const TableFilter = ({
+  onSelectAllClick,
+  order,
+  orderBy,
+  numSelected,
+  rowCount,
+  onRequestSort,
+  headCells,
+  rows,
+}: TableFilter) => {
   const createSortHandler =
     (property: any) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);

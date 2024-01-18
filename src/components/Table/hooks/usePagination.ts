@@ -1,18 +1,18 @@
-import { TablePaginationProps } from '@mui/material/TablePagination';
 import { useState } from 'react';
 
 import { Pagination } from '@/types/index';
-
-type Order = 'asc' | 'desc';
+import { Order } from '../helpers';
 
 type UsePagination = {
-  rowsPerPageOptions: TablePaginationProps['rowsPerPageOptions'];
+  rowsPerPageOptions?: number[];
 };
 
 const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
   const [page, setPage] = useState(0);
   const [pageCache, setPageCache] = useState([0]);
-  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions?.[0]);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(
+    rowsPerPageOptions?.[0] ?? 10,
+  );
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState('title');
   const [selected, setSelected] = useState<readonly Object[]>([]);
@@ -29,7 +29,7 @@ const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
 
   const handleSelectAllClick = (
     event: React.ChangeEvent<HTMLInputElement>,
-    rows: Object[],
+    rows: any[],
   ) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.id);
@@ -41,7 +41,7 @@ const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
 
   // DE PAGINATION
   const handleChangePage = async (
-    event: React.MouseEvent<unknown>,
+    event: React.MouseEvent<unknown> | null,
     newPage: number,
     fetchNewPage: (pagination: Pagination) => () => Promise<void>,
   ) => {
@@ -61,16 +61,14 @@ const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setRowsPerPage(
-      parseInt(event.target.value, rowsPerPage ? +rowsPerPage : 0),
-    );
+    setRowsPerPage(parseInt(event.target.value, rowsPerPage));
 
     setPage(0);
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
     const selectedIndex = selected.indexOf(id);
-    let newSelected: readonly number[] = [];
+    let newSelected: readonly any[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id);

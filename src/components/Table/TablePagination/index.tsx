@@ -5,9 +5,7 @@ import Table, { TableProps } from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TablePaginationMUI, {
-  TablePaginationProps,
-} from '@mui/material/TablePagination';
+import TablePaginationMUI from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useMemo } from 'react';
 
@@ -18,20 +16,20 @@ import { TableToolbar } from '../TableToolbar';
 import { getComparator, stableSort } from '../helpers';
 import usePagination from '../hooks/usePagination';
 
-// TODO: refactor this compontent
-// TODO: clean states this component and of reducer
+// TODO: Put in a page
 
 export type ActionsTablePagination = {
-  fetchNewPage: (pagination: Pagination) => Promise<void>;
+  fetchNewPage: (pagination: Pagination) => () => Promise<void>;
   onClickEdit: (id: string) => () => void;
   onClickDelete: (idItems: string[]) => () => void;
 };
 
-type TablePagination = TablePaginationProps &
-  TableProps &
+type TablePagination = TableProps &
   ActionsTablePagination & {
     rows: any[];
     columns: any[];
+    count: number;
+    rowsPerPageOptions: number[];
   };
 
 const TablePagination = ({
@@ -59,20 +57,16 @@ const TablePagination = ({
     rowsPerPageOptions,
   });
 
-  //  DE     TABLE BODY
   const emptyRows =
-    page > 0
-      ? Math.max(0, (1 + page) * (rowsPerPage ? +rowsPerPage : 0) - rows.length)
-      : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const isSelected = (id: number) => selected.indexOf(id) !== -1;
+  const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
   const visibleRows = useMemo(
     () =>
       stableSort(rows, getComparator(order, orderBy)).slice(
-        page * (rowsPerPage ? +rowsPerPage : 0),
-        page * (rowsPerPage ? +rowsPerPage : 0) +
-          (rowsPerPage ? +rowsPerPage : 0),
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage,
       ),
     [order, orderBy, page, rowsPerPage, rows],
   );
@@ -115,7 +109,7 @@ const TablePagination = ({
                   date_input,
                   category,
                 }) => {
-                  const isItemSelected = isSelected(id);
+                  const isItemSelected = isSelected(id as string);
                   const labelId = `enhanced-table-checkbox-${id}`;
 
                   return (
@@ -170,17 +164,12 @@ const TablePagination = ({
             rowsPerPageOptions={rowsPerPageOptions}
             component="div"
             count={count}
-            rowsPerPage={
-              typeof rowsPerPage === 'object'
-                ? +rowsPerPage.value
-                : rowsPerPage
-                ? +rowsPerPage
-                : 0
-            }
+            rowsPerPage={rowsPerPage}
             page={page}
-            onPageChange={(_, newPage) =>
-              handleChangePage(_, newPage, fetchNewPage)
-            }
+            onPageChange={(
+              e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+              newPage,
+            ) => handleChangePage(e, newPage, fetchNewPage)}
             onRowsPerPageChange={handleChangeRowsPerPage}
             labelRowsPerPage="Linhas por página"
             labelDisplayedRows={({ from, to, count }) =>
