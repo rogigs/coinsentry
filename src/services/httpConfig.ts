@@ -1,9 +1,13 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const backendUrl = 'http://localhost:4000/api'; // TODO: put this in a .env
 
 const withoutToken = axios.create({
   baseURL: `${backendUrl}`,
+  headers: {
+    'Access-Control-Allow-Headers': 'Authorization',
+  },
 });
 
 const withToken = axios.create({
@@ -13,13 +17,25 @@ const withToken = axios.create({
   },
 });
 
-withToken.interceptors.request.use(
+withoutToken.interceptors.request.use(
   (config) => {
-    const token =
-      typeof window !== 'undefined' ? localStorage.getItem('token') : null; // TODO: change control of token
-    if (token) {
-      config.headers.Authorization = token;
+    console.log('🚀 ~ config:', config);
+
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
+withToken.interceptors.request.use(
+  async (config) => {
+    const hasToken = await Cookies.get('accessToken');
+
+    if (!hasToken) {
+      // TODO: refresh token
+    } else {
+      config.headers.Authorization = hasToken;
     }
+
     return config;
   },
   (error) => Promise.reject(error),

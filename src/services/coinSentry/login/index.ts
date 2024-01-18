@@ -1,4 +1,5 @@
 import HttpConfig from '../../httpConfig';
+import Cookies from 'js-cookie';
 
 type User = {
   email: string;
@@ -7,9 +8,14 @@ type User = {
 
 export const getUser = async (user: User) => {
   try {
-    const { data } = await HttpConfig.withoutToken.get(
-      `user/me?email=${user.email}&&password=${user.password}`,
+    const { data, headers } = await HttpConfig.withoutToken.post(
+      `user/auth`,
+      user,
     );
+
+    Cookies.set('accessToken', headers.authorization, {
+      secure: true,
+    });
 
     return data;
   } catch (error) {
