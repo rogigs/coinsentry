@@ -1,7 +1,7 @@
+import { compareArraysOfObjects } from '@/helpers/toArrays';
 import { Finance, FinanceDetails } from '@/services/coinSentry/finances';
 
-import { ACTIONS_TYPE, Action } from './actions';
-import { compareArraysOfObjects } from '@/helpers/toArrays';
+import { Action, ACTIONS_TYPE } from './actions';
 
 export type INITIAL_STATE_TYPE = {
   data: Finance[] | [];

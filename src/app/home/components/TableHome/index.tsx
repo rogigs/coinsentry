@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+
+import TablePagination from '@/components/Table/TablePagination';
+
+import { ACTIONS_TYPE } from '../../context/reducerFinances/actions';
 import { useFinances } from '../../hooks/useFinances';
 import { columnsPagination } from '../../utils';
-import TablePagination from '@/components/Table/TablePagination';
-import { ACTIONS_TYPE } from '../../context/reducerFinances/actions';
 
 const TableHome = () => {
   const { state, dispatch, fetchFinances } = useFinances();

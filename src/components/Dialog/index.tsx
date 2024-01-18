@@ -1,13 +1,14 @@
+import CheckCircleOutlineOutlined from '@mui/icons-material/CheckCircleOutlineOutlined';
+import ErrorOutlineOutlined from '@mui/icons-material/ErrorOutlineOutlined';
+import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined'; // TODO: resolve problem of type
 import Button from '@mui/material/Button';
 import DialogActionsMUI from '@mui/material/DialogActions';
 import DialogContentMUI from '@mui/material/DialogContent';
 import DialogTitleMUI from '@mui/material/DialogTitle';
-import * as S from './styles';
-import ErrorOutlineOutlined from '@mui/icons-material/ErrorOutlineOutlined';
-import CheckCircleOutlineOutlined from '@mui/icons-material/CheckCircleOutlineOutlined';
-import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined'; // TODO: resolve problem of type
 
 import { useDialog } from '@/hooks/useDialog';
+
+import * as S from './styles';
 
 export enum Icons {
   error = 'error',
@@ -50,21 +51,19 @@ type DialogTitle = {
   title: string;
 };
 
-export const DialogTitle = ({ icon, title }: DialogTitle) => {
-  return (
-    <DialogTitleMUI className="center">
-      {icon && (
-        <div className="center icon">{icons[icon] || 'Icon not found'}</div>
-      )}
+export const DialogTitle = ({ icon, title }: DialogTitle) => (
+  <DialogTitleMUI className="center">
+    {icon && (
+      <div className="center icon">{icons[icon] || 'Icon not found'}</div>
+    )}
 
-      {title}
-    </DialogTitleMUI>
-  );
-};
+    {title}
+  </DialogTitleMUI>
+);
 
-export const DialogContent = ({ children }: Children) => {
-  return <DialogContentMUI>{children}</DialogContentMUI>;
-};
+export const DialogContent = ({ children }: Children) => (
+  <DialogContentMUI>{children}</DialogContentMUI>
+);
 
 type DialogActions = {
   primaryTxtButton: string;
@@ -78,20 +77,18 @@ export const DialogActions = ({
   primaryActionButton,
   secondaryTxtButton,
   secondaryActionButton,
-}: DialogActions) => {
-  return (
-    <DialogActionsMUI>
-      {secondaryActionButton && (
-        <Button onClick={secondaryActionButton} autoFocus>
-          {secondaryTxtButton}
-        </Button>
-      )}
-      <Button onClick={primaryActionButton} autoFocus>
-        {primaryTxtButton}
+}: DialogActions) => (
+  <DialogActionsMUI>
+    {secondaryActionButton && (
+      <Button onClick={secondaryActionButton} autoFocus>
+        {secondaryTxtButton}
       </Button>
-    </DialogActionsMUI>
-  );
-};
+    )}
+    <Button onClick={primaryActionButton} autoFocus>
+      {primaryTxtButton}
+    </Button>
+  </DialogActionsMUI>
+);
 
 export default {
   Dialog: DialogComponent,

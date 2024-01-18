@@ -1,5 +1,5 @@
-import { styled } from '@mui/material/styles';
 import DialogMUI from '@mui/material/Dialog';
+import { styled } from '@mui/material/styles';
 
 export const BootstrapDialog = styled(DialogMUI)(() => ({
   '& .MuiDialog-paper': {

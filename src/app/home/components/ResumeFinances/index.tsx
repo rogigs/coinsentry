@@ -1,10 +1,10 @@
 import { isAxiosError } from 'axios';
-import Card, { CardTypes } from '../../../../components/Card';
-import * as S from './styles';
+import { useEffect } from 'react';
 
+import Card, { CardTypes } from '../../../../components/Card';
 import ErrorComponent from '../../../../components/Error';
 import { useFinances } from '../../hooks/useFinances';
-import { useEffect } from 'react';
+import * as S from './styles';
 
 type ResumeFinances = {
   details: any; // TODO: type component

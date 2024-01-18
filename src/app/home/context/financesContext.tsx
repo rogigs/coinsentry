@@ -1,18 +1,20 @@
+import React, { createContext, useCallback, useReducer } from 'react';
+
 import {
   Finance,
   getFinances,
   getFinancesDetails,
-  updateFinance as putFinance,
   insertFinance as postFinance,
+  updateFinance as putFinance,
 } from '@/services/coinSentry/finances';
-import React, { createContext, useReducer, useCallback } from 'react';
-import { ACTIONS_TYPE, Action } from './reducerFinances/actions';
+import { Pagination } from '@/types';
+
+import { Action, ACTIONS_TYPE } from './reducerFinances/actions';
 import {
   INITIAL_STATE,
   INITIAL_STATE_TYPE,
   reducer,
 } from './reducerFinances/reducer';
-import { Pagination } from '@/types';
 
 type FinancesProvider = {
   children?: React.ReactNode;
@@ -35,7 +37,7 @@ export const FinancesContext = createContext<FinancesContext | null>(null);
 export const FinancesProvider = ({ children }: FinancesProvider) => {
   // TODO: resolve problems of types
   const [state, dispatch]: [INITIAL_STATE_TYPE, React.Dispatch<Action>] =
-    useReducer(reducer, INITIAL_STATE);
+    useReducer(reducer as any, INITIAL_STATE as any) as unknown as any;
 
   const fetchFinances = useCallback(
     (pagination: Pagination) => async () => {

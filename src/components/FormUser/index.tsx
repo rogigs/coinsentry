@@ -1,14 +1,16 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import TextField from '@mui/material/TextField';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+import Button from '@/components/Button';
+
 import * as S from './styles';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import {
   DefaultValues,
-  FormInputs,
   defaultValues,
+  FormInputs,
   validationSchema,
 } from './validationSchema';
-import { yupResolver } from '@hookform/resolvers/yup';
-import Button from '@/components/Button';
 
 type FormUser = {
   createAccount?: boolean;

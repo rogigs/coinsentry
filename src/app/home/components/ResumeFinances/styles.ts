@@ -1,5 +1,6 @@
-import styled from 'styled-components';
 import SkeletonMUI from '@mui/material/Skeleton';
+import styled from 'styled-components';
+
 import media from '../../../../styledMedia';
 
 export const WrapperCard = styled.section`

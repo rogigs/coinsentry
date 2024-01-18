@@ -1,5 +1,6 @@
 import { Alert, AlertTitle } from '@mui/material';
 import { useState } from 'react';
+
 import Button from '../Button';
 
 const ErrorComponent = ({ onClick, setState }) => {

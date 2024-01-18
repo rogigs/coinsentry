@@ -1,6 +1,7 @@
+import { Pagination } from '@/types';
+
 import HttpConfig from '../../httpConfig';
 import { mockGetFinances, mockGetFinancesDetails } from './mocks';
-import { Pagination } from '@/types';
 
 export type FinanceDetails = typeof mockGetFinancesDetails.data;
 export type Finance = (typeof mockGetFinances.data)[0];

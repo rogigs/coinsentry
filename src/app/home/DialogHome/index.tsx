@@ -1,5 +1,5 @@
-import { useDialog } from '@/hooks/useDialog';
 import Dialog, { Icons } from '@/components/Dialog';
+import { useDialog } from '@/hooks/useDialog';
 
 type DialogHome = {
   title: string;

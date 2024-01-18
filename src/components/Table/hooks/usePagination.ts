@@ -1,8 +1,9 @@
+import { TablePaginationProps } from '@mui/material/TablePagination';
 import { useState } from 'react';
 
-type Order = 'asc' | 'desc';
-import { TablePaginationProps } from '@mui/material/TablePagination';
 import { Pagination } from '@/types/index';
+
+type Order = 'asc' | 'desc';
 
 type UsePagination = {
   rowsPerPageOptions: TablePaginationProps['rowsPerPageOptions'];

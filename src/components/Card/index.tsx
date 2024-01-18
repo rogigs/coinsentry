@@ -1,6 +1,6 @@
 import { CardActionArea } from '@mui/material';
 
-import { CardStyled, CardContent } from './styles';
+import { CardContent, CardStyled } from './styles';
 
 enum CardTypes {
   total = 'total',

@@ -1,5 +1,6 @@
-import HttpConfig from '../../httpConfig';
 import Cookies from 'js-cookie';
+
+import HttpConfig from '../../httpConfig';
 
 type User = {
   email: string;

@@ -1,9 +1,10 @@
 'use client';
 
-import { FormUser } from '@/components/FormUser';
 import { useRouter } from 'next/navigation';
-import { useLogin } from '@/hooks/useLogin';
+
+import { FormUser } from '@/components/FormUser';
 import { Login } from '@/components/Login';
+import { useLogin } from '@/hooks/useLogin';
 
 export default function Home() {
   const router = useRouter();

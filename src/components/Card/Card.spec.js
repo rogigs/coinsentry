@@ -1,4 +1,5 @@
-import { screen, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+
 import Card, { TYPES } from '.';
 import { TYPES_COLORS } from './utils';
 

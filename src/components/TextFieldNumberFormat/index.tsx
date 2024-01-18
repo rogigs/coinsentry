@@ -1,6 +1,7 @@
-import { NumericFormat, NumericFormatProps } from 'react-number-format';
-import TextField from '../TextField';
 import { TextFieldProps } from '@mui/material/TextField';
+import { NumericFormat, NumericFormatProps } from 'react-number-format';
+
+import TextField from '../TextField';
 
 type TextFieldNumberFormatProps = NumericFormatProps &
   TextFieldProps & {

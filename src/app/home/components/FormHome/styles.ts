@@ -1,6 +1,7 @@
-import styled from 'styled-components';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabelMUI from '@mui/material/FormControlLabel';
+import styled from 'styled-components';
+
 import media from '../../../../styledMedia';
 
 export const WrapperForm = styled.form`

@@ -1,7 +1,8 @@
-import styled from 'styled-components';
-import media from '../../styledMedia';
 import CardMUI from '@mui/material/Card';
 import CardContentMUI from '@mui/material/CardContent';
+import styled from 'styled-components';
+
+import media from '../../styledMedia';
 
 type CardStyledBackgroundColor = {
   istotalcard: boolean;

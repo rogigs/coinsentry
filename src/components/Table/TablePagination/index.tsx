@@ -1,21 +1,22 @@
-import { useMemo } from 'react';
+import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import Paper from '@mui/material/Paper';
 import Table, { TableProps } from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import Checkbox from '@mui/material/Checkbox';
-
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import TablePaginationMUI, {
   TablePaginationProps,
 } from '@mui/material/TablePagination';
-import { getComparator, stableSort, Order } from '../helpers';
-import TableFilter from '../TableFilter';
-import Box from '@mui/material/Box';
-import { TableToolbar } from '../TableToolbar';
-import usePagination from '../hooks/usePagination';
+import TableRow from '@mui/material/TableRow';
+import { useMemo } from 'react';
+
 import { Pagination } from '@/types';
+
+import { getComparator, Order, stableSort } from '../helpers';
+import usePagination from '../hooks/usePagination';
+import TableFilter from '../TableFilter';
+import { TableToolbar } from '../TableToolbar';
 
 // TODO: refactor this compontent
 // TODO: clean states this component and of reducer
