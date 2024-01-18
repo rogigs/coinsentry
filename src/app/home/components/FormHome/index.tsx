@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import Button from '@/components/Button';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import {
   validationSchema,
   defaultValues,
@@ -27,6 +27,7 @@ import Image from 'next/image';
 import Logo from '../../../../assets/images/logo.png';
 import dynamic from 'next/dynamic';
 import { Icons } from '@/components/Dialog';
+import TextFieldNumberFormat from '@/components/TextFieldNumberFormat';
 
 const DialogHome = dynamic(() => import('../../DialogHome'));
 
@@ -49,15 +50,14 @@ const FormHome = () => {
     formState: { errors, isSubmitting },
     reset,
     setValue,
-    watch,
+    control,
   } = useForm<FormInputs>({
-    mode: 'onSubmit',
+    mode: 'onBlur',
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
 
   useEffect(() => {
-    // TODO: ta com problema
     if (state.financeToUpdate) {
       const finance = state.data.find(
         (item: Finance) => item.id === state.financeToUpdate,
@@ -146,12 +146,19 @@ const FormHome = () => {
             </Select>
           </FormControl>
 
-          <TextField
-            label="Valor"
-            error={!!errors.value_item}
-            helperText={errors.value_item?.message ?? ''}
-            {...register(DefaultValues.valueItem)}
+          <Controller
+            name={DefaultValues.valueItem}
+            control={control}
+            render={({ field }) => (
+              <TextFieldNumberFormat
+                label="Valor(R$)"
+                error={!!errors?.value_item}
+                helperText={errors?.value_item?.message}
+                {...field}
+              />
+            )}
           />
+
           <S.FormControlRadio>
             <FormLabel id="demo-radio-buttons-group-label">Operação:</FormLabel>
             <RadioGroup
