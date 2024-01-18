@@ -1,6 +1,13 @@
-import React, { createContext, useCallback, useReducer } from 'react';
+import React, {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useReducer,
+} from 'react';
 
 import {
+  deleteFinance as delFinance,
   Finance,
   getFinances,
   getFinancesDetails,
@@ -9,6 +16,7 @@ import {
 } from '@/services/coinSentry/finances';
 import { Pagination } from '@/types';
 
+import { Icons } from '@/components/Dialog';
 import { Action, ACTIONS_TYPE } from './reducerFinances/actions';
 import {
   INITIAL_STATE,
@@ -30,14 +38,26 @@ type FinancesContext = {
     finance: Omit<Finance, 'id'>,
   ) => Promise<void>;
   insertFinance: (finance: Omit<Finance, 'id'>) => Promise<void>;
+  deleteFinances: (
+    idItems: string[],
+    setDialog: Dispatch<
+      SetStateAction<{
+        title: string;
+        icon: Icons;
+        message: string;
+      }>
+    >,
+  ) => Promise<void>;
 };
 
 export const FinancesContext = createContext<FinancesContext | null>(null);
 
 export const FinancesProvider = ({ children }: FinancesProvider) => {
   // TODO: resolve problems of types
-  const [state, dispatch]: [INITIAL_STATE_TYPE, React.Dispatch<Action>] =
-    useReducer(reducer as any, INITIAL_STATE as any) as unknown as any;
+  const [state, dispatch]: [
+    INITIAL_STATE_TYPE,
+    React.Dispatch<React.SetStateAction<Action>>,
+  ] = useReducer(reducer as any, INITIAL_STATE as any) as unknown as any;
 
   const fetchFinances = useCallback(
     (pagination: Pagination) => async () => {
@@ -99,6 +119,43 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
     }
   }, []);
 
+  const deleteFinances = useCallback(
+    async (
+      idItems: string[],
+      setDialog: Dispatch<
+        SetStateAction<{
+          title: string;
+          icon: Icons;
+          message: string;
+        }>
+      >,
+    ) => {
+      try {
+        const deletePromises = idItems.map((item) =>
+          delFinance(item as unknown as Pick<Finance, 'id'>),
+        );
+
+        await Promise.all(deletePromises);
+
+        // TODO: UPDATE TABLE
+        setDialog({
+          title: 'Sucesso',
+          icon: Icons.success,
+          message: 'Seu(s) item(s) das suas finanças foram excluídos!',
+        });
+      } catch (error) {
+        console.error('Erro ao deletar finances:', error);
+
+        setDialog({
+          title: 'Erro',
+          icon: Icons.error,
+          message: 'Não foi possivel excluir seu(s) item(s) das suas finanças!',
+        });
+      }
+    },
+    [],
+  );
+
   return (
     <FinancesContext.Provider
       value={{
@@ -108,6 +165,7 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
         fetchFinancesDetails,
         updateFinance,
         insertFinance,
+        deleteFinances,
       }}
     >
       {children}

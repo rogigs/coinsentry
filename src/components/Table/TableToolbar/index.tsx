@@ -7,7 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 export const TableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, onClickEdit, selected } = props;
+  const { numSelected, onClickEdit, selected, onClickDelete } = props;
   console.log('🚀 ~ TableToolbar ~ selected:', selected);
 
   return (
@@ -46,7 +46,7 @@ export const TableToolbar = (props: EnhancedTableToolbarProps) => {
       {numSelected > 0 && (
         <>
           <Tooltip
-            title="Edit"
+            title="Editar"
             onClick={
               numSelected > 1
                 ? () => alert('Colocar modal')
@@ -57,7 +57,7 @@ export const TableToolbar = (props: EnhancedTableToolbarProps) => {
               <EditIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Delete">
+          <Tooltip title="Deletar" onClick={onClickDelete(selected)}>
             <IconButton>
               <DeleteIcon />
             </IconButton>

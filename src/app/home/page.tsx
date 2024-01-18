@@ -24,10 +24,9 @@ export default function Home() {
       <FinancesProvider>
         <DialogProvider>
           <FormHome />
+          <ResumeFinances />
+          <TableHome />
         </DialogProvider>
-
-        <ResumeFinances />
-        <TableHome />
       </FinancesProvider>
     </BrandTheme>
   );

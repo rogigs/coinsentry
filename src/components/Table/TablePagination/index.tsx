@@ -13,7 +13,6 @@ import { useMemo } from 'react';
 
 import { Pagination } from '@/types';
 
-import { getComparator, Order, stableSort } from '../helpers';
 import usePagination from '../hooks/usePagination';
 import TableFilter from '../TableFilter';
 import { TableToolbar } from '../TableToolbar';
@@ -27,6 +26,7 @@ type TablePagination = TablePaginationProps &
     columns: any[];
     fetchNewPage: (pagination: Pagination) => Promise<void>;
     onClickEdit: (id: string) => void;
+    onClickDelete: (idItems: string[]) => void;
   };
 
 const TablePagination = ({
@@ -37,6 +37,7 @@ const TablePagination = ({
   fetchNewPage,
   count,
   onClickEdit,
+  onClickDelete,
 }: TablePagination) => {
   const {
     page,
@@ -79,6 +80,7 @@ const TablePagination = ({
           numSelected={selected.length}
           selected={selected}
           onClickEdit={onClickEdit}
+          onClickDelete={onClickDelete}
         />
         <TableContainer component={Paper}>
           <Table
@@ -97,7 +99,7 @@ const TablePagination = ({
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
               headCells={columns}
-              rows={rows}
+              rows={visibleRows}
             />
             <TableBody>
               {visibleRows.map(

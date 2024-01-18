@@ -15,7 +15,7 @@ const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions?.[0]);
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState('title');
-  const [selected, setSelected] = useState<readonly number[]>([]);
+  const [selected, setSelected] = useState<readonly Object[]>([]);
 
   // DE FILTER
   const handleRequestSort = (
@@ -29,7 +29,7 @@ const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
 
   const handleSelectAllClick = (
     event: React.ChangeEvent<HTMLInputElement>,
-    rows: any,
+    rows: Object[],
   ) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.id);
