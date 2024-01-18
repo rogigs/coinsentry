@@ -21,8 +21,8 @@ export const reducer = (state: INITIAL_STATE_TYPE, action: Action) => {
   const actionsTypes = {
     [ACTIONS_TYPE.ADD_DATA]: {
       ...state,
-      data: compareArraysOfObjects(state.data, action.payload.data, 'id'),
-      dataLenghtInDatabase: action.payload.dataLenghtInDatabase,
+      data: compareArraysOfObjects(state.data, action.payload?.data, 'id'),
+      dataLenghtInDatabase: action.payload?.dataLenghtInDatabase,
     },
     [ACTIONS_TYPE.ADD_DETAILS]: {
       ...state,

@@ -41,7 +41,8 @@ const FormHome = () => {
     message: '',
   });
 
-  const { fetchFinances, fetchFinancesDetails, state } = useFinances();
+  const { fetchFinances, fetchFinancesDetails, state, updateFinance } =
+    useFinances();
   const { setShowDialog } = useDialog();
 
   const {
@@ -75,30 +76,55 @@ const FormHome = () => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
-      const dateToday = new Date();
-      const dateFormatted = format(dateToday, 'dd-MM-yyyy');
+      console.log(
+        '🚀 ~ constonSubmit:SubmitHandler<FormInputs>= ~ data:',
+        data,
+      );
+      console.log(
+        '🚀 ~ constonSubmit:SubmitHandler<FormInputs>= ~ state.financeToUpdate:',
+        state.financeToUpdate,
+      );
 
-      const finance = {
-        ...data,
-        value_item: Number(data.value_item.replace(/\D/g, '')),
-        date_input: dateFormatted, // TODO: remove this when implemented in backend
-      } as Finance;
+      if (state.financeToUpdate) {
+        await updateFinance({
+          id: state.financeToUpdate,
+          finance: {
+            ...data,
+            value_item: Number(data.value_item.replace(/\D/g, '')),
+          },
+        });
 
-      // TODO: put this in the context
-      await insertFinance({ finance });
+        setDialog({
+          title: 'Sucesso',
+          icon: Icons.success,
+          message: 'Um item das suas finanças foi atualizado com sucesso!.',
+        });
+      } else {
+        const dateToday = new Date();
+        const dateFormatted = format(dateToday, 'dd-MM-yyyy');
 
-      setDialog({
-        title: 'Sucesso',
-        icon: Icons.success,
-        message: 'Um item das suas finanças foi cadastrado com sucesso!.',
-      });
+        const finance = {
+          ...data,
+          value_item: Number(data.value_item.replace(/\D/g, '')),
+          date_input: dateFormatted, // TODO: remove this when implemented in backend
+        } as Finance;
+
+        // TODO: put this in the context
+        await insertFinance({ finance });
+
+        setDialog({
+          title: 'Sucesso',
+          icon: Icons.success,
+          message: 'Um item das suas finanças foi cadastrado com sucesso!.',
+        });
+
+        await Promise.all([
+          fetchFinances({ page: 0, pageSize: 10 }),
+          fetchFinancesDetails(),
+        ]);
+      }
 
       setShowDialog(true);
-
-      await Promise.all([
-        fetchFinances({ page: 0, pageSize: 10 }),
-        fetchFinancesDetails(),
-      ]);
 
       reset();
     } catch (error) {

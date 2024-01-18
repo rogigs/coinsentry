@@ -1,7 +1,7 @@
 import {
-  Pagination,
   getFinances,
   getFinancesDetails,
+  updateFinance as putFinance,
 } from '@/services/coinSentry/finances';
 import React, { createContext, useReducer, useCallback } from 'react';
 import { ACTIONS_TYPE } from './reducerFinances/actions';
@@ -57,9 +57,28 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
     }
   }, []);
 
+  const updateFinance = useCallback(async ({ id, finance }) => {
+    try {
+      await putFinance({ id, finance });
+
+      dispatch({
+        type: ACTIONS_TYPE.ADD_FINANCE_TO_UPDATE,
+        payload: undefined,
+      });
+    } catch (error) {
+      console.error('Erro ao atualizar finances:', error);
+    }
+  }, []);
+
   return (
     <FinancesContext.Provider
-      value={{ state, dispatch, fetchFinances, fetchFinancesDetails }}
+      value={{
+        state,
+        dispatch,
+        fetchFinances,
+        fetchFinancesDetails,
+        updateFinance,
+      }}
     >
       {children}
     </FinancesContext.Provider>
