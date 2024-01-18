@@ -1,15 +1,19 @@
 import { useDialog } from '@/hooks/useDialog';
 import Dialog, { Icons } from '@/components/Dialog';
 
-const DialogHome = () => {
+type DialogHome = {
+  title: string;
+  icon: Icons;
+  children: React.ReactNode;
+};
+
+const DialogHome = ({ title, icon, children }: DialogHome) => {
   const { setShowDialog } = useDialog();
 
   return (
     <Dialog.Dialog>
-      <Dialog.DialogTitle icon={Icons.success} title="Sucessso" />
-      <Dialog.DialogContent>
-        <p>Foi</p>
-      </Dialog.DialogContent>
+      <Dialog.DialogTitle icon={Icons[icon]} title={title} />
+      <Dialog.DialogContent>{children}</Dialog.DialogContent>
       <Dialog.DialogActions
         primaryTxtButton="Fechar"
         primaryActionButton={() => setShowDialog(false)}

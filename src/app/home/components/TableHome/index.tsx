@@ -2,13 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useFinances } from '../../hooks/useFinances';
 import { columnsPagination } from '../../utils';
 import TablePagination from '@/components/Table/TablePagination';
+import { ACTIONS_TYPE } from '../../context/reducerFinances/actions';
 
 const TableHome = () => {
-  const { state, fetchFinances } = useFinances();
+  const { state, dispatch, fetchFinances } = useFinances();
 
   useEffect(() => {
     fetchFinances({ page: 0, pageSize: 10 })();
   }, []);
+
+  const onClickEdit = (id: string) => () => {
+    dispatch({
+      type: ACTIONS_TYPE.ADD_FINANCE_TO_UPDATE,
+      payload: id,
+    });
+  };
 
   return (
     <div
@@ -19,9 +27,9 @@ const TableHome = () => {
       <TablePagination
         rows={state.data}
         columns={columnsPagination}
-        dense="medium"
         fetchNewPage={fetchFinances}
         count={state.dataLenghtInDatabase}
+        onClickEdit={onClickEdit}
       />
     </div>
   );

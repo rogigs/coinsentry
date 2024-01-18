@@ -7,12 +7,14 @@ export type INITIAL_STATE_TYPE = {
   data: Finance[] | [];
   details: FinanceDetails | undefined;
   dataLenghtInDatabase: number;
+  financeToUpdate: string | undefined;
 };
 
 export const INITIAL_STATE: INITIAL_STATE_TYPE = {
   data: [],
   details: undefined,
   dataLenghtInDatabase: 0,
+  financeToUpdate: undefined,
 };
 
 export const reducer = (state: INITIAL_STATE_TYPE, action: Action) => {
@@ -25,6 +27,10 @@ export const reducer = (state: INITIAL_STATE_TYPE, action: Action) => {
     [ACTIONS_TYPE.ADD_DETAILS]: {
       ...state,
       details: action.payload,
+    },
+    [ACTIONS_TYPE.ADD_FINANCE_TO_UPDATE]: {
+      ...state,
+      financeToUpdate: action.payload,
     },
   };
 
