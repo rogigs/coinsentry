@@ -13,20 +13,25 @@ import { useMemo } from 'react';
 
 import { Pagination } from '@/types';
 
-import usePagination from '../hooks/usePagination';
 import TableFilter from '../TableFilter';
 import { TableToolbar } from '../TableToolbar';
+import { getComparator, stableSort } from '../helpers';
+import usePagination from '../hooks/usePagination';
 
 // TODO: refactor this compontent
 // TODO: clean states this component and of reducer
 
+export type ActionsTablePagination = {
+  fetchNewPage: (pagination: Pagination) => Promise<void>;
+  onClickEdit: (id: string) => () => void;
+  onClickDelete: (idItems: string[]) => () => void;
+};
+
 type TablePagination = TablePaginationProps &
-  TableProps & {
+  TableProps &
+  ActionsTablePagination & {
     rows: any[];
     columns: any[];
-    fetchNewPage: (pagination: Pagination) => Promise<void>;
-    onClickEdit: (id: string) => void;
-    onClickDelete: (idItems: string[]) => void;
   };
 
 const TablePagination = ({
@@ -64,8 +69,7 @@ const TablePagination = ({
 
   const visibleRows = useMemo(
     () =>
-      rows.slice(
-        // TODO: fix error to filter elements
+      stableSort(rows, getComparator(order, orderBy)).slice(
         page * (rowsPerPage ? +rowsPerPage : 0),
         page * (rowsPerPage ? +rowsPerPage : 0) +
           (rowsPerPage ? +rowsPerPage : 0),
@@ -77,7 +81,7 @@ const TablePagination = ({
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableToolbar
-          numSelected={selected.length}
+          qntSelected={selected.length}
           selected={selected}
           onClickEdit={onClickEdit}
           onClickDelete={onClickDelete}
@@ -97,7 +101,7 @@ const TablePagination = ({
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={visibleRows.length}
               headCells={columns}
               rows={visibleRows}
             />
