@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
 import * as S from './styles';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import {
@@ -8,6 +8,7 @@ import {
   validationSchema,
 } from './validationSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Button from '@/components/Button';
 
 type FormUser = {
   createAccount?: boolean;
@@ -61,7 +62,6 @@ export const FormUser = ({ createAccount, push, send }: FormUser) => {
         </Button>
       )}
 
-      {/* TODO: fix type loading */}
       <Button variant="contained" type="submit" loading={isSubmitting}>
         {createAccount ? 'Logar' : 'Cadastrar'}
       </Button>

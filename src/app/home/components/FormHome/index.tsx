@@ -6,10 +6,10 @@ import {
   Select,
   RadioGroup,
   Radio,
-  Button,
   TextField,
   FormControl,
 } from '@mui/material';
+import Button from '@/components/Button';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import {
@@ -33,7 +33,7 @@ const FormHome = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
     setValue,
   } = useForm<FormInputs>({
@@ -58,7 +58,10 @@ const FormHome = () => {
 
       setShowDialog(true);
 
-      await Promise.all([fetchFinances(), fetchFinancesDetails()]);
+      await Promise.all([
+        fetchFinances({ page: 0, pageSize: 10 }),
+        fetchFinancesDetails(),
+      ]);
 
       reset();
     } catch (error) {
@@ -126,7 +129,7 @@ const FormHome = () => {
         <Button variant="outlined" onClick={() => reset()}>
           Limpar
         </Button>
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" loading={isSubmitting}>
           Cadastrar
         </Button>
       </S.WrapperForm>
