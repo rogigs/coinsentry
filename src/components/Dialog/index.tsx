@@ -10,6 +10,11 @@ import { useDialog } from '@/hooks/useDialog';
 
 import * as S from './styles';
 
+export type DialogOptions = {
+  icon: Icons;
+  title: string;
+};
+
 export enum Icons {
   error = 'error',
   success = 'success',
@@ -46,12 +51,7 @@ export const DialogComponent = ({ children }: Children) => {
   );
 };
 
-type DialogTitle = {
-  icon: Icons;
-  title: string;
-};
-
-export const DialogTitle = ({ icon, title }: DialogTitle) => (
+export const DialogTitle = ({ icon, title }: DialogOptions) => (
   <DialogTitleMUI className="center">
     {icon && (
       <div className="center icon">{icons[icon] || 'Icon not found'}</div>

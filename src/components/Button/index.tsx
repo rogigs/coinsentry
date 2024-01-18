@@ -3,12 +3,11 @@ import {
   ButtonProps,
   CircularProgress,
 } from '@mui/material';
-import { ReactNode } from 'react';
 
 type CustomButtonProps = ButtonProps & {
   variant?: 'contained' | 'outlined' | 'text';
   loading?: boolean;
-  children: ReactNode;
+  children: React.ReactNode | React.ReactElement;
 };
 
 const Button = ({

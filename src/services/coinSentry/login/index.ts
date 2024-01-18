@@ -1,24 +1,18 @@
-import Cookies from 'js-cookie';
-
 import HttpConfig from '../../httpConfig';
 
-type User = {
+export type User = {
   email: string;
   password: string;
 };
 
-export const getUser = async (user: User) => {
+export const authUser = async (user: User) => {
   try {
     const { data, headers } = await HttpConfig.withoutToken.post(
       `user/auth`,
       user,
     );
 
-    Cookies.set('accessToken', headers.authorization, {
-      secure: true,
-    });
-
-    return data;
+    return { data, headers };
   } catch (error) {
     console.log('🚀 ~ file: index.js:12 ~ authLogin ~ error:', error);
   }

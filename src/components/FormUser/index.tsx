@@ -3,22 +3,31 @@ import TextField from '@mui/material/TextField';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Button from '@/components/Button';
-
+import Dialog, { Icons } from '@/components/Dialog';
+import { useDialog } from '@/hooks/useDialog';
+import { useState } from 'react';
 import * as S from './styles';
 import {
   DefaultValues,
-  defaultValues,
   FormInputs,
+  defaultValues,
   validationSchema,
 } from './validationSchema';
 
 type FormUser = {
   createAccount?: boolean;
   push: (pathName: string) => void;
-  send: (user: FormInputs) => Promise<any>;
+  send: (user: FormInputs) => Promise<{ data: any[]; status: number }>;
 };
 
 export const FormUser = ({ createAccount, push, send }: FormUser) => {
+  const [dialog, setDialog] = useState({
+    title: '',
+    icon: Icons.success,
+    message: '',
+  });
+
+  const { setShowDialog } = useDialog();
   const {
     register,
     handleSubmit,
@@ -32,41 +41,63 @@ export const FormUser = ({ createAccount, push, send }: FormUser) => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
-      await send(data);
+      const { status } = await send(data);
+
+      if (status === 204) {
+        throw new Error('User not found');
+      }
 
       reset();
       push('/home');
     } catch (error) {
-      console.log('🚀 ~ onSubmit ~ error:', error);
+      setDialog({
+        title: 'Erro',
+        icon: Icons.error,
+        message: 'Email ou senhas incorretos. Por favor, tente novamente.',
+      });
+
+      setShowDialog(true);
     }
   };
 
   return (
-    <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
-      <TextField
-        label="email"
-        error={!!errors.email}
-        helperText={errors.email?.message ?? ''}
-        {...register(DefaultValues.email)}
-      />
+    <>
+      <Dialog.Dialog>
+        <Dialog.DialogTitle icon={Icons[dialog.icon]} title={dialog.title} />
+        <Dialog.DialogContent>
+          <p>{dialog.message}</p>
+        </Dialog.DialogContent>
+        <Dialog.DialogActions
+          primaryTxtButton="Fechar"
+          primaryActionButton={() => setShowDialog(false)}
+        />
+      </Dialog.Dialog>
+      <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
+        <TextField
+          label="email"
+          error={!!errors.email}
+          helperText={errors.email?.message ?? ''}
+          {...register(DefaultValues.email)}
+        />
 
-      <TextField
-        label="senha"
-        error={!!errors.password}
-        type="password"
-        helperText={errors.password?.message ?? ''}
-        {...register(DefaultValues.password)}
-      />
+        <TextField
+          label="senha"
+          error={!!errors.password}
+          type="password"
+          helperText={errors.password?.message ?? ''}
+          {...register(DefaultValues.password)}
+        />
 
-      {createAccount && (
-        <Button variant="outlined" onClick={() => push('/create-account')}>
-          Criar Conta
+        {createAccount && (
+          <Button variant="outlined" onClick={() => push('/create-account')}>
+            Criar Conta
+          </Button>
+        )}
+
+        <Button variant="contained" type="submit" loading={isSubmitting}>
+          {createAccount ? 'Logar' : 'Cadastrar'}
         </Button>
-      )}
-
-      <Button variant="contained" type="submit" loading={isSubmitting}>
-        {createAccount ? 'Logar' : 'Cadastrar'}
-      </Button>
-    </S.WrapperForm>
+      </S.WrapperForm>
+    </>
   );
 };

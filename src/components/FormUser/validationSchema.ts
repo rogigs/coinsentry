@@ -12,6 +12,7 @@ export const defaultValues = {
 
 export type FormInputs = typeof defaultValues;
 
+// TODO: add validation email
 export const validationSchema = yup
   .object({
     [DefaultValues.email]: yup.string().required('Preencha o campo email'),
