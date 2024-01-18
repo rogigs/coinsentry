@@ -1,6 +1,6 @@
+import WarningAmberOutlined from '@mui/icons-material/BugReportOutlined'; // TODO: resolve problem of type
 import CheckCircleOutlineOutlined from '@mui/icons-material/CheckCircleOutlineOutlined';
 import ErrorOutlineOutlined from '@mui/icons-material/ErrorOutlineOutlined';
-import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined'; // TODO: resolve problem of type
 import Button from '@mui/material/Button';
 import DialogActionsMUI from '@mui/material/DialogActions';
 import DialogContentMUI from '@mui/material/DialogContent';

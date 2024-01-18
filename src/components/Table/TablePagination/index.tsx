@@ -29,7 +29,7 @@ type TablePagination = TableProps &
     rows: any[];
     columns: any[];
     count: number;
-    rowsPerPageOptions: number[];
+    rowsPerPageOptions?: number[];
   };
 
 const TablePagination = ({
@@ -116,7 +116,7 @@ const TablePagination = ({
                     <TableRow
                       key={id}
                       hover
-                      onClick={(event) => handleClick(event, id)}
+                      onClick={(event) => handleClick(event, id as string)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}

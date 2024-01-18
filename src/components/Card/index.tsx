@@ -16,7 +16,7 @@ type Card = {
 const Card = ({ type, value = 0 }: Card) => (
   <CardStyled
     data-testid="card"
-    istotalcard={type === CardTypes.total ? +value : false}
+    istotalcard={type === CardTypes.total}
     value={Number(value)}
   >
     <CardActionArea>

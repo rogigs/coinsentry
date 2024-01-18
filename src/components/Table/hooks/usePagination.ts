@@ -66,7 +66,7 @@ const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
     setPage(0);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
+  const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected: readonly any[] = [];
 
