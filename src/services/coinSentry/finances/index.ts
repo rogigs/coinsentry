@@ -3,7 +3,9 @@ import { mockGetFinances, mockGetFinancesDetails } from './mocks';
 import { Pagination } from '@/types';
 
 export type FinanceDetails = typeof mockGetFinancesDetails.data;
-export type Finance = Omit<(typeof mockGetFinances.data)[0], 'id'>;
+export type Finance = (typeof mockGetFinances.data)[0];
+
+// Omit<(typeof mockGetFinances.data)[0], 'id'>;
 
 type Model = {
   id: string;

@@ -18,6 +18,7 @@ const TableFilter = (props) => {
     rowCount,
     onRequestSort,
     headCells,
+    rows,
   } = props;
 
   const createSortHandler =
@@ -33,7 +34,7 @@ const TableFilter = (props) => {
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
+            onChange={(e) => onSelectAllClick(e, rows)}
             inputProps={{
               'aria-label': 'select all desserts',
             }}

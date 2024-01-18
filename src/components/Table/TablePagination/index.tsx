@@ -1,120 +1,89 @@
-import { useState, useMemo } from 'react';
-import Table from '@mui/material/Table';
+import { useMemo } from 'react';
+import Table, { TableProps } from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import Checkbox from '@mui/material/Checkbox';
 
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import TableFooter from '@mui/material/TableFooter';
-import TablePagination from '@mui/material/TablePagination';
+import TablePaginationMUI, {
+  TablePaginationProps,
+} from '@mui/material/TablePagination';
 import { getComparator, stableSort, Order } from '../helpers';
 import TableFilter from '../TableFilter';
 import Box from '@mui/material/Box';
+import { TableToolbar } from '../TableToolbar';
+import usePagination from '../hooks/usePagination';
+import { Pagination } from '@/types';
 
 // TODO: refactor this compontent
 // TODO: clean states this component and of reducer
 
-export default function BasicTable({
+type TablePagination = TablePaginationProps &
+  TableProps & {
+    rows: any[];
+    columns: any[];
+    fetchNewPage: (pagination: Pagination) => Promise<void>;
+    onClickEdit: (id: string) => void;
+  };
+
+const TablePagination = ({
   rows,
   columns,
   rowsPerPageOptions = [10],
-  dense,
+  size = 'medium',
   fetchNewPage,
   count,
-}) {
-  const [page, setPage] = useState(0);
-  const [pageCache, setPageCache] = useState([0]);
-
-  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
-  const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState('title');
-  const [selected, setSelected] = useState<readonly number[]>([]);
-
-  // DE FILTER
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: any,
-  ) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
-  // DE PAGINATION
-  const handleChangePage = async (_, newPage: number) => {
-    const pageAlreadySentRequest = pageCache.some((page) => page === newPage);
-
-    if (!pageAlreadySentRequest) {
-      await fetchNewPage({ page: newPage, pageSize: rowsPerPage })();
-    }
-
-    setPageCache((prev) => prev.concat(newPage));
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, rowsPerPage));
-
-    setPage(0);
-  };
+  onClickEdit,
+}: TablePagination) => {
+  const {
+    page,
+    rowsPerPage,
+    order,
+    orderBy,
+    selected,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    handleRequestSort,
+    handleSelectAllClick,
+    handleClick,
+  } = usePagination({
+    rowsPerPageOptions,
+  });
 
   //  DE     TABLE BODY
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0
+      ? Math.max(0, (1 + page) * (rowsPerPage ? +rowsPerPage : 0) - rows.length)
+      : 0;
 
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
   const visibleRows = useMemo(
     () =>
       rows.slice(
-        //TODO: fix error to filter elements
-        page * rowsPerPage, // 0 * 10 = 0 -> 10
-        page * rowsPerPage + rowsPerPage, // 0 * 10 + 10 = 10 -> 10 + 10 = 20
+        // TODO: fix error to filter elements
+        page * (rowsPerPage ? +rowsPerPage : 0),
+        page * (rowsPerPage ? +rowsPerPage : 0) +
+          (rowsPerPage ? +rowsPerPage : 0),
       ),
     [order, orderBy, page, rowsPerPage, rows],
   );
 
-  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected: readonly number[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-    setSelected(newSelected);
-  };
-
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
+        <TableToolbar
+          numSelected={selected.length}
+          selected={selected}
+          onClickEdit={onClickEdit}
+        />
         <TableContainer component={Paper}>
           <Table
             aria-label="simple table"
             aria-labelledby="tableTitle"
-            size={dense}
+            size={size}
             sx={{
               minWidth: '700px',
             }}
@@ -127,6 +96,7 @@ export default function BasicTable({
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
               headCells={columns}
+              rows={rows}
             />
             <TableBody>
               {visibleRows.map(
@@ -181,7 +151,7 @@ export default function BasicTable({
               {emptyRows > 0 && (
                 <TableRow
                   style={{
-                    height: (dense ? 33 : 53) * emptyRows,
+                    height: (size ? 33 : 53) * emptyRows,
                   }}
                 >
                   <TableCell colSpan={6} />
@@ -189,13 +159,21 @@ export default function BasicTable({
               )}
             </TableBody>
           </Table>
-          <TablePagination
+          <TablePaginationMUI
             rowsPerPageOptions={rowsPerPageOptions}
             component="div"
             count={count}
-            rowsPerPage={rowsPerPage}
+            rowsPerPage={
+              typeof rowsPerPage === 'object'
+                ? +rowsPerPage.value
+                : rowsPerPage
+                ? +rowsPerPage
+                : 0
+            }
             page={page}
-            onPageChange={handleChangePage}
+            onPageChange={(_, newPage) =>
+              handleChangePage(_, newPage, fetchNewPage)
+            }
             onRowsPerPageChange={handleChangeRowsPerPage}
             labelRowsPerPage="Linhas por página"
             labelDisplayedRows={({ from, to, count }) =>
@@ -206,4 +184,6 @@ export default function BasicTable({
       </Paper>
     </Box>
   );
-}
+};
+
+export default TablePagination;
