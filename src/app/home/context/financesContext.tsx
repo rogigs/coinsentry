@@ -22,6 +22,7 @@ type FinancesContext = {
   fetchFinancesDetails: () => Promise<void>; // TODO: review this type
 };
 
+// TODO: resolve problems of types
 export const FinancesContext = createContext<FinancesContext | null>(null);
 
 export const FinancesProvider = ({ children }: FinancesProvider) => {

@@ -116,7 +116,7 @@ export default function BasicTable({
             aria-labelledby="tableTitle"
             size={dense}
             sx={{
-              minWidth: 650,
+              minWidth: '700px',
             }}
           >
             <TableFilter
