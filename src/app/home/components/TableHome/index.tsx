@@ -1,14 +1,77 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Icons } from '@/components/Dialog';
-import TablePagination from '@/components/Table/TablePagination';
+import TablePagination, {
+  CustowRowProps,
+} from '@/components/Table/TablePagination';
+import Checkbox from '@mui/material/Checkbox';
+
 import { useDialog } from '@/hooks/useDialog';
+import { Finance } from '@/services/coinSentry/finances';
 import dynamic from 'next/dynamic';
 import { ACTIONS_TYPE } from '../../context/reducerFinances/actions';
 import { useFinances } from '../../hooks/useFinances';
 import { columnsPagination } from '../../utils';
-
 const DialogHome = dynamic(() => import('../../DialogHome'));
+
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+
+type CustomTableRow = Finance &
+  CustowRowProps & {
+    isSelected: (id: string) => boolean;
+  };
+
+const CustomTableRow = ({
+  id,
+  title,
+  value_item,
+  operation,
+  date_input,
+  category,
+  isSelected,
+  handleClick,
+  isItemSelected,
+  labelId,
+}: CustomTableRow) => {
+  return (
+    <TableRow
+      key={id}
+      hover
+      onClick={(event: React.MouseEvent<unknown, MouseEvent>) =>
+        handleClick(event, id as string)
+      }
+      role="checkbox"
+      aria-checked={!!isItemSelected}
+      tabIndex={-1}
+      selected={!!isItemSelected}
+      sx={{ cursor: 'pointer' }}
+    >
+      <TableCell padding="checkbox">
+        <Checkbox
+          color="primary"
+          checked={!!isItemSelected}
+          inputProps={{
+            'aria-labelledby': labelId,
+          }}
+        />
+      </TableCell>
+      <TableCell
+        align="center"
+        component="th"
+        id={labelId}
+        scope="row"
+        padding="none"
+      >
+        {title}
+      </TableCell>
+      <TableCell align="center">{operation}</TableCell>
+      <TableCell align="center">{category}</TableCell>
+      <TableCell align="center">{value_item}</TableCell>
+      <TableCell align="center">{date_input}</TableCell>
+    </TableRow>
+  );
+};
 
 const TableHome = () => {
   const { setShowDialog } = useDialog();
@@ -19,10 +82,6 @@ const TableHome = () => {
     icon: Icons.success,
     message: '',
   });
-
-  useEffect(() => {
-    fetchFinances({ page: 0, pageSize: 10 })();
-  }, []);
 
   const onClickEdit = (id: string) => () => {
     dispatch({
@@ -55,6 +114,7 @@ const TableHome = () => {
           count={state.dataLenghtInDatabase}
           onClickEdit={onClickEdit}
           onClickDelete={onClickDelete}
+          customRow={CustomTableRow}
         />
       </div>
     </>

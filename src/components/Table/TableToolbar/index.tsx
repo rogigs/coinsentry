@@ -1,3 +1,4 @@
+import { Pagination } from '@/types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
@@ -7,9 +8,11 @@ import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
 import { ActionsTablePagination } from '../TablePagination';
 
-type TableToolbar = Omit<ActionsTablePagination, 'fetchNewPage'> & {
+type TableToolbar = Omit<ActionsTablePagination, 'customRow'> & {
   selected: any; // TODO: review this type
   qntSelected: number;
+  pagination: Pagination;
+  cleanPageCache: () => void;
 };
 
 export const TableToolbar = ({
@@ -17,6 +20,7 @@ export const TableToolbar = ({
   qntSelected,
   onClickEdit,
   onClickDelete,
+  cleanPageCache,
 }: TableToolbar) => {
   return (
     <Toolbar
@@ -66,7 +70,13 @@ export const TableToolbar = ({
               <EditIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Deletar" onClick={onClickDelete(selected)}>
+          <Tooltip
+            title="Deletar"
+            onClick={async () => {
+              await onClickDelete(selected)();
+              await cleanPageCache();
+            }}
+          >
             <IconButton>
               <DeleteIcon />
             </IconButton>

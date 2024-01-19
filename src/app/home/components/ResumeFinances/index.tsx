@@ -2,7 +2,6 @@ import { isAxiosError } from 'axios';
 import { useEffect } from 'react';
 
 import Card, { CardTypes } from '../../../../components/Card';
-import ErrorComponent from '../../../../components/Error';
 import { useFinances } from '../../hooks/useFinances';
 import * as S from './styles';
 
@@ -22,10 +21,10 @@ const ResumeFinances = () => {
     return (
       <S.WrapperError>
         {/* TODO: review this component */}
-        <ErrorComponent
+        {/* <ErrorComponent
           onClick={fetchFinancesDetails}
           setState={fetchFinancesDetails}
-        />
+        /> */}
       </S.WrapperError>
     );
   }

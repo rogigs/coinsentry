@@ -1,6 +1,8 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 
+const font = "'Quicksand', sans-serif";
+
 const outerTheme = createTheme({
   palette: {
     primary: {
@@ -21,6 +23,8 @@ const outerTheme = createTheme({
     },
     error: {
       main: '#ff6961', // var(--error-color)
+      dark: '#DB5A53',
+      contrastText: '#394D59',
     },
     text: {
       primary: '#394D59', // var(--primary-color-dark-high),
@@ -34,7 +38,11 @@ const outerTheme = createTheme({
     },
   },
 
-  // TODO: change typography
+  typography: {
+    fontFamily: ['__Montserrat_d1b352', '__Montserrat_Fallback_d1b352'].join(
+      ',',
+    ),
+  },
 });
 
 type BrandTheme = {

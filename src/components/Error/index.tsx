@@ -1,20 +1,11 @@
 import { Alert, AlertTitle } from '@mui/material';
-import { useState } from 'react';
 
 import Button from '../Button';
 
-const ErrorComponent = ({ onClick, setState }) => {
-  const [loading, setLoading] = useState(false);
-
-  const tryAgain = async () => {
-    setLoading(true);
-
-    const response = await onClick();
-
-    setState(response);
-    setLoading(false);
-  };
-
+type ErrorComponent = {
+  onClick: () => void;
+};
+const ErrorComponent = ({ onClick }: ErrorComponent) => {
   return (
     <Alert
       severity="error"
@@ -27,9 +18,9 @@ const ErrorComponent = ({ onClick, setState }) => {
       </p>
       <Button
         color="error"
-        onClick={tryAgain}
-        loading={loading}
-        sx={{ width: '185px' }}
+        onClick={onClick}
+        // loading={loading}
+        sx={{ width: '200px' }}
       >
         Tentar novamente
       </Button>

@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Pagination } from '@/types/index';
 import { Order } from '../helpers';
 
 type UsePagination = {
   rowsPerPageOptions?: number[];
+  fetchNewPage: (
+    pagination: Pagination,
+  ) => (cleanCache?: true) => Promise<void>;
 };
 
-const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
+const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
   const [page, setPage] = useState(0);
   const [pageCache, setPageCache] = useState([0]);
   const [rowsPerPage, setRowsPerPage] = useState<number>(
@@ -17,6 +20,24 @@ const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
   const [orderBy, setOrderBy] = useState('title');
   const [selected, setSelected] = useState<readonly Object[]>([]);
 
+  useEffect(() => {
+    fetchNewPage({
+      page: 0,
+      pageSize: rowsPerPage,
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (pageCache[0] === -1) {
+      // TODO: stressfull necessaru
+      fetchNewPage({
+        page: page,
+        pageSize: rowsPerPage,
+      })(true);
+
+      setPageCache([page]);
+    }
+  }, [pageCache]);
   // DE FILTER
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -43,7 +64,9 @@ const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
   const handleChangePage = async (
     event: React.MouseEvent<unknown> | null,
     newPage: number,
-    fetchNewPage: (pagination: Pagination) => () => Promise<void>,
+    fetchNewPage: (
+      pagination: Pagination,
+    ) => (cleanCache?: true) => Promise<void>,
   ) => {
     const pageAlreadySentRequest = pageCache.some((page) => page === newPage);
 
@@ -85,6 +108,8 @@ const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
     setSelected(newSelected);
   };
 
+  const cleanPageCache = () => setPageCache([-1]);
+
   return {
     page,
     setPage,
@@ -102,6 +127,7 @@ const usePagination = ({ rowsPerPageOptions }: UsePagination) => {
     handleRequestSort,
     handleSelectAllClick,
     handleClick,
+    cleanPageCache,
   };
 };
 

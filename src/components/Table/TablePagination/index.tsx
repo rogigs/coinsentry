@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper';
 import Table, { TableProps } from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,12 +15,26 @@ import { TableToolbar } from '../TableToolbar';
 import { getComparator, stableSort } from '../helpers';
 import usePagination from '../hooks/usePagination';
 
-// TODO: Put in a page
+export type CustowRowProps = {
+  isItemSelected: Object;
+  labelId: string;
+  handleClick: (
+    event: React.MouseEvent<unknown, MouseEvent>,
+    id: string,
+  ) => void;
+};
 
 export type ActionsTablePagination = {
-  fetchNewPage: (pagination: Pagination) => () => Promise<void>;
+  fetchNewPage: (
+    pagination: Pagination,
+  ) => (cleanCache?: true) => Promise<void>;
   onClickEdit: (id: string) => () => void;
   onClickDelete: (idItems: string[]) => () => void;
+  customRow: ({
+    isItemSelected,
+    labelId,
+    ...props
+  }: CustowRowProps) => JSX.Element;
 };
 
 type TablePagination = TableProps &
@@ -41,6 +54,7 @@ const TablePagination = ({
   count,
   onClickEdit,
   onClickDelete,
+  customRow,
 }: TablePagination) => {
   const {
     page,
@@ -53,10 +67,13 @@ const TablePagination = ({
     handleRequestSort,
     handleSelectAllClick,
     handleClick,
+    cleanPageCache,
   } = usePagination({
     rowsPerPageOptions,
+    fetchNewPage,
   });
 
+  const CustomRow = customRow;
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -79,6 +96,12 @@ const TablePagination = ({
           selected={selected}
           onClickEdit={onClickEdit}
           onClickDelete={onClickDelete}
+          fetchNewPage={fetchNewPage}
+          pagination={{
+            page: page,
+            pageSize: rowsPerPage,
+          }}
+          cleanPageCache={cleanPageCache}
         />
         <TableContainer component={Paper}>
           <Table
@@ -100,55 +123,21 @@ const TablePagination = ({
               rows={visibleRows}
             />
             <TableBody>
-              {visibleRows.map(
-                ({
-                  id,
-                  title,
-                  value_item,
-                  operation,
-                  date_input,
-                  category,
-                }) => {
-                  const isItemSelected = isSelected(id as string);
-                  const labelId = `enhanced-table-checkbox-${id}`;
+              {visibleRows.map((row) => {
+                const isItemSelected = isSelected(row.id as string);
+                const labelId = `enhanced-table-checkbox-${row.id}`;
 
-                  return (
-                    <TableRow
-                      key={id}
-                      hover
-                      onClick={(event) => handleClick(event, id as string)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      selected={isItemSelected}
-                      sx={{ cursor: 'pointer' }}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {title}
-                      </TableCell>
-                      <TableCell align="center">{operation}</TableCell>
-                      <TableCell align="center">{category}</TableCell>
-                      <TableCell align="center">{value_item}</TableCell>
-                      <TableCell align="center">{date_input}</TableCell>
-                    </TableRow>
-                  );
-                },
-              )}
+                return (
+                  <CustomRow
+                    key={row.id}
+                    isItemSelected={isItemSelected}
+                    labelId={labelId}
+                    handleClick={handleClick}
+                    {...row}
+                  />
+                );
+              })}
+
               {emptyRows > 0 && (
                 <TableRow
                   style={{

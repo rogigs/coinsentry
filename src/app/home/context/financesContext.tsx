@@ -59,19 +59,26 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
     React.Dispatch<React.SetStateAction<Action>>,
   ] = useReducer(reducer as any, INITIAL_STATE as any) as unknown as any;
 
-  const fetchFinances = useCallback(
-    (pagination: Pagination) => async () => {
-      try {
-        const financeData = await getFinances(pagination);
+  console.log('🚀 ~ FinancesProvider ~ state:', state.data);
 
-        dispatch({
-          type: ACTIONS_TYPE.ADD_DATA,
-          payload: financeData,
-        });
-      } catch (error) {
-        console.error('Erro ao buscar finanças:', error);
-      }
-    },
+  const fetchFinances = useCallback(
+    (pagination: Pagination) =>
+      async (cleanCache = false) => {
+        try {
+          const financeData = await getFinances(pagination);
+          console.log('🚀 ~ cleanCache:', cleanCache);
+
+          dispatch({
+            type: ACTIONS_TYPE.ADD_DATA,
+            payload: {
+              financeData,
+              cleanCache,
+            },
+          });
+        } catch (error) {
+          console.error('Erro ao buscar finanças:', error);
+        }
+      },
     [],
   );
 

@@ -8,7 +8,7 @@ type CustomButtonProps = ButtonProps & {
   variant?: 'contained' | 'outlined' | 'text';
   loading?: boolean;
   children: React.ReactNode | React.ReactElement;
-  className: any;
+  className?: any;
 };
 
 const Button = ({
