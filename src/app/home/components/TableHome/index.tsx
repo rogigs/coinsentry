@@ -1,21 +1,21 @@
-import { useState } from 'react';
-
 import { Icons } from '@/components/Dialog';
 import TablePagination, {
   CustowRowProps,
 } from '@/components/Table/TablePagination';
-import Checkbox from '@mui/material/Checkbox';
-
 import { useDialog } from '@/hooks/useDialog';
 import { Finance } from '@/services/coinSentry/finances';
+import Checkbox from '@mui/material/Checkbox';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import { isAxiosError } from 'axios';
 import dynamic from 'next/dynamic';
+import { useState } from 'react';
 import { ACTIONS_TYPE } from '../../context/reducerFinances/actions';
 import { useFinances } from '../../hooks/useFinances';
 import { columnsPagination } from '../../utils';
-const DialogHome = dynamic(() => import('../../DialogHome'));
 
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
+const DialogHome = dynamic(() => import('../../DialogHome'));
+const Alert = dynamic(() => import('../../../../components/Alert'));
 
 type CustomTableRow = Finance &
   CustowRowProps & {
@@ -95,6 +95,10 @@ const TableHome = () => {
 
     setShowDialog(true);
   };
+
+  if (isAxiosError(state.data)) {
+    return <Alert onClick={fetchFinances as unknown as () => void} />;
+  }
 
   return (
     <>

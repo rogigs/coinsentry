@@ -1,9 +1,13 @@
-import { isAxiosError } from 'axios';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 
+import CircularProgress from '@/components/Progress';
+import { isAxiosError } from 'axios';
+import dynamic from 'next/dynamic';
 import Card, { CardTypes } from '../../../../components/Card';
 import { useFinances } from '../../hooks/useFinances';
 import * as S from './styles';
+
+const Alert = dynamic(() => import('../../../../components/Alert'));
 
 type ResumeFinances = {
   details: any; // TODO: type component
@@ -18,23 +22,17 @@ const ResumeFinances = () => {
   }, []);
 
   if (isAxiosError(state.details)) {
-    return (
-      <S.WrapperError>
-        {/* TODO: review this component */}
-        {/* <ErrorComponent
-          onClick={fetchFinancesDetails}
-          setState={fetchFinancesDetails}
-        /> */}
-      </S.WrapperError>
-    );
+    return <Alert onClick={fetchFinancesDetails} />;
   }
 
   return (
-    <S.WrapperCard>
-      <Card type={CardTypes.entrada} value={state.details?.entrada_total} />
-      <Card type={CardTypes.saida} value={state.details?.saida_total} />
-      <Card type={CardTypes.total} value={state.details?.total} />
-    </S.WrapperCard>
+    <Suspense fallback={<CircularProgress />}>
+      <S.WrapperCard>
+        <Card type={CardTypes.entrada} value={state.details?.entrada_total} />
+        <Card type={CardTypes.saida} value={state.details?.saida_total} />
+        <Card type={CardTypes.total} value={state.details?.total} />
+      </S.WrapperCard>
+    </Suspense>
   );
 };
 

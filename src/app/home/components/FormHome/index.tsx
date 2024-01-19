@@ -140,14 +140,12 @@ const FormHome = () => {
 
           <FormControl fullWidth>
             <InputLabel id="teste">Categoria</InputLabel>
+            {/* TODO: help to resolve */}
             <Select
               labelId="teste"
               label="Categoria"
               title="category"
               {...register(DefaultValues.category)}
-              sx={{
-                maxWidth: '100x',
-              }}
             >
               <MenuItem value="None">
                 <em>None</em>

@@ -1,3 +1,4 @@
+import { Pagination } from '@/types';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Table, { TableProps } from '@mui/material/Table';
@@ -6,10 +7,9 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TablePaginationMUI from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 
-import { Pagination } from '@/types';
-
+import CircularProgress from '@/components/Progress';
 import TableFilter from '../TableFilter';
 import { TableToolbar } from '../TableToolbar';
 import { getComparator, stableSort } from '../helpers';
@@ -46,7 +46,7 @@ type TablePagination = TableProps &
   };
 
 const TablePagination = ({
-  rows,
+  rows = [],
   columns,
   rowsPerPageOptions = [10],
   size = 'medium',
@@ -123,30 +123,38 @@ const TablePagination = ({
               rows={visibleRows}
             />
             <TableBody>
-              {visibleRows.map((row) => {
-                const isItemSelected = isSelected(row.id as string);
-                const labelId = `enhanced-table-checkbox-${row.id}`;
+              <Suspense
+                fallback={
+                  <TableCell colSpan={6}>
+                    <CircularProgress />
+                  </TableCell>
+                }
+              >
+                {visibleRows.map((row) => {
+                  const isItemSelected = isSelected(row.id as string);
+                  const labelId = `enhanced-table-checkbox-${row.id}`;
 
-                return (
-                  <CustomRow
-                    key={row.id}
-                    isItemSelected={isItemSelected}
-                    labelId={labelId}
-                    handleClick={handleClick}
-                    {...row}
-                  />
-                );
-              })}
+                  return (
+                    <CustomRow
+                      key={row.id}
+                      isItemSelected={isItemSelected}
+                      labelId={labelId}
+                      handleClick={handleClick}
+                      {...row}
+                    />
+                  );
+                })}
 
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (size ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: (size ? 33 : 53) * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </Suspense>
             </TableBody>
           </Table>
           <TablePaginationMUI
