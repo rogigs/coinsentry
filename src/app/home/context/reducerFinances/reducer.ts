@@ -21,14 +21,14 @@ export const reducer = (state: INITIAL_STATE_TYPE, action: Action) => {
   const actionsTypes = {
     [ACTIONS_TYPE.ADD_DATA]: {
       ...state,
-      data: action.payload.cleanCache
-        ? action.payload.financeData?.data
+      data: action.payload?.cleanCache
+        ? action.payload?.financeData?.data
         : compareArraysOfObjects(
             state.data,
-            action.payload.financeData?.data,
+            action.payload?.financeData?.data,
             'id',
           ),
-      dataLenghtInDatabase: action.payload.financeData?.dataLenghtInDatabase,
+      dataLenghtInDatabase: action.payload?.financeData?.dataLenghtInDatabase,
     },
     [ACTIONS_TYPE.ADD_DETAILS]: {
       ...state,

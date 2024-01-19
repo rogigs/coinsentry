@@ -24,7 +24,10 @@ export default function Home() {
       <FinancesProvider>
         <DialogProvider>
           <FormHome />
-          <ResumeFinances />
+        </DialogProvider>
+
+        <ResumeFinances />
+        <DialogProvider>
           <TableHome />
         </DialogProvider>
       </FinancesProvider>

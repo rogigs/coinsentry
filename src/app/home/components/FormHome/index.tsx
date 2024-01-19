@@ -91,24 +91,26 @@ const FormHome = () => {
           icon: Icons.success,
           message: 'Um item das suas finanças foi atualizado com sucesso!',
         });
-      } else {
-        const dateToday = new Date();
-        const dateFormatted = format(dateToday, 'dd-MM-yyyy');
 
-        await insertFinance({
-          ...data,
-          value_item: Number(data.value_item.replace(/\D/g, '')),
-          date_input: dateFormatted,
-        } as unknown as Omit<Finance, 'id'>);
+        reset();
 
-        setDialog({
-          title: 'Sucesso',
-          icon: Icons.success,
-          message: 'Um item das suas finanças foi cadastrado com sucesso!',
-        });
+        return;
       }
 
-      setShowDialog(true);
+      const dateToday = new Date();
+      const dateFormatted = format(dateToday, 'dd-MM-yyyy');
+
+      await insertFinance({
+        ...data,
+        value_item: Number(data.value_item.replace(/\D/g, '')),
+        date_input: dateFormatted,
+      } as unknown as Omit<Finance, 'id'>);
+
+      setDialog({
+        title: 'Sucesso',
+        icon: Icons.success,
+        message: 'Um item das suas finanças foi cadastrado com sucesso!',
+      });
 
       reset();
     } catch (error) {
@@ -117,7 +119,8 @@ const FormHome = () => {
         icon: Icons.error,
         message: 'Um item das suas finanças teve problema ao ser cadastrado!',
       });
-      console.log('🚀 ~ onSubmit ~ error:', error);
+    } finally {
+      setShowDialog(true);
     }
   };
 

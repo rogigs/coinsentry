@@ -66,7 +66,6 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
       async (cleanCache = false) => {
         try {
           const financeData = await getFinances(pagination);
-          console.log('🚀 ~ cleanCache:', cleanCache);
 
           dispatch({
             type: ACTIONS_TYPE.ADD_DATA,
