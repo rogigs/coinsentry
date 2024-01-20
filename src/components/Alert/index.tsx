@@ -1,11 +1,12 @@
 import AlertMUI from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 
+import { IconsOptions } from '@/types';
 import { Suspense } from 'react';
 import Button from '../Button';
 
 type AlertProps = {
-  type?: any; // fix type
+  type?: IconsOptions;
   txtButton?: string;
   message?: string;
   onClick?: () => void;
@@ -31,12 +32,7 @@ const Alert = ({
             <Button color={type} loading={true} sx={{ width: '200px' }} />
           }
         >
-          <Button
-            color={type}
-            onClick={onClick}
-            // loading={loading}
-            sx={{ width: '200px' }}
-          >
+          <Button color={type} onClick={onClick} sx={{ width: '200px' }}>
             {txtButton}
           </Button>
         </Suspense>

@@ -1,6 +1,6 @@
-import Dialog, { Icons } from '@/components/Dialog';
+import Dialog from '@/components/Dialog';
 import { useDialog } from '@/hooks/useDialog';
-import { Pagination } from '@/types';
+import { IconsType, Pagination } from '@/types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
@@ -29,7 +29,7 @@ export const TableToolbar = ({
   return (
     <>
       <Dialog.Dialog>
-        <Dialog.DialogTitle icon={Icons.warning} title="Alerta" />
+        <Dialog.DialogTitle icon={IconsType.warning} title="Alerta" />
         <Dialog.DialogContent>
           <p>
             Não é possível editar múltiplos itens de sua finanças ao mesmo tempo

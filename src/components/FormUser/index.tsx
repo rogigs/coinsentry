@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Button from '@/components/Button';
-import Dialog, { Icons } from '@/components/Dialog';
+import Dialog from '@/components/Dialog';
 import { useDialog } from '@/hooks/useDialog';
 import { useState } from 'react';
 import * as S from './styles';
@@ -14,6 +14,8 @@ import {
   validationSchema,
 } from './validationSchema';
 
+import { IconsType } from '@/types';
+
 type FormUser = {
   createAccount?: boolean;
   push: (pathName: string) => void;
@@ -23,7 +25,7 @@ type FormUser = {
 export const FormUser = ({ createAccount, push, send }: FormUser) => {
   const [dialog, setDialog] = useState({
     title: '',
-    icon: Icons.success,
+    icon: IconsType.success,
     message: '',
   });
 
@@ -52,7 +54,7 @@ export const FormUser = ({ createAccount, push, send }: FormUser) => {
     } catch (error) {
       setDialog({
         title: 'Erro',
-        icon: Icons.error,
+        icon: IconsType.error,
         message: createAccount
           ? 'Email ou senhas incorretos. Por favor, tente novamente.'
           : 'Não foi possível criar o usuário. Por favor, tente novamente.',
@@ -65,7 +67,10 @@ export const FormUser = ({ createAccount, push, send }: FormUser) => {
   return (
     <>
       <Dialog.Dialog>
-        <Dialog.DialogTitle icon={Icons[dialog.icon]} title={dialog.title} />
+        <Dialog.DialogTitle
+          icon={IconsType[dialog.icon]}
+          title={dialog.title}
+        />
         <Dialog.DialogContent>
           <p>{dialog.message}</p>
         </Dialog.DialogContent>

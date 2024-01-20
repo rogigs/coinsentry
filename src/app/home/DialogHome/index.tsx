@@ -1,9 +1,10 @@
-import Dialog, { Icons } from '@/components/Dialog';
+import Dialog from '@/components/Dialog';
 import { useDialog } from '@/hooks/useDialog';
+import { IconsOptions, IconsType } from '@/types';
 
 type DialogHome = {
   title: string;
-  icon: Icons;
+  icon: IconsOptions;
   children: React.ReactNode;
 };
 
@@ -12,7 +13,7 @@ const DialogHome = ({ title, icon, children }: DialogHome) => {
 
   return (
     <Dialog.Dialog>
-      <Dialog.DialogTitle icon={Icons[icon]} title={title} />
+      <Dialog.DialogTitle icon={IconsType[icon]} title={title} />
       <Dialog.DialogContent>{children}</Dialog.DialogContent>
       <Dialog.DialogActions
         primaryTxtButton="Fechar"

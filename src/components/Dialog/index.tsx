@@ -1,5 +1,6 @@
 import WarningAmberOutlined from '@mui/icons-material/BugReportOutlined'; // TODO: resolve problem of type
 import CheckCircleOutlineOutlined from '@mui/icons-material/CheckCircleOutlineOutlined';
+
 import ErrorOutlineOutlined from '@mui/icons-material/ErrorOutlineOutlined';
 import Button from '@mui/material/Button';
 import DialogActionsMUI from '@mui/material/DialogActions';
@@ -8,23 +9,18 @@ import DialogTitleMUI from '@mui/material/DialogTitle';
 
 import { useDialog } from '@/hooks/useDialog';
 
+import { IconsType } from '@/types';
 import * as S from './styles';
 
 export type DialogOptions = {
-  icon: Icons;
+  icon: IconsType;
   title: string;
 };
 
-export enum Icons {
-  error = 'error',
-  success = 'success',
-  warning = 'warning',
-}
-
 type IconType = {
-  [Icons.error]: React.ReactElement;
-  [Icons.success]: React.ReactElement;
-  [Icons.warning]: React.ReactElement;
+  [IconsType.error]: React.ReactElement;
+  [IconsType.success]: React.ReactElement;
+  [IconsType.warning]: React.ReactElement;
 };
 
 const icons: IconType = {

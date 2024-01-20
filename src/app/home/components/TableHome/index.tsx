@@ -1,9 +1,9 @@
-import { Icons } from '@/components/Dialog';
 import TablePagination, {
   CustowRowProps,
 } from '@/components/Table/TablePagination';
 import { useDialog } from '@/hooks/useDialog';
 import { Finance } from '@/services/coinSentry/finances';
+import { IconsType } from '@/types';
 import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -79,7 +79,7 @@ const TableHome = () => {
 
   const [dialog, setDialog] = useState({
     title: '',
-    icon: Icons.success,
+    icon: IconsType.success,
     message: '',
   });
 

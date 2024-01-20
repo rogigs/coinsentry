@@ -14,9 +14,8 @@ import {
   insertFinance as postFinance,
   updateFinance as putFinance,
 } from '@/services/coinSentry/finances';
-import { Pagination } from '@/types';
+import { IconsType, Pagination } from '@/types';
 
-import { Icons } from '@/components/Dialog';
 import { Action, ACTIONS_TYPE } from './reducerFinances/actions';
 import {
   INITIAL_STATE,
@@ -147,7 +146,7 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
         // TODO: UPDATE TABLE
         setDialog({
           title: 'Sucesso',
-          icon: Icons.success,
+          icon: IconsType.success,
           message: 'Seu(s) item(s) das suas finanças foram excluídos!',
         });
       } catch (error) {
@@ -155,7 +154,7 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
 
         setDialog({
           title: 'Erro',
-          icon: Icons.error,
+          icon: IconsType.error,
           message: 'Não foi possivel excluir seu(s) item(s) das suas finanças!',
         });
       }
