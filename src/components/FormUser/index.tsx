@@ -53,7 +53,9 @@ export const FormUser = ({ createAccount, push, send }: FormUser) => {
       setDialog({
         title: 'Erro',
         icon: Icons.error,
-        message: 'Email ou senhas incorretos. Por favor, tente novamente.',
+        message: createAccount
+          ? 'Email ou senhas incorretos. Por favor, tente novamente.'
+          : 'Não foi possível criar o usuário. Por favor, tente novamente.',
       });
 
       setShowDialog(true);
