@@ -16,8 +16,8 @@ export const mockGetFinances = {
 export const mockGetFinancesDetails = {
   status: 200,
   data: {
-    entrada_total: 1000,
-    saida_total: 0,
+    input: 1000,
+    output: 0,
     total: 1000,
   },
 };

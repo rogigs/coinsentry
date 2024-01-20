@@ -65,7 +65,6 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
       async (cleanCache = false) => {
         try {
           const financeData = await getFinances(pagination);
-          console.log('🚀 ~ financeData:', financeData);
 
           dispatch({
             type: ACTIONS_TYPE.ADD_DATA,
@@ -115,7 +114,7 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
       await postFinance(finance);
 
       if (state.data.length < 10) {
-        await Promise.all([
+        await Promise.allSettled([
           fetchFinances({ page: 0, pageSize: 10 }),
           fetchFinancesDetails(),
         ]);
