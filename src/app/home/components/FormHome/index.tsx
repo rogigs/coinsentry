@@ -140,11 +140,12 @@ const FormHome = () => {
 
           <FormControl fullWidth>
             <InputLabel id="teste">Categoria</InputLabel>
-            {/* TODO: help to resolve */}
+            {/* TODO: resolve problem https://github.com/mui/material-ui/issues/24453 */}
             <Select
               labelId="teste"
               label="Categoria"
               title="category"
+              defaultValue={defaultValues[DefaultValues.category]} // it's show defaultValue to user, register put just in object data
               {...register(DefaultValues.category)}
             >
               <MenuItem value="None">
@@ -176,9 +177,9 @@ const FormHome = () => {
               aria-labelledby="demo-controlled-radio-buttons-group"
               row
               defaultValue={defaultValues.operation}
-              onChange={(e) =>
-                setValue(DefaultValues.operation, e.target.value)
-              } // register doesn't work in radio group
+              onChange={
+                (e) => setValue(DefaultValues.operation, e.target.value) // register doesn't work in radio group
+              }
             >
               <S.FormControlLabel
                 value="entrada"

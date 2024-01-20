@@ -1,8 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 
-const font = "'Quicksand', sans-serif";
-
 const outerTheme = createTheme({
   palette: {
     primary: {
