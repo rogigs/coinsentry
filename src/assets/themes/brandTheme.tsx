@@ -34,7 +34,8 @@ const outerTheme = createTheme({
       paper: '#F2F2F2', // var(--gray-color),
     },
     action: {
-      hover: 'rgba(242, 159, 141, 0.2)', // var(--support-color-3)
+      disabledBackground: '', // don't set the disable background color
+      disabled: '',
     },
   },
 

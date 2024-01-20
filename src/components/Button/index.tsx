@@ -22,9 +22,6 @@ const Button = ({
     variant={variant}
     disabled={loading}
     sx={{
-      '&.Mui-disabled': {
-        backgroundColor: 'inherit', //TODO: É pra colocar color dark
-      },
       ...className,
     }}
     {...props}
