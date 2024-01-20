@@ -12,9 +12,7 @@ const withoutToken = axios.create({
 
 const withToken = axios.create({
   baseURL: `${backendUrl}`,
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-  },
+  withCredentials: true,
 });
 
 withoutToken.interceptors.request.use(
