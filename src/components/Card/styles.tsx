@@ -15,7 +15,7 @@ export const CardStyled = styled(CardMUI)`
   `}
   color: var(--primary-color-dark-high);
   background-color: ${({ istotalcard, value }: CardStyledBackgroundColor) => {
-    if (istotalcard && value > 0) {
+    if (istotalcard) {
       if (value > 0) {
         return 'var(--success-color)';
       }
