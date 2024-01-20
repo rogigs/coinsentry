@@ -61,7 +61,7 @@ const CustomTableRow = ({
       </TableCell>
       <TableCell align="center">{operation}</TableCell>
       <TableCell align="center">{category}</TableCell>
-      <TableCell align="center">{value_item}</TableCell>
+      <TableCell align="center">R$ {value_item}</TableCell>
       <TableCell align="center">{date_input}</TableCell>
     </TableRow>
   );
