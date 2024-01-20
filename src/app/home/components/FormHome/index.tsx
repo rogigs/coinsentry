@@ -16,11 +16,11 @@ import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import Button from '@/components/Button';
-import { Icons } from '@/components/Dialog';
 import TextFieldNumberFormat from '@/components/TextFieldNumberFormat';
 import { useDialog } from '@/hooks/useDialog';
 import { Finance } from '@/services/coinSentry/finances';
 
+import { IconsType } from '@/types';
 import Logo from '../../../../assets/images/logo.png';
 import { useFinances } from '../../hooks/useFinances';
 import * as S from './styles';
@@ -39,7 +39,7 @@ type FinanceKeys = 'title' | 'operation' | 'category' | 'value_item';
 const FormHome = () => {
   const [dialog, setDialog] = useState({
     title: '',
-    icon: Icons.success,
+    icon: IconsType.success,
     message: '',
   });
 
@@ -88,7 +88,7 @@ const FormHome = () => {
 
         setDialog({
           title: 'Sucesso',
-          icon: Icons.success,
+          icon: IconsType.success,
           message: 'Um item das suas finanças foi atualizado com sucesso!',
         });
 
@@ -108,7 +108,7 @@ const FormHome = () => {
 
       setDialog({
         title: 'Sucesso',
-        icon: Icons.success,
+        icon: IconsType.success,
         message: 'Um item das suas finanças foi cadastrado com sucesso!',
       });
 
@@ -116,7 +116,7 @@ const FormHome = () => {
     } catch (error) {
       setDialog({
         title: 'Erro',
-        icon: Icons.error,
+        icon: IconsType.error,
         message: 'Um item das suas finanças teve problema ao ser cadastrado!',
       });
     } finally {
@@ -131,13 +131,18 @@ const FormHome = () => {
       </DialogHome>
       <S.WrapperSectionForm>
         <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            label="Título"
-            error={!!errors.title}
-            helperText={errors.title?.message ?? ''}
-            {...register(DefaultValues.title)}
+          <Controller
+            name={DefaultValues.title}
+            control={control}
+            render={({ field }) => (
+              <TextField
+                label="Título"
+                error={!!errors.title}
+                helperText={errors.title?.message ?? ''}
+                {...field}
+              />
+            )}
           />
-
           <FormControl fullWidth>
             <InputLabel id="teste">Categoria</InputLabel>
             {/* TODO: resolve problem https://github.com/mui/material-ui/issues/24453 */}
