@@ -14,7 +14,7 @@ import {
   insertFinance as postFinance,
   updateFinance as putFinance,
 } from '@/services/coinSentry/finances';
-import { IconsType, Pagination } from '@/types';
+import { IconsOptions, IconsType, Pagination } from '@/types';
 
 import { Action, ACTIONS_TYPE } from './reducerFinances/actions';
 import {
@@ -42,7 +42,7 @@ type FinancesContext = {
     setDialog: Dispatch<
       SetStateAction<{
         title: string;
-        icon: Icons;
+        icon: IconsOptions;
         message: string;
       }>
     >,
@@ -131,7 +131,7 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
       setDialog: Dispatch<
         SetStateAction<{
           title: string;
-          icon: Icons;
+          icon: IconsOptions;
           message: string;
         }>
       >,

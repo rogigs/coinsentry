@@ -1,11 +1,12 @@
 import Box from '@mui/material/Box';
-import CircularProgressMUI from '@mui/material/CircularProgress';
+import CircularProgressMUI, {
+  CircularProgressProps as CircularProgressPropsMUI,
+} from '@mui/material/CircularProgress';
 
-type CircularProgressProps = {
-  boxClassName?: Object;
-  color?: Pick<CircularProgressProps, 'color'>;
-  className?: Object;
+type CircularProgressProps = CircularProgressPropsMUI & {
+  boxClassName?: Pick<CircularProgressPropsMUI, 'className'>;
 };
+
 const CircularProgress = ({
   boxClassName,
   className,
@@ -22,11 +23,7 @@ const CircularProgress = ({
         ...boxClassName,
       }}
     >
-      <CircularProgressMUI
-        color={color}
-        className={{ ...className }}
-        {...props}
-      />
+      <CircularProgressMUI color={color} className={className} {...props} />
     </Box>
   );
 };

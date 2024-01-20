@@ -3,7 +3,7 @@ import TablePagination, {
 } from '@/components/Table/TablePagination';
 import { useDialog } from '@/hooks/useDialog';
 import { Finance } from '@/services/coinSentry/finances';
-import { IconsType } from '@/types';
+import { IconsOptions, IconsType } from '@/types';
 import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -17,11 +17,6 @@ import { columnsPagination } from '../../utils';
 const DialogHome = dynamic(() => import('../../DialogHome'));
 const Alert = dynamic(() => import('../../../../components/Alert'));
 
-type CustomTableRow = Finance &
-  CustowRowProps & {
-    isSelected: (id: string) => boolean;
-  };
-
 const CustomTableRow = ({
   id,
   title,
@@ -29,11 +24,10 @@ const CustomTableRow = ({
   operation,
   date_input,
   category,
-  isSelected,
   handleClick,
   isItemSelected,
   labelId,
-}: CustomTableRow) => {
+}: Finance & CustowRowProps) => {
   return (
     <TableRow
       key={id}
@@ -79,7 +73,7 @@ const TableHome = () => {
 
   const [dialog, setDialog] = useState({
     title: '',
-    icon: IconsType.success,
+    icon: IconsType.success as IconsOptions,
     message: '',
   });
 
@@ -118,7 +112,7 @@ const TableHome = () => {
           count={state.dataLenghtInDatabase}
           onClickEdit={onClickEdit}
           onClickDelete={onClickDelete}
-          customRow={CustomTableRow}
+          customRow={CustomTableRow as React.ComponentType<CustowRowProps>}
         />
       </div>
     </>

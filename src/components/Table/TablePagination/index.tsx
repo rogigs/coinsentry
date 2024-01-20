@@ -31,11 +31,6 @@ export type ActionsTablePagination = {
   ) => (cleanCache?: true) => Promise<void>;
   onClickEdit: (id: string) => () => void;
   onClickDelete: (idItems: string[]) => () => void;
-  customRow: ({
-    isItemSelected,
-    labelId,
-    ...props
-  }: CustowRowProps) => JSX.Element;
 };
 
 type TablePagination = TableProps &
@@ -44,6 +39,7 @@ type TablePagination = TableProps &
     columns: any[];
     count: number;
     rowsPerPageOptions?: number[];
+    customRow: React.ComponentType<CustowRowProps>;
   };
 
 const TablePagination = ({
@@ -74,12 +70,12 @@ const TablePagination = ({
     fetchNewPage,
   });
 
-  const CustomRow = customRow;
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
+  // TODO: verify is user change page and reomve clickeds
   const visibleRows = useMemo(
     () =>
       stableSort(rows, getComparator(order, orderBy)).slice(
@@ -135,6 +131,7 @@ const TablePagination = ({
                   {visibleRows.map((row) => {
                     const isItemSelected = isSelected(row.id as string);
                     const labelId = `enhanced-table-checkbox-${row.id}`;
+                    const CustomRow = customRow;
 
                     return (
                       <CustomRow
