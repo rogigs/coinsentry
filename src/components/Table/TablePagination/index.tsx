@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import { Suspense, useMemo } from 'react';
 
 import CircularProgress from '@/components/Progress';
+import { DialogProvider } from '@/context/dialogContext';
 import TableFilter from '../TableFilter';
 import { TableToolbar } from '../TableToolbar';
 import { getComparator, stableSort } from '../helpers';
@@ -89,93 +90,95 @@ const TablePagination = ({
   );
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableToolbar
-          qntSelected={selected.length}
-          selected={selected}
-          onClickEdit={onClickEdit}
-          onClickDelete={onClickDelete}
-          fetchNewPage={fetchNewPage}
-          pagination={{
-            page: page,
-            pageSize: rowsPerPage,
-          }}
-          cleanPageCache={cleanPageCache}
-        />
-        <TableContainer component={Paper}>
-          <Table
-            aria-label="simple table"
-            aria-labelledby="tableTitle"
-            size={size}
-            sx={{
-              minWidth: '700px',
+    <DialogProvider>
+      <Box sx={{ width: '100%' }}>
+        <Paper sx={{ width: '100%', mb: 2 }}>
+          <TableToolbar
+            qntSelected={selected.length}
+            selected={selected}
+            onClickEdit={onClickEdit}
+            onClickDelete={onClickDelete}
+            fetchNewPage={fetchNewPage}
+            pagination={{
+              page: page,
+              pageSize: rowsPerPage,
             }}
-          >
-            <TableFilter
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={visibleRows.length}
-              headCells={columns}
-              rows={visibleRows}
-            />
-            <TableBody>
-              <Suspense
-                fallback={
-                  <TableCell colSpan={6}>
-                    <CircularProgress />
-                  </TableCell>
-                }
-              >
-                {visibleRows.map((row) => {
-                  const isItemSelected = isSelected(row.id as string);
-                  const labelId = `enhanced-table-checkbox-${row.id}`;
-
-                  return (
-                    <CustomRow
-                      key={row.id}
-                      isItemSelected={isItemSelected}
-                      labelId={labelId}
-                      handleClick={handleClick}
-                      {...row}
-                    />
-                  );
-                })}
-
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: (size ? 33 : 53) * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </Suspense>
-            </TableBody>
-          </Table>
-          <TablePaginationMUI
-            rowsPerPageOptions={rowsPerPageOptions}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={(
-              e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-              newPage,
-            ) => handleChangePage(e, newPage, fetchNewPage)}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage="Linhas por página"
-            labelDisplayedRows={({ from, to, count }) =>
-              `${from}-${to} de ${count}`
-            }
+            cleanPageCache={cleanPageCache}
           />
-        </TableContainer>
-      </Paper>
-    </Box>
+          <TableContainer component={Paper}>
+            <Table
+              aria-label="simple table"
+              aria-labelledby="tableTitle"
+              size={size}
+              sx={{
+                minWidth: '700px',
+              }}
+            >
+              <TableFilter
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={visibleRows.length}
+                headCells={columns}
+                rows={visibleRows}
+              />
+              <TableBody>
+                <Suspense
+                  fallback={
+                    <TableCell colSpan={6}>
+                      <CircularProgress />
+                    </TableCell>
+                  }
+                >
+                  {visibleRows.map((row) => {
+                    const isItemSelected = isSelected(row.id as string);
+                    const labelId = `enhanced-table-checkbox-${row.id}`;
+
+                    return (
+                      <CustomRow
+                        key={row.id}
+                        isItemSelected={isItemSelected}
+                        labelId={labelId}
+                        handleClick={handleClick}
+                        {...row}
+                      />
+                    );
+                  })}
+
+                  {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height: (size ? 33 : 53) * emptyRows,
+                      }}
+                    >
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </Suspense>
+              </TableBody>
+            </Table>
+            <TablePaginationMUI
+              rowsPerPageOptions={rowsPerPageOptions}
+              component="div"
+              count={count}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={(
+                e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+                newPage,
+              ) => handleChangePage(e, newPage, fetchNewPage)}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              labelRowsPerPage="Linhas por página"
+              labelDisplayedRows={({ from, to, count }) =>
+                `${from}-${to} de ${count}`
+              }
+            />
+          </TableContainer>
+        </Paper>
+      </Box>
+    </DialogProvider>
   );
 };
 
