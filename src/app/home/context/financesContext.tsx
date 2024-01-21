@@ -58,8 +58,6 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
     React.Dispatch<React.SetStateAction<Action>>,
   ] = useReducer(reducer as any, INITIAL_STATE as any) as unknown as any;
 
-  console.log('🚀 ~ FinancesProvider ~ state:', state.data);
-
   const fetchFinances = useCallback(
     (pagination: Pagination) =>
       async (cleanCache = false) => {

@@ -17,8 +17,6 @@ const withToken = axios.create({
 
 withoutToken.interceptors.request.use(
   (config) => {
-    console.log('🚀 ~ config:', config);
-
     return config;
   },
   (error) => Promise.reject(error),

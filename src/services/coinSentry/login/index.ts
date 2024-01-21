@@ -19,7 +19,6 @@ export const authUser = async (user: User) => {
 };
 
 export const createUser = async (user: User) => {
-  console.log('🚀 ~ createUser ~ user:', user);
   try {
     const { data } = await HttpConfig.withoutToken.post(
       'user/create-account',
