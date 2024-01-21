@@ -29,6 +29,7 @@ const updateFinanceData = (state: INITIAL_STATE_TYPE, action: Action) => {
     'id',
   );
 };
+
 export const reducer = (state: INITIAL_STATE_TYPE, action: Action) => {
   const actionsTypes = {
     [ACTIONS_TYPE.ADD_DATA]: {

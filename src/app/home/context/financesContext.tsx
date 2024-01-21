@@ -140,6 +140,8 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
 
         await Promise.all(deletePromises);
 
+        await fetchFinancesDetails();
+
         setDialog({
           title: 'Sucesso',
           icon: IconsType.success,
