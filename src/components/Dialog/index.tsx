@@ -1,13 +1,13 @@
-import WarningAmberOutlined from '@mui/icons-material/BugReportOutlined'; // TODO: discovered why i can't import js components
-import CheckCircleOutlineOutlined from '@mui/icons-material/CheckCircleOutlineOutlined';
-
-import ErrorOutlineOutlined from '@mui/icons-material/ErrorOutlineOutlined';
+import {
+  CheckCircleOutlineOutlined,
+  ErrorOutlineOutlined,
+  WarningAmberOutlined,
+} from '@/components/Icons';
+import { useDialog } from '@/hooks/useDialog';
 import Button from '@mui/material/Button';
 import DialogActionsMUI from '@mui/material/DialogActions';
 import DialogContentMUI from '@mui/material/DialogContent';
 import DialogTitleMUI from '@mui/material/DialogTitle';
-
-import { useDialog } from '@/hooks/useDialog';
 
 import { IconsType } from '@/types';
 import * as S from './styles';

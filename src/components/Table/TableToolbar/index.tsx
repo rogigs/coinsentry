@@ -1,8 +1,9 @@
 import Dialog from '@/components/Dialog';
 import { useDialog } from '@/hooks/useDialog';
 import { IconsType, Pagination } from '@/types';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+
+import { DeleteIcon, EditIcon } from '@/components/Icons';
+
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
