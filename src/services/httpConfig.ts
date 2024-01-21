@@ -27,7 +27,7 @@ withToken.interceptors.request.use(
     const hasToken = await Cookies.get('accessToken');
 
     if (!hasToken) {
-      // TODO: refresh token
+      // TODO: Add refresh token
     } else {
       config.headers.Authorization = hasToken;
     }

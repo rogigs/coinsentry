@@ -16,9 +16,9 @@ const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
   const [rowsPerPage, setRowsPerPage] = useState<number>(
     rowsPerPageOptions?.[0] ?? 10,
   );
-  const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState('title');
-  const [selected, setSelected] = useState<readonly Object[]>([]);
+  const [order, setOrder] = useState<Order>(() => 'asc');
+  const [orderBy, setOrderBy] = useState(() => 'title');
+  const [selected, setSelected] = useState<(string | Object)[]>([]);
 
   useEffect(() => {
     fetchNewPage({
@@ -29,7 +29,14 @@ const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
 
   useEffect(() => {
     if (pageCache[0] === -1) {
-      // TODO: stressfull necessaru
+      //TODO: stressfull cenaries - changes to do
+      // after stressful , that are the problems
+      // When update item not a reflect a table
+      // solution: create a context for table pagination for that components outside table have a access to states of what page is actual
+      //  or pass for query params the actual page - attention to Cross-site scripting (XSS)
+      // When handle change page i have a problems of UX
+      // the Checkbox to select all checkbox remains clicked
+      // not allow that remains that items of others pages
       fetchNewPage({
         page: page,
         pageSize: rowsPerPage,
@@ -90,8 +97,8 @@ const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected: readonly any[] = [];
+    const selectedIndex = selected.indexOf(id as never);
+    let newSelected: (string | Object)[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id);

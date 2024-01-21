@@ -29,8 +29,8 @@ export type ActionsTablePagination = {
   fetchNewPage: (
     pagination: Pagination,
   ) => (cleanCache?: true) => Promise<void>;
-  onClickEdit: (id: string) => () => void;
-  onClickDelete: (idItems: string[]) => () => void;
+  onClickEdit: (id: string | Object) => () => void;
+  onClickDelete: (idItems: (string | Object)[]) => () => void;
 };
 
 type TablePagination = TableProps &

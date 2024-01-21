@@ -11,7 +11,7 @@ import { alpha } from '@mui/material/styles';
 import { ActionsTablePagination } from '../TablePagination';
 
 type TableToolbar = Omit<ActionsTablePagination, 'customRow'> & {
-  selected: any; // TODO: review this type
+  selected: (string | Object)[];
   qntSelected: number;
   pagination: Pagination;
   cleanPageCache: () => void;
