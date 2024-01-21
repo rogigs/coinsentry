@@ -75,15 +75,15 @@ const TablePagination = ({
 
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
-  // TODO: verify is user change page and reomve clickeds
-  const visibleRows = useMemo(
-    () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage, rows],
-  );
+  // TODO: Allow multiple selections in differents pages
+  const visibleRows = useMemo(() => {
+    const rowsInPage = rows.slice(
+      page * rowsPerPage,
+      page * rowsPerPage + rowsPerPage,
+    );
+
+    return stableSort(rowsInPage, getComparator(order, orderBy));
+  }, [order, orderBy, page, rowsPerPage, rows]);
 
   return (
     <DialogProvider>
@@ -156,6 +156,7 @@ const TablePagination = ({
                 </Suspense>
               </TableBody>
             </Table>
+            {/* // TODO: change color of button when disabled */}
             <TablePaginationMUI
               rowsPerPageOptions={rowsPerPageOptions}
               component="div"
