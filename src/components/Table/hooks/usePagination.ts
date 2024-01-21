@@ -30,13 +30,13 @@ const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
   useEffect(() => {
     if (pageCache[0] === -1) {
       //TODO: stressfull cenaries - changes to do
-      // after stressful , that are the problems
-      // When update item not a reflect a table
-      // solution: create a context for table pagination for that components outside table have a access to states of what page is actual
-      //  or pass for query params the actual page - attention to Cross-site scripting (XSS)
-      // When handle change page i have a problems of UX
-      // the Checkbox to select all checkbox remains clicked
-      // not allow that remains that items of others pages
+      // after stressful, that are the problems
+      //    - When update item not a reflect a table
+      //        solution: create a context for table pagination for that components outside table have a access to states of what page is actual
+      //        or pass for query params the actual page - attention to Cross-site scripting (XSS)
+      //    - When handle change page i have a problems of UX
+      //        the Checkbox to select all checkbox remains clicked
+      //        not allow that remains that items of others pages
       fetchNewPage({
         page: page,
         pageSize: rowsPerPage,

@@ -75,7 +75,6 @@ const TablePagination = ({
 
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
-  // TODO: Allow multiple selections in differents pages
   const visibleRows = useMemo(() => {
     const rowsInPage = rows.slice(
       page * rowsPerPage,

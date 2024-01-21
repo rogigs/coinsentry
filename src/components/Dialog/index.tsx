@@ -1,4 +1,4 @@
-import WarningAmberOutlined from '@mui/icons-material/BugReportOutlined'; // TODO: resolve problem of type
+import WarningAmberOutlined from '@mui/icons-material/BugReportOutlined'; // TODO: discovered why i can't import js components
 import CheckCircleOutlineOutlined from '@mui/icons-material/CheckCircleOutlineOutlined';
 
 import ErrorOutlineOutlined from '@mui/icons-material/ErrorOutlineOutlined';

@@ -33,8 +33,7 @@ import {
 
 const DialogHome = dynamic(() => import('../../DialogHome'));
 
-// TODO: review type
-type FinanceKeys = 'title' | 'operation' | 'category' | 'value_item';
+type FinanceKeys = (typeof DefaultValues)[keyof typeof DefaultValues];
 
 const FormHome = () => {
   const [dialog, setDialog] = useState(() => ({

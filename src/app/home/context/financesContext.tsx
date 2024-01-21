@@ -140,7 +140,6 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
 
         await Promise.all(deletePromises);
 
-        // TODO: UPDATE TABLE
         setDialog({
           title: 'Sucesso',
           icon: IconsType.success,
