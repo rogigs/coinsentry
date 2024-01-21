@@ -23,11 +23,11 @@ type FormUser = {
 };
 
 export const FormUser = ({ createAccount, push, send }: FormUser) => {
-  const [dialog, setDialog] = useState({
+  const [dialog, setDialog] = useState(() => ({
     title: '',
     icon: IconsType.success,
     message: '',
-  });
+  }));
 
   const { setShowDialog } = useDialog();
   const {

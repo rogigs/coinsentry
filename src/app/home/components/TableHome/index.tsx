@@ -71,11 +71,11 @@ const TableHome = () => {
   const { setShowDialog } = useDialog();
   const { state, dispatch, fetchFinances, deleteFinances } = useFinances();
 
-  const [dialog, setDialog] = useState({
+  const [dialog, setDialog] = useState(() => ({
     title: '',
     icon: IconsType.success as IconsOptions,
     message: '',
-  });
+  }));
 
   const onClickEdit = (id: string) => () => {
     dispatch({

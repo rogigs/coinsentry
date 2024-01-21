@@ -37,11 +37,11 @@ const DialogHome = dynamic(() => import('../../DialogHome'));
 type FinanceKeys = 'title' | 'operation' | 'category' | 'value_item';
 
 const FormHome = () => {
-  const [dialog, setDialog] = useState({
+  const [dialog, setDialog] = useState(() => ({
     title: '',
     icon: IconsType.success,
     message: '',
-  });
+  }));
 
   const { state, updateFinance, insertFinance } = useFinances();
   const { setShowDialog } = useDialog();
