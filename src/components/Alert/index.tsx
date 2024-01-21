@@ -10,6 +10,7 @@ type AlertProps = {
   txtButton?: string;
   message?: string;
   onClick?: () => void;
+  className?: Object;
 };
 
 const Alert = ({
@@ -17,12 +18,15 @@ const Alert = ({
   txtButton = 'Tentar novamente',
   message = 'Houve um erro ao buscar as informações. Por favor, tente novamente!',
   onClick,
+  className = {},
+  ...props
 }: AlertProps) => {
   return (
     <AlertMUI
       severity={type}
       color={type}
-      sx={{ bgcolor: 'rgba(232, 86, 71, 0.1)' }} // TODO: add light color
+      sx={{ bgcolor: 'rgba(232, 86, 71, 0.1)', ...className }} // TODO: add light color
+      {...props}
     >
       <AlertTitle>Erro ao buscar informações</AlertTitle>
       <p style={{ marginBottom: 'var(--spacing-12)' }}>{message}</p>

@@ -36,6 +36,7 @@ export const WrapperSectionForm = styled.section`
   ${media.lessThan('mobileMax')`
     flex-direction: column-reverse;
     align-items: center;
+    margin-bottom: var(--spacing-64);
   `};
 `;
 
