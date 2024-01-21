@@ -38,7 +38,7 @@ type FinancesContext = {
   ) => Promise<void>;
   insertFinance: (finance: Omit<Finance, 'id'>) => Promise<void>;
   deleteFinances: (
-    idItems: string[],
+    idItems: (string | Object)[],
     setDialog: Dispatch<
       SetStateAction<{
         title: string;
@@ -124,7 +124,7 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
 
   const deleteFinances = useCallback(
     async (
-      idItems: string[],
+      idItems: (string | Object)[],
       setDialog: Dispatch<
         SetStateAction<{
           title: string;

@@ -77,14 +77,14 @@ const TableHome = () => {
     message: '',
   }));
 
-  const onClickEdit = (id: string) => () => {
+  const onClickEdit = (id: string | Object) => () => {
     dispatch({
       type: ACTIONS_TYPE.ADD_FINANCE_TO_UPDATE,
       payload: id,
     });
   };
 
-  const onClickDelete = (idItems: string[]) => async () => {
+  const onClickDelete = (idItems: (string | Object)[]) => async () => {
     await deleteFinances(idItems, setDialog);
 
     setShowDialog(true);
