@@ -84,7 +84,7 @@ const TableHome = () => {
     });
   };
 
-  const onClickDelete = async (idItems: (string | Object)[]) => {
+  const onClickDelete = (idItems: (string | Object)[]) => async () => {
     await deleteFinances(idItems, setDialog);
 
     setShowDialog(true);

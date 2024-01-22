@@ -86,7 +86,7 @@ export const TableToolbar = ({
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Deletar" onClick={() => onClickDelete(selected)}>
+            <Tooltip title="Deletar" onClick={onClickDelete(selected)}>
               <IconButton>
                 <DeleteIcon />
               </IconButton>
