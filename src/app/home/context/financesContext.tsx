@@ -94,11 +94,11 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
   const updateFinance = useCallback(
     async (id: Pick<Finance, 'id'>, finance: Omit<Finance, 'id'>) => {
       try {
-        await putFinance(id, finance);
+        const financeUpdated = await putFinance(id, finance);
 
         dispatch({
-          type: ACTIONS_TYPE.ADD_FINANCE_TO_UPDATE,
-          payload: undefined,
+          type: ACTIONS_TYPE.UPDATE_FINANCE,
+          payload: financeUpdated.data,
         });
       } catch (error) {
         console.error('Erro ao atualizar finances:', error);
@@ -109,14 +109,14 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
 
   const insertFinance = useCallback(async (finance: Omit<Finance, 'id'>) => {
     try {
-      await postFinance(finance);
+      const newFinance = await postFinance(finance);
 
-      if (state.data.length < 10) {
-        await Promise.allSettled([
-          fetchFinances({ page: 0, pageSize: 10 }),
-          fetchFinancesDetails(),
-        ]);
-      }
+      await fetchFinancesDetails();
+
+      dispatch({
+        type: ACTIONS_TYPE.ADD_ONE_DATA,
+        payload: newFinance.data,
+      });
     } catch (error) {
       console.error('Erro ao atualizar finances:', error);
     }
@@ -140,12 +140,15 @@ export const FinancesProvider = ({ children }: FinancesProvider) => {
 
         await Promise.all(deletePromises);
 
-        await fetchFinancesDetails();
-
         setDialog({
           title: 'Sucesso',
           icon: IconsType.success,
           message: 'Seu(s) item(s) das suas finanças foram excluídos!',
+        });
+
+        dispatch({
+          type: ACTIONS_TYPE.DELETE_FINANCES,
+          payload: idItems,
         });
       } catch (error) {
         console.error('Erro ao deletar finances:', error);

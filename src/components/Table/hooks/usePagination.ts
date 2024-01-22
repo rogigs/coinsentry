@@ -28,24 +28,15 @@ const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
   }, []);
 
   useEffect(() => {
-    if (pageCache[0] === -1) {
-      //TODO: stressfull cenaries - changes to do
-      // after stressful, that are the problems:
-      //    - When update item not a reflect a table
-      //    - When delete all itens of list the page show white
-      //    - When handle change page i have a problems of UX
-      //        the Checkbox to select all checkbox remains clicked
-      //        not allow that remains that items of others pages
-      //
-
-      // https://5c42b5ed18020b4b5ab98fd843614d7c@o4506606897528832.ingest.sentry.io/4506607056977920
-      fetchNewPage({
-        page: page,
-        pageSize: rowsPerPage,
-      })(true);
-
-      setPageCache([page]);
-    }
+    //TODO: stressfull cenaries - changes to do
+    // after stressful, that are the problems:
+    //    - When update item not a reflect a table RESOLVED
+    //    - When delete all itens of list the page show white RESOLVED
+    //    - When handle change page i have a problems of UX
+    //        the Checkbox to select all checkbox remains clicked
+    //        not allow that remains that items of others pages
+    //        when delete remains selected
+    // https://5c42b5ed18020b4b5ab98fd843614d7c@o4506606897528832.ingest.sentry.io/4506607056977920
   }, [pageCache]);
   // DE FILTER
   const handleRequestSort = (
@@ -117,8 +108,6 @@ const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
     setSelected(newSelected);
   };
 
-  const cleanPageCache = () => setPageCache([-1]);
-
   return {
     page,
     setPage,
@@ -136,7 +125,6 @@ const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
     handleRequestSort,
     handleSelectAllClick,
     handleClick,
-    cleanPageCache,
   };
 };
 

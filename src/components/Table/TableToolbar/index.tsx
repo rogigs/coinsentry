@@ -15,7 +15,6 @@ type TableToolbar = Omit<ActionsTablePagination, 'customRow'> & {
   selected: (string | Object)[];
   qntSelected: number;
   pagination: Pagination;
-  cleanPageCache: () => void;
 };
 
 export const TableToolbar = ({
@@ -23,7 +22,6 @@ export const TableToolbar = ({
   qntSelected,
   onClickEdit,
   onClickDelete,
-  cleanPageCache,
 }: TableToolbar) => {
   const { setShowDialog } = useDialog();
 
@@ -88,13 +86,7 @@ export const TableToolbar = ({
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip
-              title="Deletar"
-              onClick={async () => {
-                await onClickDelete(selected)();
-                await cleanPageCache();
-              }}
-            >
+            <Tooltip title="Deletar" onClick={() => onClickDelete(selected)}>
               <IconButton>
                 <DeleteIcon />
               </IconButton>

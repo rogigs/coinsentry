@@ -64,7 +64,6 @@ const TablePagination = ({
     handleRequestSort,
     handleSelectAllClick,
     handleClick,
-    cleanPageCache,
   } = usePagination({
     rowsPerPageOptions,
     fetchNewPage,
@@ -98,7 +97,6 @@ const TablePagination = ({
               page: page,
               pageSize: rowsPerPage,
             }}
-            cleanPageCache={cleanPageCache}
           />
           <TableContainer component={Paper}>
             <Table
