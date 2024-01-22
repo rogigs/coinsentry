@@ -35,3 +35,11 @@ Start project
 ## Demo
 
 ![Preview](./preview_coinSentry.gif)
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+```bash
+  NEXT_PUBLIC_SERVER_CLIENT='your-url-server'
+```
