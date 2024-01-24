@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { FormUser } from '@/components/FormUser';
-import { Login } from '@/components/Login';
+import Login from '@/components/Login';
 import { DialogProvider } from '@/context/dialogContext';
 import { useLogin } from '@/hooks/useLogin';
 

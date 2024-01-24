@@ -7,6 +7,7 @@ import Button from '../Button';
 
 type AlertProps = {
   type?: IconsOptions;
+  title?: string;
   txtButton?: string;
   message?: string;
   onClick?: () => void;
@@ -17,6 +18,7 @@ const Alert = ({
   type = 'error',
   txtButton = 'Tentar novamente',
   message = 'Houve um erro ao buscar as informações. Por favor, tente novamente!',
+  title = 'Erro ao buscar informações',
   onClick,
   className = {},
   ...props
@@ -28,7 +30,7 @@ const Alert = ({
       sx={{ bgcolor: 'rgba(232, 86, 71, 0.1)', ...className }} // TODO: add light color
       {...props}
     >
-      <AlertTitle>Erro ao buscar informações</AlertTitle>
+      <AlertTitle>{title}</AlertTitle>
       <p style={{ marginBottom: 'var(--spacing-12)' }}>{message}</p>
       {onClick && (
         <Suspense

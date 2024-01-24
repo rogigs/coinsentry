@@ -13,7 +13,7 @@ import { IconsType } from '@/types';
 import * as S from './styles';
 
 export type DialogOptions = {
-  icon: IconsType;
+  icon?: IconsType;
   title: string;
 };
 

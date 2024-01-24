@@ -7,7 +7,7 @@ type Login = {
   children: React.ReactNode;
 };
 
-export const Login = ({ children }: Login) => {
+const Login = ({ children }: Login) => {
   return (
     <BrandTheme>
       <S.WrapperSectionToAlign>
@@ -21,3 +21,5 @@ export const Login = ({ children }: Login) => {
     </BrandTheme>
   );
 };
+
+export default Login;
