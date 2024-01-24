@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import Alert from '.';
 
@@ -32,18 +32,21 @@ describe('<Alert />', () => {
     const elementMessage = screen.queryByText('New message');
     const elementButton = screen.queryByText('Button message');
 
-    screen.debug();
-
     expect(elementTitle).toBeInTheDocument();
     expect(elementMessage).toBeInTheDocument();
     expect(elementButton).not.toBeInTheDocument();
   });
 
-  it('should render component with button', () => {
-    render(<Alert onClick={jest.fn} txtButton="Button message" />);
+  it('should render component with button and call props onClick', () => {
+    const mock = jest.fn();
+
+    render(<Alert onClick={mock} txtButton="Button message" />);
 
     const element = screen.queryByText('Button message');
 
+    fireEvent.click(element as HTMLElement);
+
     expect(element).toBeInTheDocument();
+    expect(mock).toHaveBeenCalled();
   });
 });
