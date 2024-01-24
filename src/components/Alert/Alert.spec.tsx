@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
+import { IconsType } from '@/types';
 import Alert from '.';
 
 describe('<Alert />', () => {
@@ -7,7 +8,7 @@ describe('<Alert />', () => {
     const component = () =>
       render(
         <Alert
-          type="success"
+          type={IconsType.success}
           txtButton="Button message"
           onClick={jest.fn}
           message="New Message"
@@ -20,13 +21,7 @@ describe('<Alert />', () => {
   });
 
   it('should render component without button', () => {
-    render(
-      <Alert
-        title="New title"
-        message="New message"
-        txtButton="Button message"
-      />,
-    );
+    render(<Alert title="New title" message="New message" />);
 
     const elementTitle = screen.queryByText('New title');
     const elementMessage = screen.queryByText('New message');
@@ -42,11 +37,13 @@ describe('<Alert />', () => {
 
     render(<Alert onClick={mock} txtButton="Button message" />);
 
-    const element = screen.queryByText('Button message');
+    const element = screen.getByText('Button message');
 
-    fireEvent.click(element as HTMLElement);
+    fireEvent.click(element);
 
     expect(element).toBeInTheDocument();
     expect(mock).toHaveBeenCalled();
   });
+
+  it.todo('Should render loading button');
 });
