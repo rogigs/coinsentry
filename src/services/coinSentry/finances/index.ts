@@ -1,5 +1,6 @@
 import { Pagination } from '@/types';
 
+import { sanitize } from '@/helpers/sanitize';
 import HttpConfig from '../../httpConfig';
 import { mockGetFinances, mockGetFinancesDetails } from './mocks';
 
@@ -8,8 +9,12 @@ export type Finance = (typeof mockGetFinances.data)[0];
 
 export const getFinances = async ({ page, pageSize }: Pagination) => {
   try {
+    if (typeof page !== 'number' || typeof pageSize !== 'number') {
+      throw new Error('page and pageSize must be numbers');
+    }
+
     const { data } = await HttpConfig.withToken.get(
-      `finances?page=${page}&pageSize=${pageSize}`,
+      `finances?page=${page}&pageSize=${pageSize}}`,
     );
 
     return { data: data.data, dataLenghtInDatabase: data.length };
@@ -21,6 +26,8 @@ export const getFinances = async ({ page, pageSize }: Pagination) => {
 export const getFinancesDetails = async () => {
   try {
     const { data } = await HttpConfig.withToken.get('finances/details');
+
+    console.log('Cookies enviados com a requisição:', document.cookie);
 
     return data.data;
   } catch (error) {
@@ -40,7 +47,9 @@ export const insertFinance = async (finance: Omit<Finance, 'id'>) => {
 
 export const deleteFinance = async (id: Pick<Finance, 'id'>) => {
   try {
-    const { data } = await HttpConfig.withToken.delete(`finances/${id}`);
+    const { data } = await HttpConfig.withToken.delete(
+      `finances/${sanitize(id)}`,
+    );
 
     return data;
   } catch (error) {
@@ -50,10 +59,13 @@ export const deleteFinance = async (id: Pick<Finance, 'id'>) => {
 
 export const updateFinance = async (
   id: Pick<Finance, 'id'>,
-  finance: Omit<Finance, 'id'>,
+  finance: Omit<Finance, 'id'>, // should a object
 ) => {
   try {
-    const { data } = await HttpConfig.withToken.put(`finances/${id}`, finance);
+    const { data } = await HttpConfig.withToken.put(
+      `finances/${sanitize(id)}`,
+      finance,
+    );
 
     return data;
   } catch (error) {
@@ -63,9 +75,8 @@ export const updateFinance = async (
 
 export const getFinanceById = async (id: Pick<Finance, 'id'>) => {
   try {
-    const { data } = await HttpConfig.withToken.get(`finances/${id}`);
+    const { data } = await HttpConfig.withToken.get(`finances/${sanitize(id)}`);
 
-    console.log('🚀 ~ file: index.js:61 ~ selectOneItem ~ data:', data);
     return data;
   } catch (error) {
     console.log('🚀 ~ file: index.js:12 ~ authLogin ~ error:', error);

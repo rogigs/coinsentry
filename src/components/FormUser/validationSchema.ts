@@ -16,8 +16,12 @@ export const validationSchema = yup
   .object({
     [DefaultValues.email]: yup
       .string()
+      .trim()
       .email('Digite um email válido')
       .required('Preencha o campo email'),
-    [DefaultValues.password]: yup.string().required('Preencha o campo senha'),
+    [DefaultValues.password]: yup
+      .string()
+      .trim()
+      .required('Preencha o campo senha'),
   })
   .required();

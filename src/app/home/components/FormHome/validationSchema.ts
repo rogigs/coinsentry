@@ -23,7 +23,13 @@ export type FormInputs = {
 
 export const validationSchema = yup
   .object({
-    [DefaultValues.title]: yup.string().required('Preencha o campo Título'),
-    [DefaultValues.valueItem]: yup.string().required('Preencha o campo Valor'),
+    [DefaultValues.title]: yup
+      .string()
+      .trim()
+      .required('Preencha o campo Título'),
+    [DefaultValues.valueItem]: yup
+      .string()
+      .trim()
+      .required('Preencha o campo Valor'),
   })
   .required();
