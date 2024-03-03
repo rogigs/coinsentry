@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 
 import { Pagination } from '@/types/index';
+import { useRouter } from 'next/navigation';
+
 import { Order } from '../helpers';
 
 type UsePagination = {
-  rowsPerPageOptions?: number[];
   fetchNewPage: (
     pagination: Pagination,
   ) => (cleanCache?: true) => Promise<void>;
+  page: number;
+  pageSize: number;
 };
 
-const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
-  const [page, setPage] = useState(0);
+const usePagination = ({ fetchNewPage, page, pageSize }: UsePagination) => {
+  const router = useRouter();
   const [pageCache, setPageCache] = useState([0]);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(
-    rowsPerPageOptions?.[0] ?? 10,
-  );
   const [order, setOrder] = useState<Order>(() => 'asc');
   const [orderBy, setOrderBy] = useState(() => 'title');
   const [selected, setSelected] = useState<(string | Object)[]>([]);
@@ -23,15 +23,17 @@ const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
   useEffect(() => {
     fetchNewPage({
       page: 0,
-      pageSize: rowsPerPage,
+      pageSize,
     })();
   }, []);
 
   useEffect(() => {
-    //TODO: stressfull cenaries - changes to do
+    // TODO: stressful scenarios - changes to do
     // after stressful, that are the problems:
     //    - When update item not a reflect a table RESOLVED
-    //    - When delete all itens of list the page show white RESOLVED
+    //    - When delete all items of list the page show white RESOLVED
+    //    - Page initial doesn't is 0 broken the page
+    //    - When change page should stay in the same x and y of client
     //    - When handle change page i have a problems of UX
     //        the Checkbox to select all checkbox remains clicked
     //        not allow that remains that items of others pages
@@ -62,31 +64,31 @@ const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
 
   // DE PAGINATION
   const handleChangePage = async (
-    event: React.MouseEvent<unknown> | null,
+    event: any | null,
     newPage: number,
     fetchNewPage: (
       pagination: Pagination,
     ) => (cleanCache?: true) => Promise<void>,
   ) => {
-    const pageAlreadySentRequest = pageCache.some((page) => page === newPage);
-
+    console.log('🚀 ~ event:', event.target.dataset.testid);
+    // 0
+    // 1
+    const pageAlreadySentRequest = pageCache.some((cache) => cache === newPage);
     if (!pageAlreadySentRequest) {
       await fetchNewPage({
         page: newPage,
-        pageSize: rowsPerPage ? +rowsPerPage : 10,
+        pageSize: pageSize ? +pageSize : 10,
       })();
+
+      setPageCache((prev) => prev.concat(newPage));
     }
 
-    setPageCache((prev) => prev.concat(newPage));
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, rowsPerPage));
-
-    setPage(0);
+    const buttonPrevious = 'KeyboardArrowLeftIcon';
+    router.push(
+      `/home?page=${
+        event.target.dataset.testid === buttonPrevious ? page - 1 : page + 1
+      }&pageSize=${pageSize}`,
+    );
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
@@ -110,10 +112,8 @@ const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
 
   return {
     page,
-    setPage,
     pageCache,
-    rowsPerPage,
-    setRowsPerPage,
+    pageSize,
     order,
     setOrder,
     orderBy,
@@ -121,7 +121,6 @@ const usePagination = ({ rowsPerPageOptions, fetchNewPage }: UsePagination) => {
     selected,
     setSelected,
     handleChangePage,
-    handleChangeRowsPerPage,
     handleRequestSort,
     handleSelectAllClick,
     handleClick,

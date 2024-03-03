@@ -1,5 +1,5 @@
 import TablePagination, {
-  CustowRowProps,
+  CustomRowProps,
 } from '@/components/Table/TablePagination';
 import { useDialog } from '@/hooks/useDialog';
 import { Finance } from '@/services/coinSentry/finances';
@@ -9,6 +9,8 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { isAxiosError } from 'axios';
 import dynamic from 'next/dynamic';
+
+import { useQueryPagination } from '@/components/Table/hooks/useQueryPaginantion';
 import { useState } from 'react';
 import { ACTIONS_TYPE } from '../../context/reducerFinances/actions';
 import { useFinances } from '../../hooks/useFinances';
@@ -27,15 +29,14 @@ const CustomTableRow = ({
   handleClick,
   isItemSelected,
   labelId,
-}: Finance & CustowRowProps) => {
+}: Finance & CustomRowProps) => {
   return (
     <TableRow
       key={id}
       hover
       onClick={(event: React.MouseEvent<unknown, MouseEvent>) =>
-        handleClick(event, id as string)
+        handleClick(event, id)
       }
-      role="checkbox"
       aria-checked={!!isItemSelected}
       tabIndex={-1}
       selected={!!isItemSelected}
@@ -70,6 +71,7 @@ const CustomTableRow = ({
 const TableHome = () => {
   const { setShowDialog } = useDialog();
   const { state, dispatch, fetchFinances, deleteFinances } = useFinances();
+  const { page, pageSize } = useQueryPagination();
 
   const [dialog, setDialog] = useState(() => ({
     title: '',
@@ -106,13 +108,15 @@ const TableHome = () => {
         }}
       >
         <TablePagination
+          page={page}
+          pageSize={pageSize}
           rows={state.data}
           columns={columnsPagination}
           fetchNewPage={fetchFinances}
           count={state.dataLenghtInDatabase}
           onClickEdit={onClickEdit}
           onClickDelete={onClickDelete}
-          customRow={CustomTableRow as React.ComponentType<CustowRowProps>}
+          customRow={CustomTableRow as React.ComponentType<CustomRowProps>}
         />
       </div>
     </>

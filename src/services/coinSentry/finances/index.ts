@@ -14,7 +14,7 @@ export const getFinances = async ({ page, pageSize }: Pagination) => {
     }
 
     const { data } = await HttpConfig.withToken.get(
-      `finances?page=${page}&pageSize=${pageSize}}`,
+      `finances?page=${page}&pageSize=${pageSize}`,
     );
 
     return { data: data.data, dataLenghtInDatabase: data.length };

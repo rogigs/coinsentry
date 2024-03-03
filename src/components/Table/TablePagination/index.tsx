@@ -16,7 +16,7 @@ import { TableToolbar } from '../TableToolbar';
 import { getComparator, stableSort } from '../helpers';
 import usePagination from '../hooks/usePagination';
 
-export type CustowRowProps = {
+export type CustomRowProps = {
   isItemSelected: Object;
   labelId: string;
   handleClick: (
@@ -35,17 +35,19 @@ export type ActionsTablePagination = {
 
 type TablePagination = TableProps &
   ActionsTablePagination & {
+    page?: number;
     rows: any[];
     columns: any[];
     count: number;
-    rowsPerPageOptions?: number[];
-    customRow: React.ComponentType<CustowRowProps>;
+    pageSize?: number;
+    customRow: React.ComponentType<CustomRowProps>;
   };
 
 const TablePagination = ({
   rows = [],
+  page = 0,
   columns,
-  rowsPerPageOptions = [10],
+  pageSize = 10,
   size = 'medium',
   fetchNewPage,
   count,
@@ -54,34 +56,29 @@ const TablePagination = ({
   customRow,
 }: TablePagination) => {
   const {
-    page,
-    rowsPerPage,
     order,
     orderBy,
     selected,
     handleChangePage,
-    handleChangeRowsPerPage,
     handleRequestSort,
     handleSelectAllClick,
     handleClick,
   } = usePagination({
-    rowsPerPageOptions,
     fetchNewPage,
+    page,
+    pageSize,
   });
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * pageSize - rows.length) : 0;
 
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
   const visibleRows = useMemo(() => {
-    const rowsInPage = rows.slice(
-      page * rowsPerPage,
-      page * rowsPerPage + rowsPerPage,
-    );
+    const rowsInPage = rows.slice(page * pageSize, page * pageSize + pageSize);
 
     return stableSort(rowsInPage, getComparator(order, orderBy));
-  }, [order, orderBy, page, rowsPerPage, rows]);
+  }, [order, orderBy, page, pageSize, rows]);
 
   return (
     <DialogProvider>
@@ -95,7 +92,7 @@ const TablePagination = ({
             fetchNewPage={fetchNewPage}
             pagination={{
               page: page,
-              pageSize: rowsPerPage,
+              pageSize: pageSize,
             }}
           />
           <TableContainer component={Paper}>
@@ -155,16 +152,15 @@ const TablePagination = ({
             </Table>
             {/* // TODO: change color of button when disabled */}
             <TablePaginationMUI
-              rowsPerPageOptions={rowsPerPageOptions}
+              rowsPerPageOptions={[pageSize]}
               component="div"
               count={count}
-              rowsPerPage={rowsPerPage}
+              rowsPerPage={pageSize}
               page={page}
               onPageChange={(
                 e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
                 newPage,
               ) => handleChangePage(e, newPage, fetchNewPage)}
-              onRowsPerPageChange={handleChangeRowsPerPage}
               labelRowsPerPage="Linhas por página"
               labelDisplayedRows={({ from, to, count }) =>
                 `${from}-${to} de ${count}`
