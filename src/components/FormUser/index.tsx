@@ -50,7 +50,7 @@ export const FormUser = ({ createAccount, push, send }: FormUser) => {
       }
 
       reset();
-      push('/home?page=0&pageSize=10');
+      push('/finances?page=0&pageSize=10');
     } catch (error) {
       setDialog({
         title: 'Erro',

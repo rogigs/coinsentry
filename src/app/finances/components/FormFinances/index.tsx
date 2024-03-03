@@ -31,11 +31,11 @@ import {
   validationSchema,
 } from './validationSchema';
 
-const DialogHome = dynamic(() => import('../../DialogHome'));
+const DialogFinances = dynamic(() => import('../../DialogFinances'));
 
 type FinanceKeys = (typeof DefaultValues)[keyof typeof DefaultValues];
 
-const FormHome = () => {
+const FormFinances = () => {
   const [dialog, setDialog] = useState(() => ({
     title: '',
     icon: IconsType.success,
@@ -125,9 +125,9 @@ const FormHome = () => {
 
   return (
     <>
-      <DialogHome {...dialog}>
+      <DialogFinances {...dialog}>
         <p>{dialog.message}</p>
-      </DialogHome>
+      </DialogFinances>
       <S.WrapperSectionForm>
         <S.WrapperForm method="post" onSubmit={handleSubmit(onSubmit)}>
           <Controller
@@ -212,4 +212,4 @@ const FormHome = () => {
   );
 };
 
-export default FormHome;
+export default FormFinances;

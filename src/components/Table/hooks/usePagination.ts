@@ -62,17 +62,13 @@ const usePagination = ({ fetchNewPage, page, pageSize }: UsePagination) => {
     setSelected([]);
   };
 
-  // DE PAGINATION
   const handleChangePage = async (
-    event: any | null,
+    event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
     fetchNewPage: (
       pagination: Pagination,
     ) => (cleanCache?: true) => Promise<void>,
   ) => {
-    console.log('🚀 ~ event:', event.target.dataset.testid);
-    // 0
-    // 1
     const pageAlreadySentRequest = pageCache.some((cache) => cache === newPage);
     if (!pageAlreadySentRequest) {
       await fetchNewPage({
@@ -84,9 +80,11 @@ const usePagination = ({ fetchNewPage, page, pageSize }: UsePagination) => {
     }
 
     const buttonPrevious = 'KeyboardArrowLeftIcon';
+    const target: any = event?.target;
+
     router.push(
-      `/home?page=${
-        event.target.dataset.testid === buttonPrevious ? page - 1 : page + 1
+      `/finances?page=${
+        target.dataset.testid === buttonPrevious ? page - 1 : page + 1
       }&pageSize=${pageSize}`,
     );
   };

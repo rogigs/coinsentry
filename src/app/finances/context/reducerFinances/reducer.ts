@@ -7,14 +7,14 @@ import { Action, ACTIONS_TYPE } from './actions';
 export type INITIAL_STATE_TYPE = {
   data: Finance[] | [];
   details: FinanceDetails | undefined;
-  dataLenghtInDatabase: number;
+  dataLengthInDatabase: number;
   financeToUpdate: string | undefined;
 };
 
 export const INITIAL_STATE: INITIAL_STATE_TYPE = {
   data: [],
   details: undefined,
-  dataLenghtInDatabase: 0,
+  dataLengthInDatabase: 0,
   financeToUpdate: undefined,
 };
 
@@ -69,7 +69,7 @@ export const reducer = (state: INITIAL_STATE_TYPE, action: Action) => {
     return {
       ...state,
       data: updateFinanceData(state, action),
-      dataLenghtInDatabase: action.payload.financeData.dataLenghtInDatabase,
+      dataLengthInDatabase: action.payload.financeData.dataLengthInDatabase,
     };
   } else if (action.type === ACTIONS_TYPE.ADD_DETAILS) {
     return {

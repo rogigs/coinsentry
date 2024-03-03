@@ -7,12 +7,12 @@ import BrandTheme from '@/assets/themes/brandTheme';
 import { DialogProvider } from '@/context/dialogContext';
 import { protectPage } from '@/helpers/protectPage';
 
-import FormHome from './components/FormHome';
-import ResumeFinances from './components/ResumeFinances';
-import TableHome from './components/TableHome';
+import FormFinances from './components/FormFinances';
+import ResumeFinances from './components/SummaryFinances';
+import TableFinances from './components/TableFinances';
 import { FinancesProvider } from './context/financesContext';
 
-export default function Home() {
+export default function Finances() {
   const { push } = useRouter();
 
   useEffect(() => {
@@ -23,12 +23,12 @@ export default function Home() {
     <BrandTheme>
       <FinancesProvider>
         <DialogProvider>
-          <FormHome />
+          <FormFinances />
         </DialogProvider>
 
         <ResumeFinances />
         <DialogProvider>
-          <TableHome />
+          <TableFinances />
         </DialogProvider>
       </FinancesProvider>
     </BrandTheme>

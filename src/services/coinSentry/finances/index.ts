@@ -17,7 +17,7 @@ export const getFinances = async ({ page, pageSize }: Pagination) => {
       `finances?page=${page}&pageSize=${pageSize}`,
     );
 
-    return { data: data.data, dataLenghtInDatabase: data.length };
+    return { data: data.data, dataLengthInDatabase: data.length };
   } catch (error) {
     return error;
   }

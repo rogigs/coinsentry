@@ -8,7 +8,7 @@ type DialogHome = {
   children: React.ReactNode;
 };
 
-const DialogHome = ({ title, icon, children }: DialogHome) => {
+const DialogFinances = ({ title, icon, children }: DialogHome) => {
   const { setShowDialog } = useDialog();
 
   return (
@@ -23,4 +23,4 @@ const DialogHome = ({ title, icon, children }: DialogHome) => {
   );
 };
 
-export default DialogHome;
+export default DialogFinances;

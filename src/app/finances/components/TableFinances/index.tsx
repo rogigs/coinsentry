@@ -16,7 +16,7 @@ import { ACTIONS_TYPE } from '../../context/reducerFinances/actions';
 import { useFinances } from '../../hooks/useFinances';
 import { columnsPagination } from '../../utils';
 
-const DialogHome = dynamic(() => import('../../DialogHome'));
+const DialogFinances = dynamic(() => import('../../DialogFinances'));
 const Alert = dynamic(() => import('../../../../components/Alert'));
 
 const CustomTableRow = ({
@@ -68,7 +68,7 @@ const CustomTableRow = ({
   );
 };
 
-const TableHome = () => {
+const TableFinances = () => {
   const { setShowDialog } = useDialog();
   const { state, dispatch, fetchFinances, deleteFinances } = useFinances();
   const { page, pageSize } = useQueryPagination();
@@ -98,9 +98,9 @@ const TableHome = () => {
 
   return (
     <>
-      <DialogHome {...dialog}>
+      <DialogFinances {...dialog}>
         <p>{dialog.message}</p>
-      </DialogHome>
+      </DialogFinances>
 
       <div
         style={{
@@ -113,7 +113,7 @@ const TableHome = () => {
           rows={state.data}
           columns={columnsPagination}
           fetchNewPage={fetchFinances}
-          count={state.dataLenghtInDatabase}
+          count={state.dataLengthInDatabase}
           onClickEdit={onClickEdit}
           onClickDelete={onClickDelete}
           customRow={CustomTableRow as React.ComponentType<CustomRowProps>}
@@ -123,4 +123,4 @@ const TableHome = () => {
   );
 };
 
-export default TableHome;
+export default TableFinances;
