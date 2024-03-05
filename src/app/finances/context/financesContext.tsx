@@ -29,7 +29,7 @@ type FinancesProvider = {
 
 type FinancesContext = {
   state: INITIAL_STATE_TYPE;
-  dispatch: React.Dispatch<React.SetStateAction<Action>>;
+  dispatch: React.Dispatch<Action<any>>;
   fetchFinances: (pagination: Pagination) => () => Promise<void>;
   fetchFinancesDetails: () => Promise<void>;
   updateFinance: (
@@ -52,11 +52,7 @@ type FinancesContext = {
 export const FinancesContext = createContext<FinancesContext | null>(null);
 
 export const FinancesProvider = ({ children }: FinancesProvider) => {
-  // TODO: resolve problems of types
-  const [state, dispatch]: [
-    INITIAL_STATE_TYPE,
-    React.Dispatch<React.SetStateAction<Action>>,
-  ] = useReducer(reducer as any, INITIAL_STATE as any) as unknown as any;
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   const fetchFinances = useCallback(
     (pagination: Pagination) =>

@@ -7,4 +7,4 @@ export enum ACTIONS_TYPE {
   ADD_ONE_DATA = 'ADD_ONE_DATA',
 }
 
-export type Action = { type: ACTIONS_TYPE; payload?: any };
+export type Action<T> = { type: ACTIONS_TYPE; payload?: T };

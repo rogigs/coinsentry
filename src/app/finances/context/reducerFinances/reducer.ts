@@ -18,7 +18,7 @@ export const INITIAL_STATE: INITIAL_STATE_TYPE = {
   financeToUpdate: undefined,
 };
 
-const updateFinanceData = (state: INITIAL_STATE_TYPE, action: Action) => {
+const updateFinanceData = (state: INITIAL_STATE_TYPE, action: Action<any>) => {
   if (isAxiosError(action.payload?.financeData))
     return action.payload?.financeData;
   if (action.payload?.cleanCache) return action.payload?.financeData?.data;
@@ -62,7 +62,9 @@ const addNewData = (state: INITIAL_STATE_TYPE, payload: Finance) => {
   return newArray;
 };
 
-export const reducer = (state: INITIAL_STATE_TYPE, action: Action) => {
+type Reducer<T> = (state: T, action: Action<any>) => T;
+
+export const reducer: Reducer<INITIAL_STATE_TYPE> = (state, action) => {
   if (!action.type) {
     throw Error('Unknown action.');
   } else if (action.type === ACTIONS_TYPE.ADD_DATA) {
@@ -98,4 +100,6 @@ export const reducer = (state: INITIAL_STATE_TYPE, action: Action) => {
       data: addNewData(state, action.payload),
     };
   }
+
+  throw Error('Incorrect action.');
 };
