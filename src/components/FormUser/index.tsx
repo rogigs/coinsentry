@@ -5,6 +5,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '@/components/Button';
 import Dialog from '@/components/Dialog';
 import { useDialog } from '@/hooks/useDialog';
+import { IconsType } from '@/types';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { useState } from 'react';
 import * as S from './styles';
 import {
@@ -13,8 +16,6 @@ import {
   defaultValues,
   validationSchema,
 } from './validationSchema';
-
-import { IconsType } from '@/types';
 
 type FormUser = {
   createAccount?: boolean;
@@ -42,6 +43,8 @@ export const FormUser = ({ createAccount, push, send }: FormUser) => {
   });
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    if (data.keepLogged) localStorage.setItem('keepLogged', 'true');
+
     try {
       const { status } = await send(data);
 
@@ -96,9 +99,22 @@ export const FormUser = ({ createAccount, push, send }: FormUser) => {
         />
 
         {createAccount && (
-          <Button variant="outlined" onClick={() => push('/create-account')}>
-            Criar Conta
-          </Button>
+          <>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  inputProps={{
+                    'aria-label': 'Mantenha-me conectacdo',
+                  }}
+                  {...register(DefaultValues.keepLogged)}
+                />
+              }
+              label="Mantenha-me conectado"
+            />
+            <Button variant="outlined" onClick={() => push('/create-account')}>
+              Criar Conta
+            </Button>
+          </>
         )}
 
         <Button variant="contained" type="submit" loading={isSubmitting}>
