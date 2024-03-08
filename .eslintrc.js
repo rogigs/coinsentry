@@ -1,8 +1,13 @@
 module.exports = {
   root: true,
-  extends: ['airbnb', 'prettier'],
+  extends: ['airbnb', 'prettier', 'next/core-web-vitals'],
   parser: '@babel/eslint-parser',
-  plugins: ['react', 'prettier', 'eslint-plugin-only-warn'],
+  plugins: [
+    'react',
+    'prettier',
+    'eslint-plugin-only-warn',
+    'simple-import-sort',
+  ],
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
@@ -16,10 +21,11 @@ module.exports = {
     },
   },
   rules: {
+    'simple-import-sort/imports': 'error',
     'react/jsx-filename-extension': [
       1,
       {
-        extensions: ['.js', 'jsx'],
+        extensions: ['.js', 'jsx', '.ts', '.tsx'],
       },
     ],
     'prettier/prettier': 'error',
